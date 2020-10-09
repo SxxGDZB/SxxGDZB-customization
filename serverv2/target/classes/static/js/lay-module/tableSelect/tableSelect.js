@@ -22,6 +22,8 @@ layui.define(['table', 'jquery', 'form'], function (exports) {
         opt.searchPlaceholder = opt.searchPlaceholder || '关键词搜索';
         opt.checkedKey = opt.checkedKey;
         opt.table.page = opt.table.page || true;
+        opt.table.limit = opt.table.limit || 100;
+        opt.table.limits = opt.table.limits || [5, 10, 20, 25, 50, 100];
         opt.table.height = opt.height || 315;
 
         //最小宽度

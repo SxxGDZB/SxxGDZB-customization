@@ -155,13 +155,16 @@ var dataRow = window.parent.dataRow;
     	　　		contentType: "application/json;charset=utf-8",
     		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
     		    success:function(data){
-	    	 		var html = "";
-	    	 		data.data.forEach(function(item){
-	    	 			html += "<option value="+item.groupId+"> "+item.groupName+" </option>"
-	    	 		});
-	    	 		$("#groupId").append(html);
-	    	 		form.render();
-    					
+    		    	if(data.msg == "QUERY_SUCCESS"){
+    		    		var html = "";
+    	    	 		data.data.forEach(function(item){
+    	    	 			html += "<option value="+item.groupId+"> "+item.groupName+" </option>"
+    	    	 		});
+    	    	 		$("#groupId").append(html);
+    	    	 		form.render();
+    		    	}else{
+    		    		layer.msg("分组列表" + data.msg,{icon: 5, time: 2000});
+    		    	}
     		    }
     		});
         }

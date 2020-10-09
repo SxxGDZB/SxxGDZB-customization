@@ -60,4 +60,10 @@ public interface AlarmMapper {
 	 * @return
 	 */
 	int timeAlarmCount(@Param("dataStatisticsVo") DataStatisticsVo dataStatisticsVo, @Param("eqptType") String eqptType);
+	/**
+	 * 清除设备告警
+	 * @param imei
+	 * @return
+	 */
+	int clearDevAlarms(String imei);
 }

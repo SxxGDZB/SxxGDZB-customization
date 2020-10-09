@@ -121,6 +121,8 @@ layui.use(['form', 'table','upload'], function () {
 			    success:function(data){
 			    	if(data.success){
 			    		window.location.href = "/maintain/common/download?fileName=" + data.data.filename + "&delete=" + true;
+			    	}else {
+			    		layer.msg(data.msg,{icon: 5, time: 2000});
 			    	}
 			    }
 			});
@@ -163,9 +165,12 @@ layui.use(['form', 'table','upload'], function () {
         ,accept: 'file' //普通文件
         ,exts: 'xlsx' //只允许上传压缩文件
         ,done: function(res){
-          layer.msg('上传成功');
-          flush(currentPage, jsonEntity);
-        }
+        	if(res.code == 6001){
+        		layer.msg(data.msg,{icon: 5, time: 2000});
+        	}else{
+        		layer.msg('上传成功');
+                flush(currentPage, jsonEntity);
+        	}
       });
 });
 
@@ -196,7 +201,7 @@ function loadTickets(jsonEntity){
    	        		 return '';
    	        	 }else{
    	        		 var alarmInfo = JSON.parse(row.alarmMsg);
-   	        		 if(alarmInfo.length == 0){
+   	        		 if(alarmInfo == null ||  alarmInfo.length == 0){
    	        			 return '';
    	        		 }
    	    			 return _alarmIcons(row.alarmType.split(","),alarmInfo);

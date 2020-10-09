@@ -112,8 +112,8 @@
 		    </div> -->
 		    <div class="layui-form-item" >
 		        <div class="layui-input-block"  style="float: right;">
-		        	<button type="button" class="layui-btn layui-btn-primary _zero_setting">电能置零</button>
-		            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="devParamBtn" >确认添加</button>
+		        	<button type="button" class="layui-btn layui-btn-primary _zero_setting _disable">电能置零</button>
+		            <button class="layui-btn layui-btn-normal _disable" lay-submit lay-filter="devParamBtn" >确认添加</button>
 		        </div>
 		    </div>
 		</div>
@@ -161,7 +161,7 @@
 		    </div>
 		    <div class="layui-form-item" >
 		        <div class="layui-input-block">
-		            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="devAlarmNumBtn" >确认添加</button>
+		            <button class="layui-btn layui-btn-normal _threshold_disable" lay-submit lay-filter="devAlarmNumBtn" >确认添加</button>
 		        </div>
 		    </div>
 		</div>
@@ -231,6 +231,9 @@
 			    success:function(data){
 			    	if(data.code == 2008){
 			    		$("._addTime").html("暂无参数数据");
+			    	}else if(data.code == 6001){
+			    		layer.msg(data.msg,{icon: 5, time: 2000});
+			    		$("._disable").addClass('layui-btn-disabled');
 			    	}else{
 			    		formDATe = data.data.data;
 			    		$("._addTime").html("更新时间：" + formDATe.addTime);
@@ -256,18 +259,22 @@
 				        $.each(data.data.data[0], function(key, val) {
 				        	custom_form.find("[name='"+key+"']").val(Number(val));
 				        });
-				    	form.render();
+			    	}else if(data.code == 6001){
+			    		layer.msg(data.msg,{icon: 5, time: 2000});
+			    		$("._threshold_disable").addClass('layui-btn-disabled');
+			    		$("._threshold_disable").removeAttr('lay-submit');
 			    	}
+			    	form.render();
 			    }
 			});
         }
         
         //监听提交
         form.on('submit(devParamBtn)', function (data) {
-           console.log(JSON.stringify(data.field));
-           console.log(formDATe);
+           if($(this).hasClass('layui-btn-disabled')){
+        	   return false;
+           }
            var entity = {};
-           
            $.each(data.field,function(key,val){
         	   if($.trim(val).length == 0){
         		   data.field[key] = 0
@@ -302,6 +309,9 @@
         
         form.on('submit(devAlarmNumBtn)', function (data) {
             data.field.eqptSn = dataRow.eqptSn;
+            if($(this).hasClass('layui-btn-disabled')){
+         	   return false;
+            }
            $.ajax({
       			url: "/threshold/info",
  			    type: "PUT",
@@ -329,16 +339,21 @@
          });
         
         $("._zero_setting").on('click',function(){
-        	var e = {},r= {},array = new Array();
-        	e.imei = dataRow.imei;
-        	r.reg_11 = 0;
-        	e.register = r;
-        	e.eqptType = dataRow.eqptType;
-        	array.push(e);
-        	oneNet(array,true,window.parent,true);
-            oneNet(onenetVariable(dataRow.imei,dataRow.eqptType),false,window,false);
-            var iframeIndex = parent.layer.getFrameIndex(window.name);
-	 		parent.layer.close(iframeIndex);
+        	 if($(this).hasClass('layui-btn-disabled')){
+          	   return false;
+             }else{
+            	var e = {},r= {},array = new Array();
+             	e.imei = dataRow.imei;
+             	r.reg_11 = 0;
+             	e.register = r;
+             	e.eqptType = dataRow.eqptType;
+             	array.push(e);
+             	oneNet(array,true,window.parent,true);
+                 oneNet(onenetVariable(dataRow.imei,dataRow.eqptType),false,window,false);
+                 var iframeIndex = parent.layer.getFrameIndex(window.name);
+     	 		parent.layer.close(iframeIndex);
+             }
+        	
         })
     });
     

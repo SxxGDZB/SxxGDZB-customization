@@ -133,6 +133,8 @@ layui.use(['form', 'table','miniTab','upload'], function () {
             ,done: function(res){
             	if(res.success){
             		return layer.msg(res.msg,{icon: 1, time: 2000});
+                }else{
+                	return layer.msg(data.msg,{icon: 5, time: 2000});
                 }
             	return layer.msg(res.msg,{icon: 2, time: 2000});
              }
@@ -209,6 +211,8 @@ layui.use(['form', 'table','miniTab','upload'], function () {
 			    success:function(data){
 			    	if(data.success){
 			    		window.location.href = "/maintain/common/download?fileName=" + data.data.filename + "&delete=" + true;
+			    	}else{
+			    		layer.msg(data.msg,{icon: 5, time: 2000});
 			    	}
 			    }
 			});

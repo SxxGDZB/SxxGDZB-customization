@@ -20,9 +20,7 @@ import com.kiwihouse.service.CheckAdminService;
 import com.kiwihouse.service.FireThresholdService;
 import com.kiwihouse.service.PrivilegeService;
 import com.kiwihouse.vo.entire.Log;
-import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.ThresholdUpdateVo;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

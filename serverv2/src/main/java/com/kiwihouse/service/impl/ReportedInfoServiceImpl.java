@@ -572,7 +572,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 //		}
 	}
 	
-	public String onePhaseAlarm(String str) {
+	public static String onePhaseAlarm(String str) {
 		WarnMsgDto warnMsgDto = JSONObject.parseObject(str, WarnMsgDto.class);
 		String cur = warnMsgDto.getCur();
 		JSONArray ja = new JSONArray();
@@ -648,7 +648,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 	}
 	
 	
-	public String threePhaseAlarm(String str) {
+	public static String threePhaseAlarm(String str) {
 		JSONArray ja = new JSONArray();
 		JSONObject jo = (JSONObject) JSONObject.parse(str);
 		if(jo != null) {

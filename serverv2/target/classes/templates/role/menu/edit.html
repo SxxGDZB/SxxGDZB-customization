@@ -199,11 +199,11 @@
                     { type: 'checkbox' },
                     { field: 'name', title: '菜单名称', width: '50%' },
                     { field: 'url', title: '访问路径', width: '50%' }
-                ]]
+                ]],
+                limits: [5, 10, 20, 25, 50, 100],
+                limit: 100,
+                page:true
             },
-            limits: [5, 10, 20, 25, 50, 100],
-            limit: 10,
-            page: true,
             skin: 'line',
             done: function (elem, data) {
                 var NEWJSON = []

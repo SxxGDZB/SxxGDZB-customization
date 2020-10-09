@@ -145,21 +145,33 @@
 　　		contentType: "application/json;charset=utf-8",
 	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 	    success:function(data){
-	    	eqptType = data.data[0].eqptType;
-	    	$("._imei").text(data.data[0].imei);
-	    	$("._time").text(data.data[0].addTime);
-	    	$("._address").text(data.data[0].province + data.data[0].city +  data.data[0].district + data.data[0].address);
-	    	if(data.data[0].eqptType == 0){
-	    		$("._eqptType").attr('data-type',data.data[0].eqptType);
-	    		$("._eqptType").text('单相设备');
+	    	if(data.code == 6001){
+	    		layer.msg(data.msg, {
+	    			  icon: 5,
+	    			  offset:'rt',
+	    			  anim: 2,
+	    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+	    			}, function(){
+	    			  //do something
+	    			});
+	    	}else{
+	    		eqptType = data.data[0].eqptType;
+		    	$("._imei").text(data.data[0].imei);
+		    	$("._time").text(data.data[0].addTime);
+		    	$("._address").text(data.data[0].province + data.data[0].city +  data.data[0].district + data.data[0].address);
+		    	if(data.data[0].eqptType == 0){
+		    		$("._eqptType").attr('data-type',data.data[0].eqptType);
+		    		$("._eqptType").text('单相设备');
+		    	}
+		    	else if(data.data[0].eqptType == 1){
+		    		$("._eqptType").attr('data-type',data.data[0].eqptType);
+		    		$("._eqptType").text('三相设备');
+		    	}else if(data.data[0].eqptType == 2){
+		    		$("._eqptType").attr('data-type',data.data[0].eqptType);
+		    		$("._eqptType").text('烟感设备');
+		    	}
 	    	}
-	    	else if(data.data[0].eqptType == 1){
-	    		$("._eqptType").attr('data-type',data.data[0].eqptType);
-	    		$("._eqptType").text('三相设备');
-	    	}else if(data.data[0].eqptType == 2){
-	    		$("._eqptType").attr('data-type',data.data[0].eqptType);
-	    		$("._eqptType").text('烟感设备');
-	    	}
+	    	
 	    }
 	});
 	/*单相设备 仪表盘参数*/
@@ -553,6 +565,15 @@
 			    		
 			    		$("#csq_01").data('value',data.data.data.csp)
 		    		}
+		    	}else if(data.code == 6001){
+		    		layer.msg(data.msg, {
+		    			  icon: 5,
+		    			  offset:'rt',
+		    			  anim: 2,
+		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+		    			}, function(){
+		    			  //do something
+		    			}); 
 		    	}else{
 		    		 layer.msg('查询数据为空', {
 		    			  icon: 3,

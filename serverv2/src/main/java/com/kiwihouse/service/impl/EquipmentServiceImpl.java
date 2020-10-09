@@ -219,13 +219,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public Response insertOrUpdateBatch(List<EqptInfoDto> userList) {
 		// TODO Auto-generated method stub
 		int count = 0;
-		try {
+//		try {
 			count = equipmentMapper.insertOrUpdateBatch(userList);
 			return new Response().Success(Code.EXCEL_LEAD_IN_SUCCESS,Code.EXCEL_LEAD_IN_SUCCESS.getMsg());
-		} catch (Exception e) {
+//		} catch (Exception e) {
 			// TODO: handle exception
-			return new Response().Fail(Code.EXCEL_LEAD_IN_FAIL,Code.EXCEL_LEAD_IN_FAIL.getMsg());
-		}
+//			return new Response().Fail(Code.EXCEL_LEAD_IN_FAIL,Code.EXCEL_LEAD_IN_FAIL.getMsg());
+//		}
 		
 	}
 

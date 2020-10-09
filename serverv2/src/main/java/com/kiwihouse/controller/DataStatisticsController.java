@@ -59,7 +59,7 @@ public class DataStatisticsController {
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = Statistics.class)})
     @GetMapping("/one/dev")
     public ResultList queryInfoByImei(@Validated DataStatisticsVo dataStatisticsVo, HttpServletRequest request){
-        logger.info("查询数据总览信息>> {}",new Log().setIp(request.getRemoteAddr()).setParam(dataStatisticsVo.toString()));
+        logger.info("查询一个设备、一段时间的告警信息>> {}",new Log().setIp(request.getRemoteAddr()).setParam(dataStatisticsVo.toString()));
         return dataStatisticsService.queryInfoByImei(dataStatisticsVo);
     }
 }

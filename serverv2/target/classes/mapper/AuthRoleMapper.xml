@@ -112,6 +112,6 @@
   </select>
   
   <select id="queryAuthRole" parameterType="Integer" resultType="java.util.HashMap">
-  		select CODE,ID from auth_role where 1= 1 AND id > #{roleId}
+  		select CODE,ID from auth_role where 1= 1 AND id >= #{roleId}
   </select>
 </mapper>

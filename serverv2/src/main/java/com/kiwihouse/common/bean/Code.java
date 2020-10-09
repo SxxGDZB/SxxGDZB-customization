@@ -64,6 +64,10 @@ public enum Code {
     DELETE_FAIL(4004,"数据删除失败"),
     DELETE_UNSAFE(4005,"不安全数据删除"),
 
+    CLEAR_SUCCESS(4099,"数据清除成功"),
+    CLEAR_FAIL(4100,"数据清除失败"),
+    CLEAR_NULL(4101,"数据为空"),
+    
     ADD_SUCCESS(5000,"数据录入成功"),
     ADD_REPETITIVE(5003,"添加数据重复"),
     ADD_FAIL(5004,"数据录入失败"),

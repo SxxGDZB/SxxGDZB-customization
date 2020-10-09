@@ -239,11 +239,31 @@
    		    	}
    			 }
    		  });
-   		} , 1000 * 5 * 6 * 5);
+   		} , 1000 * time.value);
     });
 	//重新加载
 	function init(){
-		miniAdmin.render(options);
+		layui.use(['jquery', 'layer', 'miniAdmin','miniTongji','miniTab'], function () {
+			var miniAdmin = layui.miniAdmin;
+			var authorization = localStorage.getItem('Authorization');
+	    	var authUser = JSON.parse(localStorage.getItem('authUser'));
+	    	if(authUser == null){
+	    		JwtErr();
+	    	}
+			options = {
+		            iniUrl: getRootPath() + "/menu/authMenuList?roleId="+authUser.roleId,    // 初始化接口
+		            clearUrl: "api/clear.json", // 缓存清理接口
+		            urlHashLocation: true,      // 是否打开hash定位
+		            bgColorDefault: false,      // 主题默认配置
+		            multiModule: false,          // 是否开启多模块
+		            menuChildOpen: false,       // 是否默认展开菜单
+		            loadingTime: 0,             // 初始化加载时间
+		            pageAnim: true,             // iframe窗口动画
+		            maxTabNum: 20,              // 最大的tab打开数量
+		            authorization:authorization
+		        };
+		     miniAdmin.render(options);
+		});
 	}
 </script>
 </body>

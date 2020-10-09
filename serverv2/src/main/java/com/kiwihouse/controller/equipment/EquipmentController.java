@@ -1,12 +1,8 @@
 package com.kiwihouse.controller.equipment;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.UserInfo;
-import com.kiwihouse.common.utils.TimeUtil;
 import com.kiwihouse.controller.common.BaseController;
-import com.kiwihouse.dao.entity.EquipmentExcel;
+import com.kiwihouse.dao.mapper.AlarmMapper;
 import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
@@ -63,6 +57,9 @@ public class EquipmentController extends BaseController{
     CheckAdminService checkAdminService;
     @Autowired
     AuthUserMapper authUserMapper;
+    @Autowired
+    AlarmMapper alarmMapper;
+    
     @ApiOperation(value = "queryInfo",
             notes = "<br>@description: <b>查询设备信息</b></br>" +
                     "<br>@Return: <b>以区为单位进行区分</b></br>" +
@@ -136,7 +133,7 @@ public class EquipmentController extends BaseController{
     	 Map<String, Object> map = equipmentService.queryInfo(eqptQueryVo);
         List<EqptInfoDto> list = (List<EqptInfoDto>)map.get("data");
         ExcelUtil<EqptInfoDto> util = new ExcelUtil<EqptInfoDto>(EqptInfoDto.class);
-        return util.exportExcel(list, "维修记录");
+        return util.exportExcel(list, "设备列表");
     }
     @ApiOperation(value = "importData",
             notes = "<br>@description: <b>Excel导入</b></br>" +
@@ -181,5 +178,27 @@ public class EquipmentController extends BaseController{
         {
             logger.info("下载文件失败<< {}",e);
         }
+    }
+   
+    @ApiOperation(value = "clearDevAlarms",
+            notes = "<br>@description: <b>清除设备告警信息</b></br>" +
+                    "<br>@Date: <b>2020-1-3 17:25:42</b></br>",
+            httpMethod = "GET")
+    @ApiResponses(@ApiResponse(code = 0, message = "回调参数：只有code和msg,无具体数据result"))
+    @ApiImplicitParam(paramType = "path", name = "eqptSn", dataType = "String", required = true, value = "设备序列号")
+    @GetMapping("/clear/alarm/{imei}")
+    public Response clearDevAlarms(@PathVariable String imei, HttpServletRequest request) {
+        logger.info("清除设备告警信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("清除设备告警信息").setParam(imei));
+        int count = 0;
+        try {
+        	count = alarmMapper.clearDevAlarms(imei);
+        	if(count > 0) {
+            	return new Response().Success(Code.CLEAR_SUCCESS,Code.CLEAR_SUCCESS.getMsg());
+            }
+        	return new Response().Fail(Code.CLEAR_NULL,Code.CLEAR_NULL.getMsg());
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new Response().Fail(Code.CLEAR_FAIL,Code.CLEAR_FAIL.getMsg());
+		}
     }
 }

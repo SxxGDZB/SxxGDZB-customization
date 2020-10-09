@@ -358,6 +358,7 @@ function UPDATE(url,parameterDate,isLeft){
     	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
 		    	 		parent.layer.close(iframeIndex);
     	 				if(isLeft){
+    	 					console.log(indexHome(window).index);
     	 					indexHome(window).init();
     	 					window.parent.flush();
     	 				}else{
@@ -394,8 +395,13 @@ function ADD(url,parameterDate,isLeft){
 	    	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
 			    	 		parent.layer.close(iframeIndex);
 	    	 				if(isLeft){
+//	    	 					indexHome(window).init();
+//	    	 					window.parent.flush();
+	    	 					console.log(indexHome(window));
 	    	 					indexHome(window).init();
-	    	 					window.parent.flush();
+				    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
+				    	 		parent.layer.close(iframeIndex);
+				    	 		window.parent.initTreeTable();
 	    	 				}else{
 	    	 					window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
 	    	 				}
@@ -443,11 +449,9 @@ var _sysDictV = function(type,k){
 	　　		contentType: "application/json;charset=utf-8",
 		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 		    success:function(data){
-		    	 	if(data.success){
-		    	 		_data = data.data.data;
-					}else{
-						
-					}
+	    	 	if(data.success){
+	    	 		_data = data.data.data;
+				}
 		    }
 	})
 	return _data;

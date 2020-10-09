@@ -9,7 +9,7 @@
             ai.alarm_id,ai.alarm_msg,ai.alarm_type,ai.add_time,
             s.province,s.city,s.district,s.address
             from maintain_info as mt
-            left join alarm_info as ai on ai.alarm_id=mt.alarm_id
+            left join alarm as ai on ai.alarm_id=mt.alarm_id
             left join equipment as e on e.imei=mt.imei
             left join site as s on e.site_id=s.site_id
         <where>
@@ -39,7 +39,7 @@
     <select id="queryInfoRow" resultType="java.lang.Integer" parameterType="com.kiwihouse.vo.kiwihouse.EqptQueryVo">
         select count(*)
         from maintain_info as mt
-        left join alarm_info as ai on ai.alarm_id=mt.alarm_id
+        left join alarm as ai on ai.alarm_id=mt.alarm_id
         left join equipment as e on e.imei=ai.imei
         left join site as s on e.site_id=s.site_id
         <where>

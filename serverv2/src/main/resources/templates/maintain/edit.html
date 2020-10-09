@@ -73,7 +73,6 @@ var dataRow = window.parent.dataRow;
             layer = layui.layer,
             layarea = layui.layarea,
             $ = layui.$;
-        initGroup();
         //区域联动选择
         layarea.render({
             elem: '#area-picker',
@@ -86,26 +85,6 @@ var dataRow = window.parent.dataRow;
                 //选择结果
             }
         });
-        //加载分组信息
-        function initGroup(){
-        	$.ajax({
-    			url: "/group/info",
-    			type : "GET",
-    	　　		dataType : "json",
-    	  		async : false,
-    	　　		contentType: "application/json;charset=utf-8",
-    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-    		    success:function(data){
-	    	 		var html = "";
-	    	 		data.data.forEach(function(item){
-	    	 			html += "<option value="+item.groupId+"> "+item.groupName+" </option>"
-	    	 		});
-	    	 		$("#groupId").append(html);
-	    	 		form.render();
-    					
-    		    }
-    		});
-        }
         //form表单赋值
         var custom_form = $("._custom_form")
         $.each(dataRow, function(key, val) {

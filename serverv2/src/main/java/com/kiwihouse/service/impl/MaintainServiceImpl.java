@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.kiwihouse.common.bean.AlmSta;
 import com.kiwihouse.common.bean.Code;
+import com.kiwihouse.common.bean.DataType;
 import com.kiwihouse.common.bean.MtSta;
 import com.kiwihouse.common.utils.TimeUtil;
 import com.kiwihouse.dao.entity.MainTainExcel;
@@ -76,79 +77,12 @@ public class MaintainServiceImpl implements MaintainService{
 	                }else{
 	                    list.forEach(mtInfoDto -> {
 	                        mtInfoDto.setMtType("1");
-
-	                        WarnMsgDto warnMsgDto = JSONObject.parseObject(mtInfoDto.getAlarmMsg(), WarnMsgDto.class);
-	                		String cur = warnMsgDto.getCur();
-	                		JSONArray ja = new JSONArray();
-	            	          if (!"0".equals(cur) && cur != null) {
-	            	              String[] split = cur.split("-");
-	            	              if (2 == split.length) {
-	            	                  WarmMsgValue warmMsgValue = new WarmMsgValue();
-	            	                  warmMsgValue.setMsg("过流告警");
-	            	                  warmMsgValue.setValue(split[1] + "A");
-	            	                  ja.add(warmMsgValue);
-	            	              }
-	            	          }
-	            	          String temp = warnMsgDto.getTemp();
-	                       if (!"0".equals(temp) && StringUtils.isNotBlank(temp)) {
-	                           String[] split = temp.split("-");
-	                           if (2 == split.length) {
-	                               WarmMsgValue warmMsgValue = new WarmMsgValue();
-	                               warmMsgValue.setMsg("线温告警");
-	                               warmMsgValue.setValue(split[1] + "℃");
-	                               ja.add(warmMsgValue);
-	                           }
-	                       }
-	                       String leak = warnMsgDto.getLeak();
-	                       if (!"0".equals(leak) && StringUtils.isNotBlank(leak)) {
-	                           String[] split = leak.split("-");
-	                           if (2 == split.length) {
-	                               WarmMsgValue warmMsgValue = new WarmMsgValue();
-	                               warmMsgValue.setMsg("漏电流告警");
-	                               warmMsgValue.setValue(split[1] + "mA");
-	                               ja.add(warmMsgValue);
-	                           }
-	                       }
-	                       String overload = warnMsgDto.getOverload();
-	                       if (!"0".equals(overload) && StringUtils.isNotBlank(overload)) {
-	                           String[] split = overload.split("-");
-	                           if (2 == split.length) {
-	                               WarmMsgValue warmMsgValue = new WarmMsgValue();
-	                               warmMsgValue.setMsg("过载告警");
-	                               warmMsgValue.setValue(split[1] + "W");
-	                               ja.add(warmMsgValue);
-	                           }
-	                       }
-	                       String vol = warnMsgDto.getVol();
-	                       if (StringUtils.isNotBlank(vol)) {
-	                         if (vol.startsWith("1")) {
-	                             String[] split = vol.split("-");
-	                             if (2 == split.length) {
-	                                 WarmMsgValue warmMsgValue = new WarmMsgValue();
-	                                 warmMsgValue.setMsg("过压告警");
-	                                 warmMsgValue.setValue(split[1] + "V");
-	                                 ja.add(warmMsgValue);
-	                             }
-	                         } else if (vol.startsWith("2")) {
-	                             String[] split = vol.split("-");
-	                             if (2 == split.length) {
-	                                 WarmMsgValue warmMsgValue = new WarmMsgValue();
-	                                 warmMsgValue.setMsg("欠压告警");
-	                                 warmMsgValue.setValue(split[1] + "V");
-	                                 ja.add(warmMsgValue);
-
-	                             }
-	                         } else if (vol.startsWith("3")) {
-	                             String[] split = vol.split("-");
-	                             if (2 == split.length) {
-	                                 WarmMsgValue warmMsgValue = new WarmMsgValue();
-	                                 warmMsgValue.setMsg("掉电告警");
-	                                 warmMsgValue.setValue(split[1] + "V");
-	                                 ja.add(warmMsgValue);
-	                             }
-	                         }
-	                     }
-	                        mtInfoDto.setAlarmMsg(ja.toJSONString());
+	                        System.out.println(mtInfoDto.toString());
+	                        if("0".equals(mtInfoDto.getEqptType())) {
+	                        	mtInfoDto.setAlarmMsg(ReportedInfoServiceImpl.onePhaseAlarm(mtInfoDto.getAlarmMsg()));
+	                        }else if("1".equals(mtInfoDto.getEqptType())) {
+	                        	mtInfoDto.setAlarmMsg(ReportedInfoServiceImpl.threePhaseAlarm(mtInfoDto.getAlarmMsg()));
+	                        }
 	                    });
 	                    return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg(), new Result<>(row, list));
 	                }
@@ -167,13 +101,12 @@ public class MaintainServiceImpl implements MaintainService{
 
 	        Integer almRow;
 	        Integer row;
-	        if("1".equals(mtType)){
+	        if(DataType.ONE_PHASE.toString().equals(mtType) || DataType.THREE_PHASE.toString().equals(mtType)){
 	            //用电设备
 	            almRow = AlarmMapper.updateAlmSta(alarmId, AlmSta.TO_ORDER.getCode());
 	            row = maintainMapper.addInfo(alarmId, imei, TimeUtil.getCurrentTime());
-	        }else if("2".equals(mtType)){
-	            //烟感设备
-	            almRow = maintainMapper.updateSmokeAlmSta(alarmId, AlmSta.TO_ORDER.getCode());
+	        }else if ("3".equals(mtType)) {
+	        	almRow = maintainMapper.updateSmokeAlmSta(alarmId, AlmSta.TO_ORDER.getCode());
 	            row = maintainMapper.addSmokeInfo(alarmId, imei, TimeUtil.getCurrentTime());
 	        }else{
 	        	return new Response().Fail(Code.PARAM_FORMAT_ERROR, Code.PARAM_FORMAT_ERROR.getMsg());

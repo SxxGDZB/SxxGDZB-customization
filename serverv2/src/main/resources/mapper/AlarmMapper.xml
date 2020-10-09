@@ -136,6 +136,7 @@
 				
 				<where>
 			and alarm_type != ''
+			and if_delete = 0
             <if test="imei != null and imei != ''">
                 and a.imei like CONCAT('%',#{imei},'%')
             </if>
@@ -169,7 +170,9 @@
 				SELECT count(*) FROM(
 					SELECT a.alarm_id FROM `alarm` a 
 					LEFT JOIN equipment e on a.imei = e.imei 
-					Left JOIN contacts c on e.user_id = c.user_id where  alarm_type != ''
+					Left JOIN contacts c on e.user_id = c.user_id 
+					where alarm_type != '' 
+					and if_delete  = 0
 					<if test="imei != null and imei != ''">
                 		and a.imei like CONCAT('%',#{imei},'%')
 		            </if>
@@ -243,7 +246,7 @@
     	SELECT  SUM(num) FROM(
 		SELECT imei,add_time,alarm_id ,count(*) num FROM(
 		SELECT imei,alarm_id,SUBSTRING(add_time FROM 1 FOR 10) add_time FROM alarm  
-		WHERE 1=1 
+		WHERE 1=1 and if_delete = 0
 		<if test="dataStatisticsVo.startTime !=null and dataStatisticsVo.startTime!=''">
                 and DATE_FORMAT(add_time,'%Y-%m-%d') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}
          </if>
@@ -290,4 +293,8 @@
 		eqpt_type = VALUES(eqpt_type)
 		
     </insert>
+    
+    <update id="clearDevAlarms" parameterType="String">
+    	update alarm set if_delete = 1 where imei=#{imei}
+    </update>
 </mapper>

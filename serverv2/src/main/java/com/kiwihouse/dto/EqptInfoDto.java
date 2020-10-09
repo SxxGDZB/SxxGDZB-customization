@@ -24,7 +24,7 @@ public class EqptInfoDto {
     
     @Excel(name = "设备ID")
     @ApiModelProperty(value = "系统生成设备ID")
-    private String eqptId;
+    private Integer eqptId;
     
     @ApiModelProperty(value = "onenet平台生成设备ID")
     private String deviceId;
@@ -82,7 +82,7 @@ public class EqptInfoDto {
     
     @Excel(name = "用户ID",defaultValue = "")
     @ApiModelProperty(value = "用户ID")
-    private String userId;
+    private Integer userId;
     
     @Excel(name = "用户姓名")
     @ApiModelProperty(value = "用户姓名")
@@ -90,7 +90,7 @@ public class EqptInfoDto {
     
     @Excel(name = "角色ID",width = 30)
     @ApiModelProperty(value = "角色ID")
-    private String roleId;
+    private Integer roleId;
     
 //    @Excel(name = "小区ID")
 //    @ApiModelProperty(value = "地址ID")
@@ -101,7 +101,7 @@ public class EqptInfoDto {
     
     @Excel(name = "分组ID")
     @ApiModelProperty(value = "设备分组ID")
-    private String groupId;
+    private Integer groupId;
     
     @Excel(name = "设备分组名称")
     @ApiModelProperty(value = "设备分组名称")

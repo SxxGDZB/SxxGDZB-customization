@@ -24,16 +24,13 @@ import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.AlarmEqptDto;
 import com.kiwihouse.dto.EqptInfoDto;
-import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.dto.ReportedDto;
 import com.kiwihouse.service.CheckAdminService;
 import com.kiwihouse.service.DevInfoService;
 import com.kiwihouse.service.ReportedInfoService;
 import com.kiwihouse.service.ThreePhaseService;
 import com.kiwihouse.util.excel.ExcelUtil;
-import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.AlmQueryVo;
-import com.kiwihouse.vo.kiwihouse.MtInfoVo;
 import com.kiwihouse.vo.kiwihouse.QueryPwrVo;
 import com.kiwihouse.vo.kiwihouse.ReportedQueryVo;
 import com.kiwihouse.vo.kiwihouse.ThreePhaseVo;
@@ -172,9 +169,9 @@ public class FireDevReportedInfoController extends BaseController{
     
     
     @ApiOperation(value = "export",
-            notes = "<br>@description: <b>Excel导出</b></br>" +
+            notes = "<br>@description: <b>告警记录Excel导出</b></br>" +
                     "<br>@Date: <b>2020-1-4 17:15:40</b></br>",
-            httpMethod = "PUT")
+            httpMethod = "POST")
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
     @PostMapping("/export")
     public Response export(@RequestBody AlmQueryVo almQueryVo,HttpServletRequest request){

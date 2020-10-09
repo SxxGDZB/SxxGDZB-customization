@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.controller.common.BaseController;
-import com.kiwihouse.dao.entity.MainTainExcel;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.service.CheckAdminService;
@@ -59,7 +58,7 @@ public class MaintainController extends BaseController{
     @GetMapping("/info")
     public Map<String, Object> queryInfo(@Validated MtInfoVo mtInfoVo, HttpServletRequest request){
         mtInfoVo.setPage(( mtInfoVo.getPage() - 1 ) * mtInfoVo.getLimit() );
-        try {
+//        try {
     		if(mtInfoVo == null) {
     			mtInfoVo = new MtInfoVo();
     		}
@@ -74,10 +73,10 @@ public class MaintainController extends BaseController{
     		
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
-		} catch (Exception e) {
-			// TODO: handle exception
-			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
-		}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
+//		}
 		return map;
     }
 

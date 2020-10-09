@@ -57,7 +57,10 @@
                         { type: 'checkbox' },
                         { field: 'resCode', title: '资源CODE', width: '50%' },
                         { field: 'resName', title: '资源名称', width: '50%' }
-                    ]]
+                    ]],
+                    limits: [5, 10, 20, 25, 50, 100],
+                    limit: 100,
+                    page:true
                 },
                 
                 done: function (elem, data) {

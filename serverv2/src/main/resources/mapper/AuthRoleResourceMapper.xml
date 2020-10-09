@@ -104,19 +104,23 @@
 				FROM auth_role_resource arr 
 				RIGHT JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
 				WHERE ar.id not in(SELECT RESOURCE_ID FROM auth_role_resource WHERE ROLE_ID = #{auRoleResourceVo.roleId})
+				and type = 2
 				<if test="auRoleResourceVo.resName!=null and auRoleResourceVo.resName!='' ">
 					AND ar.`NAME` like CONCAT('%', #{auRoleResourceVo.resName}, '%')
 				</if>
 				GROUP BY ar.ID ) as tem
   			</when>
   			<when test="auRoleResourceVo.trigger ==2 ">
-				SELECT count(*) FROM (SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName   
+				<!-- SELECT count(*) FROM (SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName   
 				FROM auth_role_resource arr 
 				INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
+				WHERE type = 2 -->
+				SELECT count(*)  
+				FROM auth_resource ar 
+				WHERE type = 2
 				<if test="auRoleResourceVo.resName!=null and auRoleResourceVo.resName!='' ">
-					WHERE ar.`NAME` like CONCAT('%', #{auRoleResourceVo.resName}, '%')
+					AND ar.`NAME` like CONCAT('%', #{auRoleResourceVo.resName}, '%')
 				</if>
-				GROUP BY ar.ID) as tem
   			</when>
   			<when test="auRoleResourceVo.trigger ==3 ">
 				SELECT count(*) FROM (SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName ,arole.`CODE` roleCode,arole.`NAME` as roleName,arole.ID as 'roleId'  FROM auth_role_resource arr 
@@ -160,6 +164,7 @@
 				FROM auth_role_resource arr 
 				RIGHT JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
 				WHERE ar.id not in(SELECT RESOURCE_ID FROM auth_role_resource WHERE ROLE_ID = #{auRoleResourceVo.roleId})
+				and type = 2
 				<if test="auRoleResourceVo.resName!=null and auRoleResourceVo.resName!='' ">
 					AND ar.`NAME` like CONCAT('%', #{auRoleResourceVo.resName}, '%')
 				</if>
@@ -167,12 +172,11 @@
   			</when>
   			<when test="auRoleResourceVo.trigger ==2 ">
 				SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName   
-				FROM auth_role_resource arr 
-				INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
+				FROM auth_resource ar 
+				WHERE type = 2
 				<if test="auRoleResourceVo.resName!=null and auRoleResourceVo.resName!='' ">
-					WHERE ar.`NAME` like CONCAT('%', #{auRoleResourceVo.resName}, '%')
+					AND ar.`NAME` like CONCAT('%', #{auRoleResourceVo.resName}, '%')
 				</if>
-				GROUP BY ar.ID
   			</when>
   			<when test="auRoleResourceVo.trigger ==3 ">
 				SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName ,arole.`CODE` roleCode,arole.`NAME` as roleName,arole.ID as 'roleId'  FROM auth_role_resource arr 
