@@ -128,4 +128,71 @@
   		</if>
   		
   </select>
+  
+  <select id="queryPwr" parameterType="com.kiwihouse.vo.kiwihouse.ReportedQueryVo" resultMap="BaseResultMap">
+  		<!-- <if test="type == 'day' ">
+  			SELECT DATE(add_time) AS add_time, data_json
+				FROM dev_history_data
+				WHERE 1 = 1
+				<if test="imei != null and imei != ''">
+			  			and imei = #{imei}
+			  		</if>
+			  		<if test="startTime != null and startTime != ''">
+			  			and DATE_FORMAT(add_time,'%Y-%m-%d %H:%i:%s') between #{startTime} and #{endTime}
+			  		</if>
+				GROUP BY add_time
+				ORDER BY add_time
+  		</if>
+  		<if test="type == 'hour' ">
+  			SELECT add_time,DATA_JSON,count(*)
+				FROM
+					(
+					SELECT IMEI,DATA_JSON,
+						DATE_FORMAT(
+							concat( date( ADD_TIME ), ' ', HOUR ( ADD_TIME ), ':', floor( MINUTE ( ADD_TIME ) / 60 )*60  ),
+							'%Y-%m-%d %H:%i' 
+						) AS add_time 
+					FROM dev_history_data WHERE 1 = 1
+					<if test="imei != null and imei != ''">
+			  			and imei = #{imei}
+			  		</if>
+			  		<if test="startTime != null and startTime != ''">
+			  			and DATE_FORMAT(add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+			  		</if>
+					) a 
+				GROUP BY DATE_FORMAT( add_time, '%Y-%m-%d %H:%i' ) 
+				ORDER BY add_time;
+  		</if>
+  		<if test="type == 'min' ">
+  			SELECT add_time,DATA_JSON,count(*)
+				FROM
+					(
+					SELECT IMEI,DATA_JSON,
+						DATE_FORMAT(
+							concat( date( ADD_TIME ), ' ', HOUR ( ADD_TIME ), ':', floor( MINUTE ( ADD_TIME ) / 1 )*1  ),
+							'%Y-%m-%d %H:%i' 
+						) AS add_time 
+					FROM dev_history_data WHERE 1 = 1
+					<if test="imei != null and imei != ''">
+			  			and imei = #{imei}
+			  		</if>
+			  		<if test="startTime != null and startTime != ''">
+			  			and DATE_FORMAT(add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+			  		</if>
+					) a 
+				GROUP BY DATE_FORMAT( add_time, '%Y-%m-%d %H:%i' ) 
+				ORDER BY add_time;
+  		</if> -->
+  		select data_json,add_time from dev_history_data where 1 = 1
+  		<if test="imei != null and imei != ''">
+  			and imei = #{imei}
+  		</if>
+  		<if test="startTime != null and startTime != ''">
+  			and DATE_FORMAT(add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+  		</if>
+  		<if test="limit != null and limit != ''">
+  			order by add_time
+  			limit ${(page - 1) * limit},#{limit}
+  		</if>
+  </select>
 </mapper>

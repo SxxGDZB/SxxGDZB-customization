@@ -15,11 +15,19 @@
 <div class="layuimini-container layuimini-page-anim">
     <div class="layuimini-main">
         <div>
-            <div class="layui-btn-group">
-                <button class="layui-btn" id="btn-expand">全部展开</button>
-                <button class="layui-btn layui-btn-normal" id="btn-fold">全部折叠</button>
-                <button class="layui-btn layui-btn-add" id="btn-add">添加</button>
+           <!--  <div class="layui-btn-container">
+                <div class="layui-inline" id="btn-expand" > <i class="iconfont"  data-toggle="tooltip" title="全部展开" >&#xe700;</i></div>
+                <div class="layui-inline" id="btn-fold" >  <i class="iconfont"  data-toggle="tooltip" title="全部折叠" >&#xe701;</i></div>
+                <div class="layui-inline" id="btn-add" >  <i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
+            </div>  -->
+             <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <div class="layui-inline" id="btn-expand" lay-event="btn-expand"> <i class="iconfont"  data-toggle="tooltip" title="全部展开" >&#xe700;</i></div>
+                <div class="layui-inline" id="btn-fold" lay-event="btn-fold">  <i class="iconfont"  data-toggle="tooltip" title="全部折叠" >&#xe701;</i></div>
+                <div class="layui-inline" id="btn-add" lay-event="btn-add">  <i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
             </div>
+        	</script>
+            
             <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
         </div>
     </div>
@@ -103,43 +111,6 @@
             }
         });
     });
-    /* function recover(){
-    	$.ajax({
-             			url: "/menu/recover/"+ids,
-            		    type: "PUT",
-            		    dataType : "json",
-            	　　		contentType: "application/json;charset=utf-8",
-            		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-            		    success:function(data){
-            		    	 	if(data.success){
-            		    	 		indexHome(window).init();
-            		    	 		initTreeTable();
-            		    	 		layer.msg(data.msg,{icon: 6, time: 2000});
-            					}else{
-            						layer.msg(data.msg,{icon: 5, time: 2000});
-            					}
-            		    }
-            		});
-    } */
-     /* function deleteBatch(ids){
-    	$.ajax({
- 			url: "/menu/"+ids,
-		    type: "DELETE",
-		    dataType : "json",
-	　　		contentType: "application/json;charset=utf-8",
-		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-		    success:function(data){
-		    	 	if(data.success){
-		    	 		indexHome(window).init();
-		    	 		initTreeTable();
-		    	 		layer.msg(data.msg,{icon: 6, time: 2000});
-					}else{
-						layer.msg(data.msg,{icon: 5, time: 2000});
-					}
-		    }
-		}); 
-    } */
-    
     //根据id得到对应的树结构数据
     function returnNodes(arr, id){
    	  //利用foreach循环遍历
@@ -197,6 +168,7 @@
             elem: '#munu-table',
             url: '/menu/authMenuLists?roleId=' + authUser.roleId,
             authorization:authorization,
+            toolbar: '#toolbarDemo',
             page: false,
             cols: [[
                 {type: 'numbers'},
@@ -216,6 +188,11 @@
         			treetable.foldAll('#munu-table');
         		}
                 layer.closeAll('loading');
+                
+                $("#btn-add").on('click',function(){
+                	openPopUp('添加','MENU_ADD_PAGE');
+                })
+                
             }
         });
     }
@@ -241,9 +218,7 @@
     	return is;
     }
     
-    $("#btn-add").on('click',function(){
-    	openPopUp('添加','MENU_ADD_PAGE');///admin/menu/add
-    })
+    
 </script>
 </body>
 </html>

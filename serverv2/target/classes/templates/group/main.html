@@ -28,28 +28,24 @@
                 </form>
             </div>
         </fieldset>
-    	
+    	<!-- <div class="layui-btn-container">
+                <div class="layui-inline" id="btn-add" lay-event="add">  <i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
+            </div> -->
         <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
-            </div>
         </script>
-		<!--   <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button> -->
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
+		<!--  {{# if(d.cron != 'ncron'){ }}
+			<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改">&#xe738;</a>
+          		<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除分组">&#xeba5;</a>
+			<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="set" title="分组设置">&#xea65;</a>
+			<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="stop" title="停止抄表">&#xe641;</a>
+		{{# } else if(d.cron == 'ncron' ){}}
+			<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改">&#xe738;</a>
+          		<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除分组">&#xeba5;</a>
+			<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="set" title="分组设置">&#xea65;</a>
+		{{# } }} -->
         <script type="text/html" id="currentTableBar">
-
-				 {{# if(d.cron != 'ncron'){ }}
-					<a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-            		<a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除分组"></a>
-					<a class="layui-icon layui-icon-set-sm" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="set" title="分组设置"></a>
-					<a class="layui-icon layui-icon-pause" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="stop" title="停止抄表"></a>
-				{{# } else if(d.cron == 'ncron' ){}}
-					<a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-            		<a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除分组"></a>
-					<a class="layui-icon layui-icon-set-sm" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="set" title="分组设置"></a>
-				{{# } }}
-            
         </script>
 
     </div>
@@ -64,6 +60,40 @@ layui.use(['form', 'table'], function () {
         form = layui.form;
         table = layui.table;
     jsonEntity.roleId = authUser.roleId;
+    _init_Buttons();
+    function _init_Buttons(){
+    	$.ajax({
+    		url: "/button/info/224",
+    		type : "GET",
+    	　　		dataType : "json",
+    	　　		cache:true, 
+    	        async:false, 
+    	　　		contentType: "application/json;charset=utf-8",
+    		    headers: { "Authorization": authorization},//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+    		    	var _toolbar_demo_html = '<div class="layui-btn-container">';
+    		    	var _current_table_bar = " {{# if(d.cron != 'ncron'){ }}";
+    		    	data.data.data.forEach(function(item){
+    		    	   if(item.type == 1){
+    		    		   _toolbar_demo_html += '<div class="layui-inline" id="btn-add" lay-event="'+item.event+'">  <i class="iconfont"  data-toggle="tooltip" title="'+item.title+'" >'+item.icon+'</i></div>';
+    		    	   }else if(item.type == 2){
+    		    		   _current_table_bar += '<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="'+item.event+'" title="'+item.title+'">'+item.icon+'</a>';
+    		    	   }
+    		    	});
+    		    	_current_table_bar += "{{# } else if(d.cron == 'ncron' ){}}";
+    		    	data.data.data.forEach(function(item){
+     		    	   if(item.type == 2 && item.event != 'stop'){
+     		    		   _current_table_bar += '<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="'+item.event+'" title="'+item.title+'">'+item.icon+'</a>';
+     		    	   }
+     		    	});
+    		    	_current_table_bar += "{{# } }}";
+    		    	$("#toolbarDemo").html(_toolbar_demo_html + '</div>');
+    		    	$("#currentTableBar").html(_current_table_bar);
+    		    }
+    	  });
+    }
+    
+    
     loadTickets(jsonEntity);
     // 监听搜索操作
     form.on('submit(data-search-btn)', function (data) {
@@ -142,7 +172,7 @@ layui.use(['form', 'table'], function () {
    	　　		contentType: "application/json;charset=utf-8",
 			    headers: { "Authorization": authorization ,"dz-roleId":authUser.roleId,"dz-eqptIds":eqptIds},//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
-			    	if(data.code == 4004){
+			    	if(data.code == 4000){
 			    		flush(currentPage, jsonEntity);
 			    		layer.msg(data.msg);
 			    	}else{
@@ -219,6 +249,7 @@ function flush(currentPage, jsonEntity) {
 		where : jsonEntity
 	});
 }
+
 </script>
 
 </body>

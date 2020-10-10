@@ -125,6 +125,7 @@
 	var layer;
 	var miniTab;
 	var staticResource = new Map;
+	var staticResourceID = new Map();
 	layui.use(['jquery', 'layer', 'miniAdmin','miniTongji','miniTab'], function () {
     	var authorization = localStorage.getItem('Authorization');
     	var authUser = JSON.parse(localStorage.getItem('authUser'));
@@ -173,9 +174,9 @@
 			    async : false,
 			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
-		    	console.log(data.data.data)
 		    	data.data.data.forEach(function(item,index){
-		    		staticResource.set(item.CODE,item.URI);
+		    		staticResource.set(item.code,item.uri);
+		    		staticResourceID.set(item.code,item.id);
 		    	})
 			 }
 		   });

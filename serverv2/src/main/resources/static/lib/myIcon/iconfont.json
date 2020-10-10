@@ -6,6 +6,167 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1335865",
+      "name": "撤销",
+      "font_class": "chexiao1",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "1175409",
+      "name": "停止",
+      "font_class": "stop-copy",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "4803455",
+      "name": "停止",
+      "font_class": "stop",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "10125983",
+      "name": "停止",
+      "font_class": "tingzhi",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "13907805",
+      "name": "停止",
+      "font_class": "tingzhi1",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "2106227",
+      "name": "展开／树",
+      "font_class": "zhankai",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "5214562",
+      "name": "全部折叠",
+      "font_class": "quanbuzhedie",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "7702832",
+      "name": "全部展开",
+      "font_class": "huabanfuben",
+      "unicode": "e700",
+      "unicode_decimal": 59136
+    },
+    {
+      "icon_id": "7702833",
+      "name": "全部折叠",
+      "font_class": "huabanfuben1",
+      "unicode": "e701",
+      "unicode_decimal": 59137
+    },
+    {
+      "icon_id": "9683219",
+      "name": "全部展开",
+      "font_class": "ziyuan1",
+      "unicode": "e710",
+      "unicode_decimal": 59152
+    },
+    {
+      "icon_id": "11435419",
+      "name": "全部展开",
+      "font_class": "quanbuzhankai",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "12217122",
+      "name": "i_全部折叠",
+      "font_class": "i_quanbuzhedie",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "595344",
+      "name": "修改",
+      "font_class": "xiugai",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "849350",
+      "name": "修改",
+      "font_class": "xiugai07",
+      "unicode": "e738",
+      "unicode_decimal": 59192
+    },
+    {
+      "icon_id": "3369109",
+      "name": "修改",
+      "font_class": "xiugai1",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
+      "icon_id": "4023193",
+      "name": "修改",
+      "font_class": "modify",
+      "unicode": "e68e",
+      "unicode_decimal": 59022
+    },
+    {
+      "icon_id": "10088950",
+      "name": "修改",
+      "font_class": "icon_function_xiugai",
+      "unicode": "e88d",
+      "unicode_decimal": 59533
+    },
+    {
+      "icon_id": "10933928",
+      "name": "修改",
+      "font_class": "xiugai2",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "16959827",
+      "name": "修改",
+      "font_class": "xiugai3",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "577352",
+      "name": "清除",
+      "font_class": "qingchu",
+      "unicode": "e747",
+      "unicode_decimal": 59207
+    },
+    {
+      "icon_id": "1770881",
+      "name": "清除",
+      "font_class": "qingchu1",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "7029932",
+      "name": "清除",
+      "font_class": "qingchu2",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "8413325",
+      "name": "清除",
+      "font_class": "qingchu3",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
       "icon_id": "7922370",
       "name": "功率",
       "font_class": "gongshuai",

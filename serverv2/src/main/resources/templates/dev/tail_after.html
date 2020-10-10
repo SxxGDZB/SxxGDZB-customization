@@ -40,6 +40,12 @@
 		        <div class="layui-form-mid layui-word-aux _eqptStatus"></div>
 		      </div>
 		    </div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">设备类型</label>
+		      <div class="layui-input-inline">
+		        <div class="layui-form-mid layui-word-aux _eqptType"></div>
+		      </div>
+		    </div>
          </div>
          <div class="layui-form-item" >
             <div class="layui-inline" >
@@ -135,7 +141,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         endTime = $.trim(arr[1]);
         e.imei = $("._imei").html();
         e.type = data.value;
-        zxt(e);
+      	zxt(e);
 	});
     function init(){
     	 var entity = {};
@@ -150,8 +156,8 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
     	　　		contentType: "application/json;charset=utf-8",
     		    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
     		    success:function(data){
-    		    	console.log(data.data[0]);
     		    	$("._imei").html(data.data[0].imei);
+    		    	$("._eqptType").html(data.data[0].eqptType == "0" ? "单相" : "三相") ;
     		    	$("._address").html(data.data[0].province + data.data[0].city +  data.data[0].district + data.data[0].address);
     		    	$("._eqptStatus").html(data.data[0].eqptStatus == 9001 ? '掉线' : '在线');
     		    }
@@ -163,7 +169,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
     var echartsRecords = echarts.init(document.getElementById('main_01'), 'walden');
     function zxt(e){
     	$.ajax({
-    		url: "/receive/pwr/info",
+    		url: "/power/info",
     	    type: "GET",
     	    data:e,
     	    dataType : "json",
@@ -172,43 +178,59 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
     　　		contentType: "application/json;charset=utf-8",
     	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
     	    success:function(data){
+    	    	var xx = data.data.data;
     	    	var timeArray = new Array();
-    	        var pwrArray = new Array();
     	    	if(data.code == 2000){
-    	    		$.each(data.data.data,function(index,xx){
-        	    		timeArray.push(xx.addTime);
-        	    		pwrArray.push(xx.pwr);
-        	    	})
+        	    	timeArray = xx.addTime;
+        	    	var v = {};
+        	    	var dataZoom = {};
+        	    	var title = {};
+        	    	console.log(xx.addTime);
+        	    	if(timeArray.length > 10000 ){
+        	    		dataZoom.show = true;
+        	    		dataZoom.start = (1 - (1000 / pwrArray.length)) * 100;
+        	    		dataZoom.end = 100;
+        	    		v.dataZoom = dataZoom;
+        	    	}else if(timeArray.length > 1000 ){
+        	    		dataZoom.show = true;
+        	    		dataZoom.start = (1 - (100 / pwrArray.length)) * 100;
+        	    		dataZoom.end = 100;
+        	    		v.dataZoom = dataZoom;
+        	    	}else if(timeArray.length > 100){
+        	    		dataZoom.show = true;
+        	    		dataZoom.start = 10;
+        	    		dataZoom.end = 100;
+        	    		v.dataZoom = dataZoom;
+        	    	}else{
+        	    		dataZoom.show = false;
+        	    		v.dataZoom = dataZoom;
+        	    	}
+        	    	if(timeArray.length == 0){
+        	    		title.text = '暂无数据';
+        	    		title.left = "center";
+        	    		title.top = "center";
+        	    	}
+        	    	v.title = title;
+        	    	if($("._eqptType").html() == "单相"){
+            	        var pwrArray = new Array();
+            	        var curRidevolArray = new Array();
+            	        var xx = data.data.data;
+                	    	timeArray = xx.addTime;
+            	    		pwrArray = xx.pwr;
+            	    		curRidevolArray = xx.curRidevol;
+            	    	one_phase_options(v,timeArray,pwrArray,curRidevolArray);
+        	        }else{
+            	        var pwrA = new Array();
+            	        var pwrB = new Array();
+            	        var pwrC = new Array();
+            	        var pwrTotle = new Array();
+                	    	pwrA = xx.pwrA;
+                	    	pwrB = xx.pwrB;
+                	    	pwrC = xx.pwrC;
+                	    	pwrTotle = xx.pwrTotle;
+        	        	three_phase_options(v,timeArray,pwrA,pwrB,pwrC,pwrTotle);
+        	        }
     	    	}
-    	    	var v = {};
-    	    	var dataZoom = {};
-    	    	var title = {};
-    	    	if(pwrArray.length > 10000 ){
-    	    		dataZoom.show = true;
-    	    		dataZoom.start = (1 - (1000 / pwrArray.length)) * 100;
-    	    		dataZoom.end = 100;
-    	    		v.dataZoom = dataZoom;
-    	    	}else if(pwrArray.length > 1000 ){
-    	    		dataZoom.show = true;
-    	    		dataZoom.start = (1 - (100 / pwrArray.length)) * 100;
-    	    		dataZoom.end = 100;
-    	    		v.dataZoom = dataZoom;
-    	    	}else if(pwrArray.length > 100){
-    	    		dataZoom.show = true;
-    	    		dataZoom.start = 10;
-    	    		dataZoom.end = 100;
-    	    		v.dataZoom = dataZoom;
-    	    	}else{
-    	    		dataZoom.show = false;
-    	    		v.dataZoom = dataZoom;
-    	    	}
-    	    	if(pwrArray.length == 0){
-    	    		title.text = '暂无数据';
-    	    		title.left = "center";
-    	    		title.top = "center";
-    	    	}
-    	    	v.title = title;
-    	    	options(v,timeArray,pwrArray);
     	    }
     	});
     }
@@ -223,8 +245,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         e.type = $("select[name='type']").val();
         zxt(e);
     }
-     function options(v,timeArray,pwrArray){
-    	 console.log(timeArray);
+     function one_phase_options(v,timeArray,pwrArray,curRidevolArray){
     	var optionRecords = {
         	    title: [
         	    	{
@@ -291,7 +312,45 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	        {
         	            name: '功率',
         	            type: 'line',
-        	            stack: '总量',
+        	            symbol:'none',  //这句就是去掉点的  
+        	            markPoint: {
+        	                data: [
+        	                  {
+        	                    name: '最大值',
+        	                    type: 'max',
+        	                    label: {
+        	                      position: 'top'
+        	                    }
+        	                  },
+        	                  {
+        	                    name: '最小值',
+        	                    type: 'min',
+        	                    label: {
+        	                      position: 'bottom'
+        	                    }
+        	                  }
+
+        	                ]
+        	              },
+        	            areaStyle: {
+        	        		normal: {
+        	        			color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ 
+        	        				//折线图颜色渐变                                    
+        	        				offset: 0,                                    
+        	        				color: 'rgba(62,139,222,0.6)'                                
+        	        				}, {
+        	        					offset: 1,
+        	        					color: 'rgba(62,139,222,0.01)'
+        	        					}])                            
+        	        	}                        
+        	        	} ,
+        	        	sampling:'average',
+        	        	showSymbol: false,
+        	            hoverAnimation: false,
+        	            data: pwrArray
+        	        },{
+        	            name: '电流*电压 = 功率',
+        	            type: 'line',
         	            symbol:'none',  //这句就是去掉点的  
         	            markPoint: {
         	                data: [
@@ -329,12 +388,161 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	        	sampling:'average',
         	        	showSymbol: false,
         	            hoverAnimation: false,
-        	            data: pwrArray
+        	            data: curRidevolArray
         	        }
         	    ]
         	};
         echartsRecords.setOption(optionRecords,true);
     }
+     
+     function three_phase_options(v,timeArray,pwrA,pwrB,pwrC,pwrTotle){
+     	var optionRecords = {
+         	    title: [
+         	    	{
+             	        text: '功率折线图'
+             	    },
+             	    v.title
+         	    ],
+         	    show: Object.keys(timeArray).length === 0,
+         	    extStyle: {
+         	    color: "grey",
+         	      fontSize: 20
+         	     },
+         	     tooltip: {
+         	          trigger: 'axis',
+         	          axisPointer: {
+         	            lineStyle: {
+         	              color: '#57617B'
+         	            }
+         	          }
+         	        },
+         	        legend: {
+         	        	 data: ['A相功率', 'B相功率', 'C相功率', '总功率']
+         	          },
+         	          grid: {
+         	            top: 100,
+         	            left: '2%',
+         	            right: '2%',
+         	            bottom: '2%',
+         	            containLabel: true
+         	          },
+         	    dataZoom: [v.dataZoom],
+         	    toolbox: {
+         	        feature: {
+         	            saveAsImage: {}
+         	        }
+         	    },
+         	    xAxis: {
+         	    	type: 'category',
+         	          boundaryGap: false,
+         	          axisLine: {
+         	            lineStyle: {
+         	              color: '#F1F1F3'
+         	            }
+         	          },
+         	        splitNumber:10,
+         	        data: timeArray,
+         	        //splitLine:{show: false},//去除网格线
+ 		            //splitArea : {show : true},//保留网格区域
+         	    },
+         	    yAxis: {
+         	        type: 'value'
+         	    },
+         	    series: [
+         	        {
+         	            name: 'A相功率',
+         	            type: 'line',
+         	            symbol:'none',  //这句就是去掉点的  
+         	            areaStyle: {
+         	        		normal: {
+         	        			color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ 
+         	        				//折线图颜色渐变                                    
+         	        				offset: 0,                                    
+         	        				color: 'rgba(62,139,222,0.6)'                                
+         	        				}, {
+         	        					offset: 1,
+         	        					color: 'rgba(62,139,222,0.01)'
+         	        					}])                            
+         	        	}                        
+         	        	} ,
+         	            data: pwrA
+         	        },{
+         	            name: 'B相功率',
+         	            type: 'line',
+         	            symbol:'none',  //这句就是去掉点的  
+         	            areaStyle: {
+         	        		normal: {
+         	        			color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ 
+         	        				//折线图颜色渐变                                    
+         	        				offset: 0,                                    
+         	        				color: 'rgba(62,139,222,0.6)'                                
+         	        				}, {
+         	        					offset: 1,
+         	        					color: 'rgba(62,139,222,0.01)'
+         	        					}])                            
+         	        	}                        
+         	        	} ,
+         	            data: pwrB
+         	        },{
+         	            name: 'C相功率',
+         	            type: 'line',
+         	            symbol:'none',  //这句就是去掉点的  
+         	            areaStyle: {
+         	        		normal: {
+         	        			color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ 
+         	        				//折线图颜色渐变                                    
+         	        				offset: 0,                                    
+         	        				color: 'rgba(62,139,222,0.6)'                                
+         	        				}, {
+         	        					offset: 1,
+         	        					color: 'rgba(62,139,222,0.01)'
+         	        					}])                            
+         	        	}                        
+         	        	} ,
+         	            data: pwrC
+         	        },{
+         	            name: '总功率',
+         	            type: 'line',
+         	            symbol:'none',  //这句就是去掉点的  
+         	           markPoint: {
+       	                data: [
+       	                  {
+       	                    name: '最大值',
+       	                    type: 'max',
+       	                    label: {
+       	                      // show: false
+       	                      position: 'top'
+       	                    }
+       	                  },
+       	                  {
+       	                    name: '最小值',
+       	                    type: 'min',
+       	                    label: {
+       	                      // show: false
+       	                      position: 'bottom'
+       	                    }
+       	                  }
+
+       	                ]
+       	              },
+         	            areaStyle: {
+         	        		normal: {
+         	        			color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ 
+         	        				//折线图颜色渐变                                    
+         	        				offset: 0,                                    
+         	        				color: 'rgba(62,139,222,0.6)'                                
+         	        				}, {
+         	        					offset: 1,
+         	        					color: 'rgba(62,139,222,0.01)'
+         	        					}])                            
+         	        	}                        
+         	        	} ,
+         	            data: pwrTotle
+         	        }
+         	    ]
+         	};
+         echartsRecords.setOption(optionRecords,true);
+     }
     // echarts 窗口缩放自适应
     window.onresize = function () {
     	echartsRecords.resize();

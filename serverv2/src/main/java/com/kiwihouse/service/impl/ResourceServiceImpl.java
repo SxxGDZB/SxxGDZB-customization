@@ -118,13 +118,13 @@ public class ResourceServiceImpl implements ResourceService {
 	@Override
 	public Response selectStaticResource() {
 		// TODO Auto-generated method stub
-		List<Map<String, String>> listMap = null;
+		List<AuthResource> list = null;
 		try {
-			listMap = authResourceMapper.selectStaticResource();
-			if(listMap == null) {
-				return new Response().Success(Code.QUERY_NULL,Code.QUERY_NULL.getMsg()).addData("data", listMap);
+			list = authResourceMapper.selectStaticResource();
+			if(list == null) {
+				return new Response().Success(Code.QUERY_NULL,Code.QUERY_NULL.getMsg()).addData("data", list);
 			}
-			return new Response().Success(Code.QUERY_SUCCESS,Code.QUERY_SUCCESS.getMsg()).addData("data", listMap);
+			return new Response().Success(Code.QUERY_SUCCESS,Code.QUERY_SUCCESS.getMsg()).addData("data", list);
 		} catch (Exception e) {
 			// TODO: handle exception
 			return new Response().Success(Code.QUERY_FAIL,Code.QUERY_FAIL.getMsg());

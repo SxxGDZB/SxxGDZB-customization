@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.kiwihouse.common.bean.Code;
+import com.kiwihouse.common.bean.DataType;
 import com.kiwihouse.dao.entity.DevHistoryDate;
 import com.kiwihouse.dao.entity.DevHistoryDateStatistics;
 import com.kiwihouse.dao.mapper.DevHistoryDateMapper;
@@ -53,7 +54,7 @@ public class DevHistoryDateServiceImpl implements DevHistoryDateService{
 		List<Float>  pwrFctA = new ArrayList<Float>();
 		List<Float>  pwrFctB = new ArrayList<Float>();
 		List<Float>  pwrFctC = new ArrayList<Float>();
-		if("0".equals(reportedQueryVo.getEqptType())) {
+		if(DataType.ONE_PHASE.toString().equals(reportedQueryVo.getEqptType())) {
 			list = devHistoryDateMapper.historyDevInfo(reportedQueryVo);
 			list.forEach(x ->{
 				JSONObject jo = JSON.parseObject(x.getDataJson());
@@ -85,7 +86,7 @@ public class DevHistoryDateServiceImpl implements DevHistoryDateService{
 			devHistoryDateStatistics.setPwrFct(pwrFct);
 			devHistoryDateStatistics.setVol(vol);
 			devHistoryDateStatistics.setAddTime(addTime);
-		}else if("1".equals(reportedQueryVo.getEqptType())) {
+		}else if(DataType.THREE_PHASE.toString().equals(reportedQueryVo.getEqptType())) {
 			list = devHistoryDateMapper.historyDevInfo(reportedQueryVo);
 			list.forEach(x ->{
 				JSONObject jo = JSON.parseObject(x.getDataJson());

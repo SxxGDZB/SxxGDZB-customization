@@ -29,4 +29,10 @@ public interface DevHistoryDateMapper {
 	 * @return
 	 */
 	Integer historyDevInfoCount(ReportedQueryVo reportedQueryVo);
+	/**
+	 * 查询功率历史记录
+	 * @param reportedQueryVo
+	 * @return
+	 */
+	List<DevHistoryDate> queryPwr(ReportedQueryVo reportedQueryVo);
 }

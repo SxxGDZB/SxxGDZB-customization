@@ -183,5 +183,5 @@ public interface AuthResourceMapper {
 	 * 查询静态资源列表
 	 * @return
 	 */
-	List<Map<String, String>> selectStaticResource();
+	List<AuthResource> selectStaticResource();
 }

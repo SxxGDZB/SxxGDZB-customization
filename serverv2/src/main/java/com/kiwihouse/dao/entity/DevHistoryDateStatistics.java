@@ -15,6 +15,7 @@ public class DevHistoryDateStatistics {
 	private List<Float> vol;
 	private List<Float> Hz;
 	private List<Float> pwr;
+	private List<Float> curRidevol;
 	private List<String> addTime;
 	private List<Float> leakCur;
 	private List<Float> pwrFct;
@@ -31,6 +32,7 @@ public class DevHistoryDateStatistics {
 	private List<Float> pwrA;
 	private List<Float> pwrB;
 	private List<Float> pwrC;
+	private List<Float> pwrTotle;
 	
 	private List<Float> pwrFctA;
 	private List<Float> pwrFctB;

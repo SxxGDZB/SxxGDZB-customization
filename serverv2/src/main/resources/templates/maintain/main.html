@@ -61,10 +61,10 @@
         <script type="text/html" id="currentTableBar">
 			
 			{{# if(d.mtStatus == 0 ){ }}
-					<a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-            		<a class="fa fa-share" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout" title="撤销"></a>
+					<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改">&#xe738;</a>
+            		<a class="iconfont" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout" title="撤销">&#xe64c;</a>
 			{{# } else if(d.mtStatus == 1 ){}}
-            		<a class="fa fa-share" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout" title="撤销"></a>
+            		<a class="iconfont" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout" title="撤销">&#xe64c;</a>
 			{{# } else if(d.mtStatus == 2 ){}}
 			{{# } }}
 				
@@ -171,9 +171,9 @@ layui.use(['form', 'table','upload'], function () {
         		layer.msg('上传成功');
                 flush(currentPage, jsonEntity);
         	}
-      });
-});
-
+      }
+	});
+	});
 function loadTickets(jsonEntity){
 	table.render({
         elem: '#currentTableId',

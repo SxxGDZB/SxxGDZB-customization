@@ -550,3 +550,28 @@ var _alarmIcons = function (v,e){
 	 });
 	return '<div title="' + msg + '">' + _icon + '</div>';
 }
+
+function _init_buttons_common(id){
+	$.ajax({
+		url: "/button/info/" + id,
+		type : "GET",
+	　　		dataType : "json",
+	　　		cache:true, 
+	        async:false, 
+	　　		contentType: "application/json;charset=utf-8",
+		    headers: { "Authorization": authorization},//通过请求头来发送token，放弃了通过cookie的发送方式
+		    success:function(data){
+		    	var _toolbar_demo_html = '<div class="layui-btn-container">';
+		    	var _current_table_bar = "";
+		    	data.data.data.forEach(function(item){
+		    	   if(item.type == 1){
+		    		   _toolbar_demo_html += '<div class="layui-inline" id="btn-add" lay-event="'+item.event+'">  <i class="iconfont"  data-toggle="tooltip" title="'+item.title+'" >'+item.icon+'</i></div>';
+		    	   }else if(item.type == 2){
+		    		   _current_table_bar += '<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="'+item.event+'" title="'+item.title+'">'+item.icon+'</a>';
+		    	   }
+		    	});
+		    	$("#toolbarDemo").html(_toolbar_demo_html + '</div>');
+		    	$("#currentTableBar").html(_current_table_bar);
+		    }
+	  });
+}
