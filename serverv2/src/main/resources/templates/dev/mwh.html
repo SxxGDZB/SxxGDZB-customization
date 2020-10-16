@@ -157,7 +157,6 @@
 	    	}else{
 	    		eqptType = data.data[0].eqptType;
 		    	$("._imei").text(data.data[0].imei);
-		    	$("._time").text(data.data[0].addTime);
 		    	$("._address").text(data.data[0].province + data.data[0].city +  data.data[0].district + data.data[0].address);
 		    	if(data.data[0].eqptType == 0){
 		    		$("._eqptType").attr('data-type',data.data[0].eqptType);
@@ -587,6 +586,7 @@
 		    	if(eqptType != 1){
 		    		$("._single").show();
 		    		$("._triple").hide();
+		    		$("._time").text(vData.addTime);
 		    		$.each($("._single").children().children(".grid-demo"),function(){
 		    			/*根据ID 设置不同仪表盘参数*/
 		    			_chart($(this).attr('id')).setOption(_singleOption($(this)));
@@ -594,6 +594,7 @@
 		    	}else{
 		    		$("._single").hide();
 		    		$("._triple").show();
+		    		$("._time").text(data.data.data.addTime);
 		    		$.each($("._triple").children().children(".grid-demo"),function(){
 		    			if($(this).data('unit') == 'A'|| $(this).data('unit') == 'V' || $(this).data('unit') == 'W'){
 		    				_chart($(this).attr('id')).setOption(_tripleOption($(this)));

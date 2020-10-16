@@ -81,25 +81,26 @@
                 </form>
             </div>
         </fieldset>
-
+        <!-- <div class="layui-btn-container">
+                <div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
+                <div class="layui-inline" lay-event="delete"><i class="iconfont"  data-toggle="tooltip" title="删除" >&#xeba5;</i></div>
+                <div class="layui-inline" lay-event="lead_excel_out"><i class="iconfont"  data-toggle="tooltip" title="导出" >&#xe6f3;</i></div>
+            </div> -->
         <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-				<div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
-				<div class="layui-inline" lay-event="delete"><i class="iconfont"  data-toggle="tooltip" title="删除" >&#xeba5;</i></div>
-				<div class="layui-inline" lay-event="lead_excel_out"><i class="iconfont"  data-toggle="tooltip" title="导出" >&#xe6f3;</i></div>
-				
-            </div>
+            
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
-
-        <script type="text/html" id="currentTableBar">
-			<a class="iconfont icon-shebeixiangqing2" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="location" title="设备详情"></a>
+        <!-- 
+        <a class="iconfont icon-shebeixiangqing2" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="device_details" title="设备详情"></a>
             <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-			<a class="iconfont icon-canshushezhi" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="parameter"  title="设备参数"></a>
-			<a class="iconfont icon-icon_more" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="more"  title="更多"></a>
-			<a class="iconfont icon-gongshuai3" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="tailAfter"  title="功率跟踪"></a>
-			<a class="iconfont icon-icon_delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="clean_alarm" title="清除设备告警"></a>
+            <a class="iconfont icon-canshushezhi" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="parameter"  title="设备参数"></a>
+            <a class="iconfont icon-icon_more" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="more"  title="更多"></a>
+            <a class="iconfont icon-gongshuai3" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="tailAfter"  title="功率跟踪"></a>
+            <a class="iconfont icon-icon_delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="clean_alarm" title="清除设备告警"></a>
+         -->
+        <script type="text/html" id="currentTableBar">
+			
         </script>
 
     </div>
@@ -117,6 +118,9 @@ layui.use(['form', 'table','miniTab','upload'], function () {
         table = layui.table;
         layer = layui.layer;
         miniTab = layui.miniTab;
+        
+        _init_buttons_common("DEV_PAGE");
+        
      	loadTable(jsonEntity);
      var upload = layui.upload;
      
@@ -188,8 +192,6 @@ layui.use(['form', 'table','miniTab','upload'], function () {
  						}
 	 			    }
 	 			  });
-	 			  
-	 			
 	    	}else{
 	    		layer.msg("请选择要删除的设备");
 	    	}
@@ -250,7 +252,7 @@ layui.use(['form', 'table','miniTab','upload'], function () {
         			title:'功率追踪'
         	};
         	miniTab.openNewTabByIframe(options);
-        } else if(obj.event === 'location'){
+        } else if(obj.event === 'device_details'){
         	openPopUp('设备详情','DEV_DETAILS_PAGE',70,95);
         }else if(obj.event === 'clean_alarm'){
         	console.log(obj.data);

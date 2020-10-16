@@ -298,6 +298,6 @@
 	</delete>
 	<!-- 查询静态资源列表 -->
 	<select id="selectStaticResource" resultMap="BaseResultMap">
-		select `CODE`,URI,id from auth_resource where type = 1
+		select `CODE`,URI,id from auth_resource where type  &lt; 2
 	</select>
 </mapper>

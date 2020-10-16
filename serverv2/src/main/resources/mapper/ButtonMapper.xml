@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.dao.mapper.ButtonMapper">
+  <resultMap id="BaseResultMap" type="com.kiwihouse.dao.entity.Buttons">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="event" jdbcType="VARCHAR" property="event" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, icon, type, event
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from button
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from button
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kiwihouse.dao.entity.Buttons">
+    insert into button (id, title, icon, 
+      type, event)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{event,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kiwihouse.dao.entity.Buttons">
+    insert into button
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="event != null">
+        event,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="event != null">
+        #{event,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kiwihouse.dao.entity.Buttons">
+    update button
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="event != null">
+        event = #{event,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kiwihouse.dao.entity.Buttons">
+    update button
+    set title = #{title,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      event = #{event,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryInfo" resultMap="BaseResultMap" parameterType="Integer">
+    select * from button 
+    <if test="limit != null and limit != ''">
+        limit #{page},#{limit}
+    </if>
+  </select>
+  <select id="queryCount" resultType="Integer">
+      select count(*) from button
+  </select>
+  
+  <delete id="deleteBatch">
+        delete from button where id in
+        <foreach item="id" collection="array" open="(" separator=","
+            close=")">
+            #{id}
+        </foreach>
+    </delete>
+  <select id="queryButtonsPower" resultMap="BaseResultMap">
+        SELECT rb.title,rb.icon,rb.event,rb.type,rb.id,ar.`NAME`,ar.URI,rrb.role_id FROM `auth_resource` ar 
+        LEFT JOIN role_resource_button rrb on ar.ID = rrb.resource_id 
+        LEFT JOIN button rb on rrb.resource_button_id = rb.id 
+        WHERE ar.TYPE = 0
+  </select>
+ </mapper>

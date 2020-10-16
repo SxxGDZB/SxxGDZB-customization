@@ -68,6 +68,7 @@ public class DevInfoServiceImpl implements DevInfoService{
 			threePhaseMeasureDto.setLac(lac);
 			threePhaseMeasureDto.setCid(cid);
 			threePhaseMeasureDto.setLineTemp(lineTemp);
+			threePhaseMeasureDto.setAddTime(devInfo.getAddTime());
 			return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", threePhaseMeasureDto);
 		}
 		

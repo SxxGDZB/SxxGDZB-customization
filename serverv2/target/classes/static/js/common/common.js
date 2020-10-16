@@ -551,9 +551,9 @@ var _alarmIcons = function (v,e){
 	return '<div title="' + msg + '">' + _icon + '</div>';
 }
 
-function _init_buttons_common(id){
+function _init_buttons_common(code){
 	$.ajax({
-		url: "/button/info/" + id,
+		url: "/button/info/" +  indexHome(window).staticResourceID.get(code)+"/" + authUser.roleId,
 		type : "GET",
 	　　		dataType : "json",
 	　　		cache:true, 

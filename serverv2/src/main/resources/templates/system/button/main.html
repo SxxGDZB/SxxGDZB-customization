@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>按钮列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+    <script type="text/html" id="toolbarDemo">
+                <div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
+                <div class="layui-inline" lay-event="delete"><i class="iconfont"  data-toggle="tooltip" title="删除" >&#xeba5;</i></div>
+     </script>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <script type="text/html" id="currentTableBar">
+            <a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改">&#xe738;</a>
+            <a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除">&#xeba5;</a>
+        </script>
+        
+        
+        
+        <div th:include="include::footer"></div>
+<script type="text/javascript" th:inline="none">
+var currentPage = 0;
+var jsonEntity = null;
+layui.use(['form', 'table'], function () {
+    var $ = layui.jquery,
+        form = layui.form;
+        table = layui.table;
+        loadTickets();
+        
+        table.on('toolbar(currentTableFilter)', function (obj) {
+        	if (obj.event === 'add') {
+                openPopUp('添加','ADD_BUTTON_PAGE',60,80);
+            } else if (obj.event === 'delete') {  // 监听删除操作
+            	var checkStatus = table.checkStatus('currentTableId')
+                , data = checkStatus.data;
+            	if(data.length > 0){
+            		var ids = [];
+            		var nameStr = [];
+                    data.forEach(function(xx){
+                         ids.push(xx.id);
+                         nameStr.push(xx.title);
+                    })
+                    var index = layer.confirm('是否确定删除'  +nameStr.join('、')+ '按钮？', {
+                    btn : [ '放弃', '删除' ],icon: 3, title:'提示'
+	                }, function() {
+	                    layer.msg('已放弃', {
+	                        icon : 1
+	                    });
+	                    layer.close(index);
+	                }, function() {
+	                	DELETE("/button/"+ids.join('_'),false);
+	                });
+            	}else{
+            		layer.msg("请选择要删除的按钮");
+            	}
+            }
+        })
+        
+        table.on('tool(currentTableFilter)', function (obj) {
+            dataRow = obj.data;
+            if (obj.event === 'edit') {
+                var index = layer.open({
+                    title: '修改设备',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '80%'],
+                    content: '/admin/system/button/edit',
+                }); 
+                return false;
+            } else if(obj.event === 'delete'){//parameter;
+            	var index = layer.confirm('是否确定删除', {
+                    btn : [ '放弃', '删除' ],icon: 3, title:'提示'
+                }, function() {
+                    layer.msg('已放弃', {
+                        icon : 1
+                    });
+                    layer.close(index);
+                }, function() {
+                	DELETE("/button/"+dataRow.id,false);
+                });
+            } 
+        });
+    })
+    
+    
+    
+    function loadTickets(){
+    table.render({
+        elem: '#currentTableId',
+        url: getRootPath() + '/button/info',
+        headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+        async : false,
+        toolbar: '#toolbarDemo',
+        defaultToolbar: ['filter', 'exports', 'print', {
+            title: '提示',
+            layEvent: 'LAYTABLE_TIPS',
+            icon: 'layui-icon-tips'
+        }],
+        cols: [[
+        	{type: "checkbox"},
+            {field: 'title',title: '按钮名称',align:'center'},
+            {field: 'type',title: '按钮类型(位置)',align:'center'},
+            {field: 'event',title: '按钮标识',align:'center'},
+            {field: 'icon', title: '按钮图标',align:'center',templet : function(row) {
+            	return '<a class="iconfont" style="font-size: 24px; color: #1E9FFF;" >'+row.icon+'</a>';
+            }},
+            {title: '操作', toolbar: '#currentTableBar', align: "center",width:'15%'}
+        ]],
+        limits: [5, 10, 20, 25, 50, 100],
+        limit: 10,
+        page: true,
+        skin: 'line',
+        done : function(res, curr, count) {
+	            if(res.code == 8003){
+	                indexHome(window,0).Unclickable();
+	                indexHome(window,0).JwtErr();
+	            }
+	            currentPage = curr;
+            }
+        });
+    }
+	function flush(currentPage) {
+	    table.reload('currentTableId', {
+	        page : {
+	            curr : currentPage
+	        }
+	    });
+	}
+</script>
+</body>
+
+</html>

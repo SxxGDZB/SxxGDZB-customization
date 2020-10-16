@@ -96,7 +96,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	/**
-     * 更新设备信息
+     * 	更新设备信息
      *
      * @param updateDto 更新设备信息参数对象
      * @return 是否更新成功
@@ -114,8 +114,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     /**
-     * 录入设备信息(应该是设备生产完成，入库的时候使用)
-     *
+     * 	录入设备信息(应该是设备生产完成，入库的时候使用)
      * @param eqptAddVo 录入设备信息参数
      * @return 是否录入成功
      */
@@ -134,24 +133,6 @@ public class EquipmentServiceImpl implements EquipmentService {
         	return new Response().Success(Code.ADD_SUCCESS.getCode(), Code.ADD_SUCCESS.getMsg());
         }
     }
-
-	private EqptAddVo addSite(EqptAddVo eqptAddVo) {
-        if (StringUtils.isBlank(eqptAddVo.getSiteId())) {
-            if (StringUtils.isBlank(eqptAddVo.getCode()) || StringUtils.isBlank(eqptAddVo.getAddress())) {
-                throw new ParamException(Code.PARAM_FORMAT_ERROR, "使用地址簿地址。或者选择录入新的地址");
-            } else {
-                CodeTransferUtil.transferAll(eqptAddVo.getCode(), eqptAddVo);
-                SiteDto siteDto = equipmentMapper.querySiteInfo(eqptAddVo);
-                if (null == siteDto) {
-                    equipmentMapper.addSite(eqptAddVo);
-                } else {
-                    eqptAddVo.setSiteId(siteDto.getSiteId());
-                }
-            }
-        }
-        return eqptAddVo;
-    }
-
     private Eqpt4UpdateDto addSite(Eqpt4UpdateDto updateDto) {
         //code不为空添加设备对应的地址，返回siteId
         if (!StringUtils.isBlank(updateDto.getCode())) {
@@ -179,17 +160,6 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public Response deleteInfo(String imeis, UserInfo userInfo) {
     	String [] imeiArr = imeis.split("_");
-//    	if (!userInfo.isAdmin()) {
-//        	equipmentMapper.deleteBatch(aqptArr);
-//            if (equipmentMapper.deleteUserId(eqptSns) > 0) {
-//                return ResultUtil.resp(Code.UPDATE_SUCCESS);
-//            }
-//            return ResultUtil.resp(Code.UPDATE_FAIL);
-//        }
-//        if (StringUtils.isBlank(eqptSns)) {
-//            return new ResultList(Code.PARAM_FORMAT_ERROR.getCode(), Code.PARAM_FORMAT_ERROR.getMsg(), null);
-//        }
-//        return ResultUtil.verifyDelete(equipmentMapper.deleteInfo(eqptSns));
     	if (equipmentMapper.deleteBatch(imeiArr) > 0) {
     		return new Response().Success(Code.DELETE_SUCCESS.getCode(), Code.DELETE_SUCCESS.getMsg());
         }
@@ -219,13 +189,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public Response insertOrUpdateBatch(List<EqptInfoDto> userList) {
 		// TODO Auto-generated method stub
 		int count = 0;
-//		try {
+		try {
 			count = equipmentMapper.insertOrUpdateBatch(userList);
 			return new Response().Success(Code.EXCEL_LEAD_IN_SUCCESS,Code.EXCEL_LEAD_IN_SUCCESS.getMsg());
-//		} catch (Exception e) {
-			// TODO: handle exception
-//			return new Response().Fail(Code.EXCEL_LEAD_IN_FAIL,Code.EXCEL_LEAD_IN_FAIL.getMsg());
-//		}
+		} catch (Exception e) {
+//			 TODO: handle exception
+			return new Response().Fail(Code.EXCEL_LEAD_IN_FAIL,Code.EXCEL_LEAD_IN_FAIL.getMsg());
+		}
 		
 	}
 

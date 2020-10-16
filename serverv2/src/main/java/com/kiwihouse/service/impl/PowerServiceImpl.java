@@ -1,9 +1,12 @@
 package com.kiwihouse.service.impl;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -11,11 +14,14 @@ import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.DataType;
 import com.kiwihouse.dao.entity.DevHistoryDate;
 import com.kiwihouse.dao.entity.DevHistoryDateStatistics;
+import com.kiwihouse.dao.entity.OnePhseDataAndRealPwr;
+import com.kiwihouse.dao.entity.ThreePhseDataAndRealPwr;
 import com.kiwihouse.dao.mapper.DevHistoryDateMapper;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.EqptInfoDto;
 import com.kiwihouse.service.PowerService;
+import com.kiwihouse.util.excel.DateUtils;
 import com.kiwihouse.vo.kiwihouse.ReportedQueryVo;
 @Service
 public class PowerServiceImpl implements PowerService{
@@ -28,83 +34,29 @@ public class PowerServiceImpl implements PowerService{
 		// TODO Auto-generated method stub
 		EqptInfoDto eqptInfo = equipmentMapper.queryInfoByImei(reportedQueryVo.getImei());
 		List<DevHistoryDate> list = null;
-		
-		////ThreePhaseMeasureDto  //ImprovedWarnMsgDto
 		DevHistoryDateStatistics devHistoryDateStatistics = new DevHistoryDateStatistics();
 		List<Float>  pwr = new ArrayList<Float>();
+		List<Float>  pwr2 = new ArrayList<Float>();
 		List<String> addTime = new ArrayList<String>();
-		
-		List<Float>  curA = new ArrayList<Float>();
-		List<Float>  curB = new ArrayList<Float>();
-		List<Float>  curC = new ArrayList<Float>();
+//		List<Float>  curA = new ArrayList<Float>();
+//		List<Float>  curB = new ArrayList<Float>();
+//		List<Float>  curC = new ArrayList<Float>();
 		List<Float>  pwrTotle = new ArrayList<Float>();
+		List<Float>  pwrTotle2 = new ArrayList<Float>();
 		List<Float>  pwrA = new ArrayList<Float>();
 		List<Float>  pwrB = new ArrayList<Float>();
 		List<Float>  pwrC = new ArrayList<Float>();
-		
-		List<Float>  volA = new ArrayList<Float>();
-		List<Float>  volB = new ArrayList<Float>();
-		List<Float>  volC = new ArrayList<Float>();
-		
+//		List<Float>  volA = new ArrayList<Float>();
+//		List<Float>  volB = new ArrayList<Float>();
+//		List<Float>  volC = new ArrayList<Float>();
 		List<Float>  curRidevol = new ArrayList<Float>();
-		List<Float>  pwrFctA = new ArrayList<Float>();
-		List<Float>  pwrFctB = new ArrayList<Float>();
-		List<Float>  pwrFctC = new ArrayList<Float>();
+//		List<Float>  pwrFctA = new ArrayList<Float>();
+//		List<Float>  pwrFctB = new ArrayList<Float>();
+//		List<Float>  pwrFctC = new ArrayList<Float>();
+		reportedQueryVo.getType();
 		list = devHistoryDateMapper.queryPwr(reportedQueryVo);
-//		
-//		 String dataBeginTime = list.get(0).getAddTime();
-//	        String dataEndTime = list.get(list.size() - 1).getAddTime();
-//	        List<String> dateList = null;
-//	        switch (reportedQueryVo.getType()) {
-//	            case "day":
-//	                dateList = TimeUtil.getDayList(reportedQueryVo.getStartTime(), reportedQueryVo.getEndTime(), dataBeginTime, dataEndTime);
-//	                break;
-//	            case "min":
-//	                dateList = TimeUtil.getMinLists(reportedQueryVo.getStartTime(), reportedQueryVo.getEndTime(), dataBeginTime, dataEndTime);
-//	                break;
-//	            case "hour":
-//	                dateList = TimeUtil.getHourLists(reportedQueryVo.getStartTime(), reportedQueryVo.getEndTime(),  dataBeginTime, dataEndTime);
-//	                break;
-//	        }
-
-//	        List<SinglePhasePowerDto> tmpList = new ArrayList<>();
-//	        List<SinglePhasePowerDto> returnList = new ArrayList<>();
-
-//	        list.forEach(x -> {
-//	            PwrMsg pwrMsg = JSONObject.parseObject(x.getPwrMsg(), PwrMsg.class);
-//	            List<Double> pwrList = pwrMsg.getPwr();
-//	            List<String> minList = TimeUtil.getMinList(x.getAddTime(), pwrMsg.getNum(), true);
-//	            for (int i = 0; i < pwrMsg.getNum(); i++) {
-//	                tmpList.add(new SinglePhasePowerDto()
-//	                        .setAddTime(minList.get(i))
-//	                        .setPwr(pwrList.get(i)));
-//	            }
-//	        });
-//	        switch (reportedQueryVo.getType()) {
-//	            case "hour":
-//	            	System.out.println("进入------------>HOUR");
-//	            case "day":
-//	            	System.out.println("进入------------>DAY");
-//	                dateList.forEach(x -> {
-//	                    double maxPower = 0;
-//	                    SinglePhasePowerDto item = null;
-//	                    List<SinglePhasePowerDto> tmp = tmpList.stream().filter(y -> y.getAddTime().startsWith(x)).collect(Collectors.toList());
-//	                    for (SinglePhasePowerDto dto : tmp) {
-//	                        if (maxPower < dto.getPwr()) {
-//	                            maxPower = dto.getPwr();
-//	                            item = dto;
-//	                        }
-//	                    }
-//	                    if (item != null) {
-//	                        returnList.add(item);
-//	                    }
-//	                });
-//	                return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", returnList);
-//	            case "min":
-//	            	System.out.println("进入------------>MIN");
-//	            	return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", tmpList);
-//	        }
-		
+		Map<String,List<OnePhseDataAndRealPwr>> opdarMap = new HashMap<String, List<OnePhseDataAndRealPwr>>();
+		Map<String,List<ThreePhseDataAndRealPwr>> tpdarMap = new HashMap<String, List<ThreePhseDataAndRealPwr>>();
 		if(DataType.ONE_PHASE.toString().equals(eqptInfo.getEqptType())) {
 			list.forEach(x ->{
 				JSONObject jo = JSON.parseObject(x.getDataJson());
@@ -112,129 +64,265 @@ public class PowerServiceImpl implements PowerService{
 					Float c = jo.getFloat("cur");
 					Float v = jo.getFloat("vol");
 					Float p = jo.getFloat("pwr");
-					pwr.add(p);
+					OnePhseDataAndRealPwr darp = new OnePhseDataAndRealPwr(c * v ,p,DateUtils.dateTime("yyyy-MM-dd HH:mm:ss",x.getAddTime()));
 					curRidevol.add(c * v);
+					pwr.add(p);
 					addTime.add(x.getAddTime());
+					if(opdarMap.containsKey(dateFormat(reportedQueryVo.getType(),x.getAddTime()))) {
+						List<OnePhseDataAndRealPwr> listF = opdarMap.get(dateFormat(reportedQueryVo.getType(),x.getAddTime()));
+						listF.add(darp);
+						opdarMap.put(dateFormat(reportedQueryVo.getType(),x.getAddTime()), listF);
+					}else {
+						List<OnePhseDataAndRealPwr> listF = new ArrayList<OnePhseDataAndRealPwr>();
+						listF.add(darp);
+						opdarMap.put(dateFormat(reportedQueryVo.getType(),x.getAddTime()), listF);
+					}
 				}
 			});
-			devHistoryDateStatistics.setPwr(pwr);
-			devHistoryDateStatistics.setCurRidevol(curRidevol);
-			devHistoryDateStatistics.setAddTime(addTime);
-			
-			
-			
+			if(pwr.size() > 0) {
+				pwr2.addAll(pwr);
+				Collections.sort(pwr);
+				Float minPwr = Collections.min(pwr);
+				int minIndex = returnIndex(pwr2, minPwr);
+				String minDate = addTime.get(minIndex);
+				pwr.clear();
+				addTime.clear();
+				curRidevol.clear();
+				List<OnePhseDataAndRealPwr> darpList =new ArrayList<OnePhseDataAndRealPwr>();
+				for(Map.Entry<String, List<OnePhseDataAndRealPwr>> entry : opdarMap.entrySet()){
+				    if(dateFormat(reportedQueryVo.getType(),minDate).equals(entry.getKey())) {
+				    	OnePhseDataAndRealPwr onePhseDataAndRealPwr = returnOPDAR(entry.getValue(),minPwr);
+				    	onePhseDataAndRealPwr.setAddTime(DateUtils.dateTime("yyyy-MM-dd HH:mm:ss", minDate));
+				    	darpList.add(onePhseDataAndRealPwr);
+				    }else {
+				    	OnePhseDataAndRealPwr onePhseDataAndRealPwr = returnOPDARMax(entry.getValue());
+				    	darpList.add(onePhseDataAndRealPwr);
+				    }
+				}
+				Collections.sort(darpList,new Comparator<OnePhseDataAndRealPwr>(){
+					@Override
+					public int compare(OnePhseDataAndRealPwr o1, OnePhseDataAndRealPwr o2) {
+						// TODO Auto-generated method stub
+						return o1.getAddTime().compareTo(o2.getAddTime());
+					}
+				});
+				darpList.forEach(xx ->{
+					System.out.println(xx);
+					pwr.add(xx.getDataPwr());
+					curRidevol.add(xx.getRealPwr());
+					addTime.add(DateUtils.parseDateToStr(dateFormatType(null), xx.getAddTime()));
+				});
+				devHistoryDateStatistics.setPwr(pwr);
+				devHistoryDateStatistics.setCurRidevol(curRidevol);
+				devHistoryDateStatistics.setAddTime(addTime);
+			}
 		}else if(DataType.THREE_PHASE.toString().equals(eqptInfo.getEqptType())) {
 			list.forEach(x ->{
 				JSONObject jo = JSON.parseObject(x.getDataJson());
-				System.out.println(x.toString());
 				if(jo != null) {
 					addTime.add(x.getAddTime());
-					
 					JSONArray curs = JSON.parseArray(jo.getString("cur"));
-					JSONArray vols = JSON.parseArray(jo.getString("vol"));
+//					JSONArray vols = JSON.parseArray(jo.getString("vol"));
 					JSONArray pwrs = JSON.parseArray(jo.getString("pwr"));
-					JSONArray pwrFcts = JSON.parseArray(jo.getString("pwr_fact"));
-					float totle = 0.0f;
+//					JSONArray pwrFcts = JSON.parseArray(jo.getString("pwr_fact"));
+					Float pwrAF = 0.0f;
+					Float pwrBF = 0.0f;
+					Float pwrCF = 0.0f;
+					Float totle = 0.0f;
 					for(int i = 0;i< curs.size()  ; i++) {
 						totle += pwrs.getFloatValue(i);
 						if(i == 0) {
-							curA.add(curs.getFloatValue(i));
+//							curA.add(curs.getFloatValue(i));
 							pwrA.add(pwrs.getFloatValue(i));
-							volA.add(vols.getFloatValue(i));
-							pwrFctA.add(pwrFcts.getFloatValue(i));
+//							volA.add(vols.getFloatValue(i));
+//							pwrFctA.add(pwrFcts.getFloatValue(i));
+							pwrAF = pwrs.getFloatValue(i);
 						}else if(i == 1) {
-							curB.add(curs.getFloatValue(i));
+//							curB.add(curs.getFloatValue(i));
 							pwrB.add(pwrs.getFloatValue(i));
-							volB.add(vols.getFloatValue(i));
-							pwrFctB.add(pwrFcts.getFloatValue(i));
+//							volB.add(vols.getFloatValue(i));
+//							pwrFctB.add(pwrFcts.getFloatValue(i));
+							pwrBF = pwrs.getFloatValue(i);
 						}else if(i==2) {
-							curC.add(curs.getFloatValue(i));
+//							curC.add(curs.getFloatValue(i));
 							pwrC.add(pwrs.getFloatValue(i));
-							volC.add(vols.getFloatValue(i));
-							pwrFctC.add(pwrFcts.getFloatValue(i));
+//							volC.add(vols.getFloatValue(i));
+//							pwrFctC.add(pwrFcts.getFloatValue(i));
+							pwrCF = pwrs.getFloatValue(i);
 						}
 					}
 					pwrTotle.add(totle);
+					ThreePhseDataAndRealPwr tpdrp =	new ThreePhseDataAndRealPwr(DateUtils.dateTime("yyyy-MM-dd HH:mm:ss", x.getAddTime()), pwrAF, pwrBF, pwrCF, totle);
+					if(tpdarMap.containsKey(dateFormat(reportedQueryVo.getType(),x.getAddTime()))) {
+						List<ThreePhseDataAndRealPwr> listF = tpdarMap.get(dateFormat(reportedQueryVo.getType(),x.getAddTime()));
+						listF.add(tpdrp);
+						tpdarMap.put(dateFormat(reportedQueryVo.getType(),x.getAddTime()), listF);
+					}else {
+						List<ThreePhseDataAndRealPwr> listF = new ArrayList<ThreePhseDataAndRealPwr>();
+						listF.add(tpdrp);
+						tpdarMap.put(dateFormat(reportedQueryVo.getType(),x.getAddTime()), listF);
+					}
 				}
-				
 			});
-			devHistoryDateStatistics.setCurA(curA);
-			devHistoryDateStatistics.setCurB(curB);
-			devHistoryDateStatistics.setCurC(curC);
-			devHistoryDateStatistics.setPwrA(pwrA);
-			devHistoryDateStatistics.setPwrB(pwrB);
-			devHistoryDateStatistics.setPwrC(pwrC);
-			devHistoryDateStatistics.setPwrFctA(pwrFctA);
-			devHistoryDateStatistics.setPwrFctB(pwrFctB);
-			devHistoryDateStatistics.setPwrFctC(pwrFctC);
-			devHistoryDateStatistics.setPwrTotle(pwrTotle);
-			devHistoryDateStatistics.setVolA(volA);
-			devHistoryDateStatistics.setVolB(volB);
-			devHistoryDateStatistics.setVolC(volC);
-			devHistoryDateStatistics.setAddTime(addTime);
+			if(pwrTotle.size() > 0) {
+				pwrTotle2.addAll(pwrTotle);
+				Collections.sort(pwrTotle);
+				Float minPwrTotle = Collections.min(pwrTotle);
+				int index = returnIndex(pwrTotle2,minPwrTotle);
+				String minDate = addTime.get(index);
+				pwrTotle.clear();
+				pwrA.clear();
+				pwrB.clear();
+				pwrC.clear();
+				addTime.clear();
+				List<ThreePhseDataAndRealPwr> threePhseDataAndRealPwrList = new ArrayList<ThreePhseDataAndRealPwr>();
+				for(Map.Entry<String, List<ThreePhseDataAndRealPwr>> entry : tpdarMap.entrySet()){
+				    if(dateFormat(reportedQueryVo.getType(),minDate).equals(entry.getKey())) {
+				    	ThreePhseDataAndRealPwr threePhseDataAndRealPwr = returnTPDAR(entry.getValue(),minPwrTotle);
+				    	threePhseDataAndRealPwr.setAddTime(DateUtils.dateTime("yyyy-MM-dd HH:mm:ss", minDate));
+				    	threePhseDataAndRealPwrList.add(threePhseDataAndRealPwr);
+				    }else {
+				    	ThreePhseDataAndRealPwr threePhseDataAndRealPwr = returnTPDARMax(entry.getValue());
+				    	threePhseDataAndRealPwrList.add(threePhseDataAndRealPwr);
+				    }
+				}
+				Collections.sort(threePhseDataAndRealPwrList,new Comparator<ThreePhseDataAndRealPwr>(){
+					@Override
+					public int compare(ThreePhseDataAndRealPwr o1, ThreePhseDataAndRealPwr o2) {
+						// TODO Auto-generated method stub
+						return o1.getAddTime().compareTo(o2.getAddTime());
+					}
+				});
+				threePhseDataAndRealPwrList.forEach(xx ->{
+					pwrTotle.add(xx.getPwrTotle());
+					pwrA.add(xx.getPwrA());
+					pwrB.add(xx.getPwrB());
+					pwrC.add(xx.getPwrC());
+					addTime.add(DateUtils.parseDateToStr("yyyy-MM-dd HH:mm:ss", xx.getAddTime()));
+			    });
+//				devHistoryDateStatistics.setCurA(curA);
+//				devHistoryDateStatistics.setCurB(curB);
+//				devHistoryDateStatistics.setCurC(curC);
+//				devHistoryDateStatistics.setPwrFctA(pwrFctA);
+//				devHistoryDateStatistics.setPwrFctB(pwrFctB);
+//				devHistoryDateStatistics.setPwrFctC(pwrFctC);
+//				devHistoryDateStatistics.setVolA(volA);
+//				devHistoryDateStatistics.setVolB(volB);
+//				devHistoryDateStatistics.setVolC(volC);
+				devHistoryDateStatistics.setPwrTotle(pwrTotle);
+				devHistoryDateStatistics.setPwrA(pwrA);
+				devHistoryDateStatistics.setPwrB(pwrB);
+				devHistoryDateStatistics.setPwrC(pwrC);
+				devHistoryDateStatistics.setAddTime(addTime);
+			}
 		}
 		return new Response().Success(Code.QUERY_SUCCESS,Code.QUERY_SUCCESS.getMsg()).addData("data", devHistoryDateStatistics);
 	}
 	/**
-	 * 数据清洗
+	 * 	根据查询参数（天、小时、分钟） 决定时间格式化
+	 * @param type
+	 * @param date
+	 * @return
+	 */
+	public static String dateFormat(String type,String date) {
+		if("day".equals(type)) {
+			return date.substring(0, 10) + " 00:00:00";
+		}else if("hour".equals(type)) {
+			return date.substring(0, 13)+ ":00:00";
+		}
+		
+		return date;
+	}
+	/**
+	 * 	根据Value 查询数组下标
 	 * @param list
+	 * @param o
+	 * @return
+	 */
+	public static int returnIndex(List<Float> list,Float o) {
+		int index = 0;
+		for(int i = 0;i<list.size();i++) {
+			if(list.get(i) == o) {
+				index = i;
+			}
+		}
+		return index;
+		
+	}
+	
+	/**
+	 * 	根据下标查询最大功率最小值javaBean对象
+	 * @param threePhseDataAndRealPwrList
+	 * @param minPwrTotle
+	 * @return threePhseDataAndRealPwr
+	 */
+	public static ThreePhseDataAndRealPwr returnTPDAR(List<ThreePhseDataAndRealPwr> threePhseDataAndRealPwrList ,Float minPwrTotle) {
+		ThreePhseDataAndRealPwr threePhseDataAndRealPwr = new ThreePhseDataAndRealPwr();
+		for(int i = 0; i < threePhseDataAndRealPwrList.size() ;i++) {
+			if(threePhseDataAndRealPwrList.get(i).getPwrTotle() == minPwrTotle) {
+				threePhseDataAndRealPwr = threePhseDataAndRealPwrList.get(i);
+			}
+		}
+		return threePhseDataAndRealPwr;
+		
+	}
+	/**
+	 * 	根据下标查询最大功率最小值javaBean对象
+	 * @param threePhseDataAndRealPwrList
+	 * @param minPwrTotle
+	 * @return onePhseDataAndRealPwr
+	 */
+	public static OnePhseDataAndRealPwr returnOPDAR(List<OnePhseDataAndRealPwr> onePhseDataAndRealPwrList ,Float minPwr) {
+		OnePhseDataAndRealPwr onePhseDataAndRealPwr = new OnePhseDataAndRealPwr();
+		for(int i = 0; i < onePhseDataAndRealPwrList.size() ;i++) {
+			if(onePhseDataAndRealPwrList.get(i).getDataPwr() == minPwr) {
+				onePhseDataAndRealPwr = onePhseDataAndRealPwrList.get(i);
+			}
+		}
+		return onePhseDataAndRealPwr;
+		
+	}
+	/**
+	 * 	查询最大值(三相)
+	 * @param threePhseDataAndRealPwrList
+	 * @return
+	 */
+	public static ThreePhseDataAndRealPwr returnTPDARMax(List<ThreePhseDataAndRealPwr> threePhseDataAndRealPwrList) {
+		Collections.sort(threePhseDataAndRealPwrList,new Comparator<ThreePhseDataAndRealPwr>() {
+			@Override
+			public int compare(ThreePhseDataAndRealPwr o1, ThreePhseDataAndRealPwr o2) {
+				return o2.getPwrTotle().compareTo(o1.getPwrTotle());
+			}
+		});
+		return threePhseDataAndRealPwrList.get(0);
+	}
+	/**
+	 * 	查询最大值(单相)
+	 * @param onePhseDataAndRealPwrList
+	 * @return
+	 */
+	public static OnePhseDataAndRealPwr returnOPDARMax(List<OnePhseDataAndRealPwr> onePhseDataAndRealPwrList) {
+		Collections.sort(onePhseDataAndRealPwrList,new Comparator<OnePhseDataAndRealPwr>() {
+			@Override
+			public int compare(OnePhseDataAndRealPwr o1, OnePhseDataAndRealPwr o2) {
+				return o2.getDataPwr().compareTo(o1.getDataPwr());
+			}
+		});
+		return onePhseDataAndRealPwrList.get(0);
+	}
+	/**
+	 * 	根据类型  决定时间转化格式
 	 * @param type
 	 * @return
 	 */
-//	public List<DevHistoryDate> DataClean(List<DevHistoryDate> list,String type) {
-//		HashMap< String, List<DevHistoryDate>> map = new HashMap<String, List<DevHistoryDate>>();
-//		if("hour".equals(type)) {
-//			for(int i = 0; i < list.size(); i++) {
-//				if(i<list.size() - 1) {
-//					if(list.get(i).getAddTime().substring(0,13).equals(list.get(i + 1).getAddTime().substring(0,13))) {
-//						DevHistoryDate jo = new DevHistoryDate();
-//						jo.put("date", list.get(i).getAddTime());
-//						jo.put("value", list.get(i).getDataJson());
-//						if(map.get(list.get(i).getAddTime().substring(0,13)) == null) {
-//							List<DevHistoryDate> l = new ArrayList<DevHistoryDate>();
-//							l.add(jo);
-//							map.put(list.get(i).getAddTime().substring(0,13), l);
-//						}else {
-//							List<Object> l = map.get(list.get(i).getAddTime().substring(0,13));
-//							if(l.size() > 1) {
-//								JSONObject json_01 = JSON.parseObject(l.get(0).toString());
-//								JSONObject json_02 = JSON.parseObject(l.get(1).toString());
-//								Float pwr_01 = JSON.parseObject(json_01.getString("value")).getFloat("pwr");
-//								Float pwr_02 = JSON.parseObject(json_02.getString("value")).getFloat("pwr");
-//								Float pwr_03 = JSON.parseObject(list.get(i).getDataJson()).getFloat("pwr");
-//								if(pwr_01 > pwr_02) {
-//									if(pwr_03 > pwr_02 && pwr_03 > pwr_01) {
-//										l.remove(0);
-//									}else if(pwr_03 < pwr_02 && pwr_03 < pwr_01) {
-//										l.remove(1);
-//									}
-//								}else if(pwr_01 < pwr_02) {
-//									if(pwr_03 > pwr_02 && pwr_03 > pwr_01) {
-//										l.remove(1);
-//									}else if(pwr_03 < pwr_02 && pwr_03 < pwr_01) {
-//										l.remove(0);
-//									}
-//								}else {
-//									l.remove(0);
-//								}
-//								
-//							}else {
-//								l.add(jo);
-//							}
-//							map.put(list.get(i).getAddTime().substring(0,13), l);
-//						}
-//						
-//					}
-//				}
-//				
-//			}
-//		}
-//		for(Map.Entry<String, String> entry : map.entrySet()){
-//		    String mapKey = entry.getKey();
-//		    String mapValue = entry.getValue();
-//		    System.out.println(mapKey+":"+mapValue);
-//		}
-//		return null;
-//		
-//	}
+	public static String dateFormatType(String type) {
+		if("day".equals(type)) {
+			return "yyyy-MM-dd";
+		}else if("hour".equals(type)) {
+			return "yyyy-MM-dd HH";
+		}
+		return "yyyy-MM-dd HH:mm:ss";
+	}
+	
+	
 }

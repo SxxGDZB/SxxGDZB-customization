@@ -65,9 +65,9 @@
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置功率上限</label>
 		        <div class="layui-input-inline">
-		            <input type="text" name="reg_06" lay-verify="zeroToFiveNine|numberInt" value="" class="layui-input">
+		            <input type="text" name="reg_06" lay-verify="pwrToVa|numberInt" value="" class="layui-input">
 		        </div>
-		        <div class="layui-form-mid layui-word-aux">范围0-99999。</div>
+		        <div class="layui-form-mid layui-word-aux">范围0-65535。</div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置漏电流上限</label>
@@ -213,6 +213,10 @@
         		if(parseInt(value)> 99999 || parseInt(value) < 2 && value != ''){
         			return '范围1-99999';
         		}
+        	},pwrToVa : function (value){
+        		if(parseFloat(value)> 65535 || parseFloat(value) < 0 && $.trim(value) != ''){
+                    return '范围0-65535';
+                }
         	}
 		});
         init();

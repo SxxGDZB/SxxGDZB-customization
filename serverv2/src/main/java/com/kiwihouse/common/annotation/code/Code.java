@@ -17,7 +17,6 @@ import java.lang.annotation.Target;
 public @interface Code {
 
     String message() default "区域编码不正确";
-
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};

@@ -267,25 +267,15 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	          }
         	        },
         	        legend: {
-        	            top: 20,
-        	            icon: 'rect',
-        	            itemWidth: 14,
-        	            itemHeight: 5,
-        	            itemGap: 13,
-        	            data: ['设备功率'],
-        	            right: '4%',
-        	            textStyle: {
-        	              fontSize: 12,
-        	              color: '#F1F1F3'
-        	            }
-        	          },
-        	          grid: {
-        	            top: 100,
-        	            left: '2%',
-        	            right: '2%',
-        	            bottom: '2%',
-        	            containLabel: true
-        	          },
+                        data: ['功率',  '电流*电压 = 功率']
+                     },
+                     grid: {
+                       top: 100,
+                       left: '2%',
+                       right: '2%',
+                       bottom: '2%',
+                       containLabel: true
+                     },
         	    dataZoom: [v.dataZoom],
         	    toolbox: {
         	        feature: {
@@ -312,26 +302,28 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	        {
         	            name: '功率',
         	            type: 'line',
-        	            symbol:'none',  //这句就是去掉点的  
+        	            symbol:'none',  //这句就是去掉点的
         	            markPoint: {
-        	                data: [
-        	                  {
-        	                    name: '最大值',
-        	                    type: 'max',
-        	                    label: {
-        	                      position: 'top'
-        	                    }
-        	                  },
-        	                  {
-        	                    name: '最小值',
-        	                    type: 'min',
-        	                    label: {
-        	                      position: 'bottom'
-        	                    }
-        	                  }
+                            data: [
+                              {
+                                name: '最大值',
+                                type: 'max',
+                                label: {
+                                  // show: false
+                                  position: 'top'
+                                }
+                              },
+                              {
+                                name: '最小值',
+                                type: 'min',
+                                label: {
+                                  // show: false
+                                  position: 'bottom'
+                                }
+                              }
 
-        	                ]
-        	              },
+                            ]
+                          },
         	            areaStyle: {
         	        		normal: {
         	        			color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ 
@@ -352,27 +344,6 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	            name: '电流*电压 = 功率',
         	            type: 'line',
         	            symbol:'none',  //这句就是去掉点的  
-        	            markPoint: {
-        	                data: [
-        	                  {
-        	                    name: '最大值',
-        	                    type: 'max',
-        	                    label: {
-        	                      // show: false
-        	                      position: 'top'
-        	                    }
-        	                  },
-        	                  {
-        	                    name: '最小值',
-        	                    type: 'min',
-        	                    label: {
-        	                      // show: false
-        	                      position: 'bottom'
-        	                    }
-        	                  }
-
-        	                ]
-        	              },
         	            areaStyle: {
         	        		normal: {
         	        			color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ 
