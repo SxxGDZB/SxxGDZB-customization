@@ -49,6 +49,37 @@ Array.prototype.indexOf = function(val) {
 	return -1;
 };
 /**
+ * 对象数组 根据属性类容返回数组下标
+ */
+Array.prototype.indexObjectOf = function(fieldName,val){
+	for (var i = 0; i < this.length; i++) {
+		console.log(this[i][fieldName] + "----------" )
+		console.log(val);
+		if (this[i][fieldName] == val)
+			return i;
+	}
+	return -1;
+}
+
+/**
+ * 删除数组中第一个匹配的元素，成功则返回位置索引，失败则返回 -1。
+ */
+Array.prototype.deleteElementByValue = function(varElement)
+{
+    var numDeleteIndex = -1;
+    for (var i=0; i<this.length; i++)
+    {
+        // 严格比较，即类型与数值必须同时相等。
+        if (this[i] === varElement)
+        {
+            this.splice(i, 1);
+            numDeleteIndex = i;
+            break;
+        }
+    }
+    return numDeleteIndex;
+}
+/**
  * 根据下标删除数组内容
  */
 Array.prototype.remove = function(dx) {
@@ -550,10 +581,17 @@ var _alarmIcons = function (v,e){
 	 });
 	return '<div title="' + msg + '">' + _icon + '</div>';
 }
-
+/**
+ * 获取tab名称
+ * @returns
+ */
+function tabName(){
+	var elm = $("li.layui-this", parent.document).find("span").eq(1);
+	return $.trim(elm.text());
+}
 function _init_buttons_common(code){
 	$.ajax({
-		url: "/button/info/" +  indexHome(window).staticResourceID.get(code)+"/" + authUser.roleId,
+		url: "/button/info/" +  indexHome(window).menuMap.get(code)+"/" + authUser.roleId,
 		type : "GET",
 	　　		dataType : "json",
 	　　		cache:true, 
@@ -565,7 +603,7 @@ function _init_buttons_common(code){
 		    	var _current_table_bar = "";
 		    	data.data.data.forEach(function(item){
 		    	   if(item.type == 1){
-		    		   _toolbar_demo_html += '<div class="layui-inline" id="btn-add" lay-event="'+item.event+'">  <i class="iconfont"  data-toggle="tooltip" title="'+item.title+'" >'+item.icon+'</i></div>';
+		    		   _toolbar_demo_html += '<div class="layui-inline" id="'+item.event+'" lay-event="'+item.event+'">  <i class="iconfont"  data-toggle="tooltip" title="'+item.title+'" >'+item.icon+'</i></div>';
 		    	   }else if(item.type == 2){
 		    		   _current_table_bar += '<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="'+item.event+'" title="'+item.title+'">'+item.icon+'</a>';
 		    	   }

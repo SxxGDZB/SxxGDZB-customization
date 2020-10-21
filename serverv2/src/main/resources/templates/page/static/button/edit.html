@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>添加角色</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<div class="layui-form layuimini-form _custom_form">
+     <div class="layui-form-item">
+          <label class="layui-form-label required">选择角色</label>
+          <div class="layui-input-block">
+              <select name="roleId" lay-verify="required" lay-filter="roleId"  placeholder="所属角色" id="roleId">
+                  <option value="">所属角色</option>
+              </select>
+          </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">选择页面</label>
+        <div class="layui-input-block">
+            <select name="menu" lay-verify="required" lay-filter="menu"  placeholder="页面" id="menu">
+               
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item ">
+        <label class="layui-form-label required">选择按钮</label>
+        <div class="layui-input-inline">
+            <textarea name="name" placeholder="请点击选择" lay-verify="required" lay-reqtext="资源名称不能为空"  autocomplete="off" id="_demo" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item _submitBtn">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script th:inline="none">
+    layui.use(['form','tableSelect'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            table = layui.table,
+            tableSelect = layui.tableSelect,
+            $ = layui.$;
+        initSelectRole();
+        //加载角色列表
+        function initSelectRole(){
+            $.ajax({
+                url: "/role/user/"+authUser.roleId,
+                type : "POST",
+        　　                                  dataType : "json",
+        　　                                  contentType: "application/json;charset=utf-8",
+                headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+                success:function(data){
+                        if(data.success){
+                            var html = "";
+                            data.data.list.forEach(function(item){
+                                html += "<option value="+item.ID+"> "+item.CODE+" </option>"
+                            });
+                            $("#roleId").append(html);
+                            form.render();
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                }
+            });
+        }
+        
+        form.on('select(roleId)', function(data) {
+            $("#menu").empty();
+            var h = "<option value=''>选择页面</option>";
+            $("#menu").append(h);
+            $.ajax({
+                url: "/menu/authMenuButtonLists?roleId=" + data.value,
+                type : "POST",
+        　　                                  dataType : "json",
+                async : false,
+        　　                                 contentType: "application/json;charset=utf-8",
+                headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+                success:function(data){
+                    var dv = data.data.data.data.data;
+                    var html = "";
+                    for(let v in dv){
+                        var arr = v.split("_");
+                        html += "<option value="+arr[1]+"> "+arr[0]+" </option>"
+                    }
+                    $("#menu").append(html);
+                    form.render();
+                }
+            });
+            
+        })
+        form.on('select(menu)', function(data) {
+            //监听资源
+            tableSelect.render({
+                elem: '#_demo',
+                searchKey: 'title',
+                checkedKey: 'id',
+                searchPlaceholder: '根据按钮名称搜索',
+                table: {
+                    url: getRootPath() + '/button/info',
+                    headers: { "Authorization": authorization},
+                    where:{"roleId":$("#roleId").val(),"menuId":data.value},
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'title', title: '按钮名称', width: '50%' },
+                        { field: 'icon', title: '图标', width: '50%' ,templet : function(row) {
+                            return '<a class="iconfont" style="font-size: 24px; color: #1E9FFF;" >'+row.icon+'</a>';
+                        }}
+                    ]],
+                    limits: [5, 10, 20, 25, 50, 100],
+                    limit: 100,
+                    page:true
+                },
+                done: function (elem, data) {
+                    var NEWJSON = []
+                    var NEWJSONIDS = []
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.title)
+                        NEWJSONIDS.push(item.id);
+                    })
+                    elem.val(NEWJSON.join(","))
+                    elem.attr("data-ids",NEWJSONIDS.join(","));
+                }
+            })
+            $.ajax({
+                url: "/button/info?roleId=" + $("#roleId").val() + "&menuId=" + data.value +"&trigger=2",
+                type : "GET",
+        　　                                  dataType : "json",
+                async : false,
+        　　                                 contentType: "application/json;charset=utf-8",
+                headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+                success:function(data){
+                	 var arrayCheckBox = new Array();
+                	 var arrayText = new Array();
+                    data.data.forEach(function(xx){
+                        arrayCheckBox.push(xx.id);
+                        arrayText.push(xx.title);
+                    })
+                    $("#_demo").attr("ts-selected",arrayCheckBox.join(","));
+                    $("#_demo").text(arrayText.join(","));
+                }
+            });
+        });
+      
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            var entityArray = new Array();
+            var arr = $("#_demo").attr('data-ids').split(",");
+            arr.forEach(function(xx,index){
+                var entity = {};
+                entity.buttonId = xx;
+                entity.menuId = data.field.menu;
+                entityArray.push(entity);
+            })
+            $.ajax({
+                url: "/button/model/addOrUpd",
+                type: "POST",
+                data:JSON.stringify(entityArray),
+                dataType : "json",
+                cache:true, 
+                async:false, 
+                traditional:true,
+        　　                                 contentType: "application/json;charset=utf-8",
+                headers: { "Authorization": authorization},//通过请求头来发送token，放弃了通过cookie的发送方式
+                success:function(data){
+                	if(data.success){
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                          }, function(){
+                              var iframeIndex = parent.layer.getFrameIndex(window.name);
+                              parent.layer.close(iframeIndex);
+                              window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
+                          }); 
+                    }else{
+                        layer.msg(data.msg,{icon: 5, time: 2000});
+                    }
+                }
+            })
+            
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

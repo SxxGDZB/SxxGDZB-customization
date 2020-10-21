@@ -16,8 +16,20 @@ public class AuthRoleResourceVo {
 	 * 资源ID 列表
 	 */
 	private String resIds;
+	/**
+	 * 1、静态页面资源
+	 * 2、api资源
+	 */
+	private Integer type;
 	
 	
+	
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
+	}
 	public String getResIds() {
 		return resIds;
 	}

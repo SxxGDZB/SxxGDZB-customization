@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.kiwihouse.dao.entity.MenuBtnModel;
 import com.kiwihouse.dao.entity.SysMenu;
 
 
@@ -46,5 +47,11 @@ public interface SysMenuMapper {
 	 * @return
 	 */
 	int deleteBatch(String[] idsStrArr);
+	/**
+	 * 	获取静态按钮页面列表
+	 * @param roleId
+	 * @return
+	 */
+	List<MenuBtnModel> getAuthMenuButtonLists(Integer roleId);
 	
 }

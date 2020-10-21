@@ -48,27 +48,26 @@
                 </form>
             </div>
         </fieldset>
-    	<!-- <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="excel" title="Excel导出"> 导出 </button> -->
-        <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-				<div class="layui-inline" lay-event="lead_excel_out"><i class="iconfont"  data-toggle="tooltip" title="导出" >&#xe6f3;</i></div>
-				<div class="layui-inline" lay-event="lead_excel_in"><i class="iconfont"   data-toggle="tooltip" title="导入" id="file_Upload" >&#xe6f4;</i></div>
+    	<!-- 
+    	   <div class="layui-btn-container">
+                <div class="layui-inline" lay-event="lead_excel_out"><i class="iconfont"  data-toggle="tooltip" title="导出" >&#xe6f3;</i></div>
+                <div class="layui-inline" lay-event="lead_excel_in"><i class="iconfont"   data-toggle="tooltip" title="导入" id="file_Upload" >&#xe6f4;</i></div>
             </div>
+    	 -->
+        <script type="text/html" id="toolbarDemo">
+            
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
-
+        <!--
+            {{# if(d.mtStatus == 0 ){ }}
+                    <a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改">&#xe738;</a>
+                    <a class="iconfont" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout" title="撤销">&#xe64c;</a>
+            {{# } else if(d.mtStatus == 1 ){}}
+                    <a class="iconfont" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout" title="撤销">&#xe64c;</a>
+            {{# } else if(d.mtStatus == 2 ){}}
+            {{# } }} -->
         <script type="text/html" id="currentTableBar">
-			
-			{{# if(d.mtStatus == 0 ){ }}
-					<a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改">&#xe738;</a>
-            		<a class="iconfont" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout" title="撤销">&#xe64c;</a>
-			{{# } else if(d.mtStatus == 1 ){}}
-            		<a class="iconfont" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout" title="撤销">&#xe64c;</a>
-			{{# } else if(d.mtStatus == 2 ){}}
-			{{# } }}
-				
-            
         </script>
 
     </div>
@@ -83,7 +82,7 @@ layui.use(['form', 'table','upload'], function () {
     	upload = layui.upload,
         form = layui.form;
         table = layui.table;
-        
+    _init_buttons_common(indexHome(window).tabName());
     jsonEntity.roleId = authUser.roleId;
     jsonEntity.mtStatus = 0;
     loadTickets(jsonEntity); 
@@ -159,7 +158,7 @@ layui.use(['form', 'table','upload'], function () {
         }
     });
     upload.render({ //允许上传的文件后缀
-        elem: '#file_Upload'
+        elem: '#lead_excel_in'
         ,url: '/maintain/importData' //改成您自己的上传接口
         ,headers: { "Authorization": authorization }
         ,accept: 'file' //普通文件
@@ -221,7 +220,7 @@ function loadTickets(jsonEntity){
 			}},
 			{field: 'mtName',title: '维修人员名称'},
 			{field: 'updateTime',title: '告警时间',width:"15%"},
-            {title: '操作', toolbar: '#currentTableBar', align: "center",width:'10%'}
+            {field: 'comp',title: '操作', toolbar: '#currentTableBar', align: "center",width:'10%'}
         ]],
         limits: [5, 10, 20, 25, 50, 100],
         limit: 10,
@@ -229,6 +228,31 @@ function loadTickets(jsonEntity){
         skin: 'line',
         done : function(res, curr, count) {
 			currentPage = curr;
+			//自定义实现 bar根据状态变化
+			res.data.forEach(function(item,index){
+				if(item.mtStatus == "1"){
+					$.each($("tbody").find("tr"),function(){
+                        $.each($(this).find("td"),function(){
+                            if($(this).attr("data-field") == "comp"){
+                                $.each($(this).find("a"),function(){
+                                	if($(this).attr("lay-event") != "backout"){
+                                		$(this).empty();
+                                	}
+                                })
+                            }
+                        })
+                    })
+				}else if(item.mtStatus == "2"){
+					$.each($("tbody").find("tr"),function(){
+						$.each($(this).find("td"),function(){
+							if($(this).attr("data-field") == "comp"){
+								$(this).empty();
+							}
+						})
+					})
+				}
+			})
+			
 		}
     });
 }

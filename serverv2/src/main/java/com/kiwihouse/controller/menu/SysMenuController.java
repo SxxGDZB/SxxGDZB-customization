@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kiwihouse.common.bean.Code;
-import com.kiwihouse.dao.entity.AuthRole;
 import com.kiwihouse.dao.entity.SysMenu;
 import com.kiwihouse.dao.mapper.SysDictionaryMapper;
 import com.kiwihouse.domain.vo.Response;
@@ -26,7 +25,6 @@ import com.kiwihouse.util.TreeUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.val;
 @Api(tags = "菜单接口")
 @RestController
 @RequestMapping("/menu")
@@ -129,4 +127,11 @@ public class SysMenuController {
 //            return new Response().Fail(Code.RECOVER_FAIL,Code.RECOVER_FAIL.getMsg());
 //        }
 //    }
+	
+	@ApiOperation(value = "根据RoleID获取静态按钮页面", httpMethod = "GET",notes = "根据RoleID")
+	@PostMapping("/authMenuButtonLists")
+	@ResponseBody
+	public Response authMenuButtonLists(Integer roleId) {
+		return new Response().Success(6666,"return menu list success").addData("data",sysMenuService.getAuthMenuButtonLists(roleId));
+	}
 }

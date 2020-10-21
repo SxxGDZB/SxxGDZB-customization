@@ -43,7 +43,7 @@ layui.define(['laypage', 'form'], function (exports) {
             // 唯一标识
             tmp = new Date().getTime(),
             // 初始化时input的值
-            ORIGINAL_ELEM_VALUE = $(elem).val(),
+            ORIGINAL_ELEM_VALUE = opts.defaultIcon,//$(elem).val(),
             TITLE = 'layui-select-title',
             TITLE_ID = 'layui-select-title-' + tmp,
             ICON_BODY = 'layui-iconpicker-' + tmp,

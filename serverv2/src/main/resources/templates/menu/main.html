@@ -16,16 +16,12 @@
     <div class="layuimini-main">
         <div>
            <!--  <div class="layui-btn-container">
-                <div class="layui-inline" id="btn-expand" > <i class="iconfont"  data-toggle="tooltip" title="全部展开" >&#xe700;</i></div>
-                <div class="layui-inline" id="btn-fold" >  <i class="iconfont"  data-toggle="tooltip" title="全部折叠" >&#xe701;</i></div>
-                <div class="layui-inline" id="btn-add" >  <i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
-            </div>  -->
-             <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
                 <div class="layui-inline" id="btn-expand" lay-event="btn-expand"> <i class="iconfont"  data-toggle="tooltip" title="全部展开" >&#xe700;</i></div>
                 <div class="layui-inline" id="btn-fold" lay-event="btn-fold">  <i class="iconfont"  data-toggle="tooltip" title="全部折叠" >&#xe701;</i></div>
-                <div class="layui-inline" id="btn-add" lay-event="btn-add">  <i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
-            </div>
+                <div class="layui-inline" id="add" lay-event="add">  <i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
+            </div>  -->
+             <script type="text/html" id="toolbarDemo">
+            
         	</script>
             
             <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
@@ -34,7 +30,7 @@
 </div>
 <div th:include="include::footer"></div>
 <!-- 操作列 -->
-<script type="text/html" id="auth-state">
+<script type="text/html" id="currentTableBar">
 		<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
     	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -47,10 +43,12 @@
     var objArr = [];
     var roleIdArr = [];
     var treeOpenOrClose = false;
+    
     layui.use(['table', 'treetable'], function () {
         var $ = layui.jquery;
         table = layui.table;
         treetable = layui.treetable;
+        _init_buttons_common(indexHome(window).tabName());
         // 渲染表格
         layer.load(2);
         //加载数据
@@ -67,7 +65,7 @@
         table.on('tool(munu-table)', function (obj) {
             dataRow = obj.data;
             var layEvent = obj.event;
-            if (layEvent === 'del') {
+            if (layEvent === 'delete') {
             	returnedItem = [];
                 ids = [];
             	ids = returnIds(returnNodes(arr,dataRow.id));
@@ -177,7 +175,7 @@
                 {field: 'orderNum', align: 'center', title: '排序号'},
                 {field: 'icon',  align: 'center', title: '图标'},
                 {field: 'createBy',  align: 'center', title: '创建者'},
-                {templet: '#auth-state', width: 180, align: 'center', title: '操作'}
+                {templet: '#currentTableBar', width: 180, align: 'center', title: '操作'}
             ]],
             done: function (res, curr, count) {
             	objArr = res.data;
@@ -189,7 +187,7 @@
         		}
                 layer.closeAll('loading');
                 
-                $("#btn-add").on('click',function(){
+                $("#add").on('click',function(){
                 	openPopUp('添加','MENU_ADD_PAGE');
                 })
                 

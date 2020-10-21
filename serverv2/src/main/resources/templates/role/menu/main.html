@@ -41,13 +41,13 @@
                 </form>
             </div>
         </fieldset>
-    	
+    	<!--  <div class="layui-btn-container">
+                <div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
+                <div class="layui-inline" lay-event="delete"><i class="iconfont"  data-toggle="tooltip" title="删除" >&#xeba5;</i></div>
+                <div class="layui-inline" lay-event="upd"><i class="iconfont"  data-toggle="tooltip" title="修改" >&#xe62b;</i></div>
+            </div> -->
         <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-				<div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
-				<div class="layui-inline" lay-event="delete"><i class="iconfont"  data-toggle="tooltip" title="删除" >&#xeba5;</i></div>
-				<div class="layui-inline" lay-event="upd"><i class="iconfont"  data-toggle="tooltip" title="修改" >&#xe62b;</i></div>
-            </div>
+           
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
@@ -63,9 +63,9 @@ layui.use(['form', 'table'], function () {
         form = layui.form;
         table = layui.table
     jsonEntity.roleId = authUser.roleId;
+    _init_buttons_common(indexHome(window).tabName());
     loadTickets(jsonEntity);
     function loadTickets(jsonEntity){
-    	
     	table.render({
             elem: '#currentTableId',
             url: getRootPath() + '/rolemenu/menu',
@@ -150,7 +150,7 @@ layui.use(['form', 'table'], function () {
             	menuIds.push(xx.id);
             })
             DELETE("/rolemenu/"+roleIds.join(',') + "/" + menuIds.join(','));
-        }else if(obj.event === 'upd'){
+        }else if(obj.event === 'edit'){
         	var checkStatus = table.checkStatus('currentTableId')
             , dataRow = checkStatus.data;
         	openPopUp('修改','ROLE_MENU_UPDATE_PAGE');///admin/role/menu/edit

@@ -158,29 +158,6 @@
         form.on('submit(saveBtn)', function (data) {
             data.field.ids = $("#demo").attr('data-ids');
             UPDATE("/rolemenu",data.field);
-            /* $.ajax({
-    			url: "/rolemenu",
-    			type : "PUT",
-    	　　		dataType : "json",
-    	  		data:JSON.stringify(data.field),
-    	　　		contentType: "application/json;charset=utf-8",
-    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-    		    success:function(data){
-    		    	 	if(data.success){
-    		    	 		layer.msg(data.msg, {
-    		    	 			  icon: 6,
-    		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
-    		    	 			}, function(){
-    		    	 				indexHome(window).init();
-    		    	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
-    				    	 		parent.layer.close(iframeIndex);
-    				    	 		window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
-    		    	 		}); 
-    					}else{
-    						layer.msg(data.msg,{icon: 5, time: 2000});
-    					}
-    		    }
-    		}); */
             return false;
         });
     });

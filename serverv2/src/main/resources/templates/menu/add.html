@@ -71,6 +71,7 @@
 			}
         	form.render();
         });
+        var ORIGINAL_ELEM_VALUE = "fa-address-book";
         iconPickerFa.render({
             // 选择器，推荐使用input
             elem: '#iconPicker1',
@@ -80,6 +81,7 @@
             search: true,
             // 是否开启分页
             page: true,
+            defaultIcon : ORIGINAL_ELEM_VALUE,//设置默认图标
             // 每页显示数量，默认12
             limit: 12,
             // 点击回调
@@ -108,6 +110,9 @@
             	data.field.parentId = 0;
             }else{
             	data.field.parentId = $("#parentId").attr('data-id');
+            }
+            if(data.field.icon == ""){
+            	data.field.icon = "fa " + ORIGINAL_ELEM_VALUE;
             }
             data.field.roleId = authUser.roleId;
             data.field.createBy= authUser.username;

@@ -55,15 +55,21 @@
                 </form>
             </div>
         </fieldset>
-        <script type="text/html" id="toolbarDemo">
+        <!-- 
             <div class="layui-btn-container">
-				<div class="layui-inline" lay-event="lead_excel_out"><i class="iconfont"  data-toggle="tooltip" title="导出" >&#xe6f3;</i></div>
+                <div class="layui-inline" lay-event="lead_excel_out"><i class="iconfont"  data-toggle="tooltip" title="导出" >&#xe6f3;</i></div>
             </div>
+         -->
+        <script type="text/html" id="toolbarDemo">
+            
         </script>
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
-        <script type="text/html" id="currentTableBar">
+        <!-- 
             <a class="iconfont" style="font-size: 20px; color: #1E9FFF;cursor: pointer;" lay-event="maintain" title="转为维修工单">&#xe738;</a>
-			<a class="iconfont" style="font-size: 20px; color: #1E9FFF;cursor: pointer;" lay-event="sendAlarm"  title="发送手机警告">&#xe61a;</a>
+            <a class="iconfont" style="font-size: 20px; color: #1E9FFF;cursor: pointer;" lay-event="sendAlarm"  title="发送手机警告">&#xe61a;</a>
+         -->
+        <script type="text/html" id="currentTableBar">
+           
         </script>
 
     </div>
@@ -82,6 +88,7 @@ layui.use(['form', 'table','miniTab'], function () {
         table = layui.table;
         layer = layui.layer;
         miniTab = layui.miniTab;
+        _init_buttons_common(indexHome(window).tabName());
         if($.getUrlParam('imei') != null){
         	jsonEntity.imei = $.getUrlParam('imei');
         	$("input[name='imei']").val(jsonEntity.imei);

@@ -38,6 +38,7 @@ public class AuthRoleResourceController extends BaseController{
     		if(auResourceVo==null) {
     			auResourceVo = new AuthRoleResourceVo();
     		}
+    		System.out.println("------------------->" + auResourceVo.getTrigger() + "------------------->" +auResourceVo.getType());
     		map = authRoleResourceService.getRoleResourceList(page,limit,roleId,auResourceVo);
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);

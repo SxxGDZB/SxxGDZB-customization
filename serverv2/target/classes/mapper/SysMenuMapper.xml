@@ -18,6 +18,10 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_basic" jdbcType="VARCHAR" property="isBasic" />
   </resultMap>
+  
+   <resultMap id="MenuBtnModelMap" type="com.kiwihouse.dao.entity.MenuBtnModel">
+   
+  </resultMap>
   <sql id="Base_Column_List">
     menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, 
     create_time, update_by, update_time, remark
@@ -208,12 +212,12 @@
   		<if test="visible == 0">
   			SELECT * FROM `sys_menu` 
 	  		WHERE id in(SELECT menu_id FROM auth_role_menu 
-	  		WHERE <!-- visible > 0 AND  -->role_id = #{roleId}) || is_basic > 0
+	  		WHERE <!-- visible > 0 AND  -->role_id = #{roleId}) <!-- || is_basic > 0 --> and visible = 1
   		</if>
   		<if test="visible == 1">
   			SELECT * FROM `sys_menu` 
 	  		WHERE id in(SELECT menu_id FROM auth_role_menu 
-	  		WHERE role_id = #{roleId}) || is_basic > 0
+	  		WHERE role_id = #{roleId}) <!-- || is_basic > 0 --> and visible = 1
   		</if>
   </select>
   
@@ -257,5 +261,8 @@
 			#{id}
 		</foreach>
 	</delete>
-	
+	<select id="getAuthMenuButtonLists" resultMap="MenuBtnModelMap">
+		SELECT b.title,b.icon,b.type,b.event,b.id as buttonId ,mbm.menu_id,mbm.button_id,sm.name FROM menu_btn_model mbm INNER JOIN sys_menu sm on mbm.menu_id = sm.id INNER JOIN button b on b.id = mbm.button_id WHERE  sm.id in(SELECT menu_id FROM auth_role_menu 
+            WHERE role_id = #{roleId} AND sm.page_type = 1 )
+	</select>
 </mapper>

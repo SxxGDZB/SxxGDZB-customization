@@ -67,9 +67,10 @@
 						<td class="_address"></td>
 					</tr>
 				</table>
-				
-				<div class="layui-inline" style="position: absolute;bottom: 0px;left: 10px;"><i class="iconfont _lead_excel_out" style="font-size: 24px;cursor: pointer;" data-toggle="tooltip" title="导出" >&#xe6f3;</i></div>
-				<div class="layui-inline" style="position: absolute;bottom: 0px;left: 35px;"><i class="iconfont _clean_alarm" style="font-size: 24px;cursor: pointer;" data-toggle="tooltip" title="清除设备告警" >&#xeba5;</i></div>
+				<div class="_buttons" style="position: absolute;bottom: 0px;">
+					<!-- <div class="layui-inline" style=""><i class="iconfont _lead_excel_out" style="font-size: 24px;cursor: pointer;" data-toggle="tooltip" title="导出" >&#xe6f3;</i></div>
+	                <div class="layui-inline" style=""><i class="iconfont _clean_alarm" style="font-size: 24px;cursor: pointer;" data-toggle="tooltip" title="清除设备告警" >&#xeba5;</i></div> -->
+				</div>
 	      </div>
 	    </div>
 	    <div class="layui-col-md6" id="allmap">
@@ -264,18 +265,17 @@ var vectorMarker = new BMap.Marker(new BMap.Point(dataRow.longitude,dataRow.lati
 	});
 map.addOverlay(vectorMarker);
 var counts = 0 ;
+_init_buttons("DEV_DETAILS_PAGE");
 	layui.use(['layer', 'echarts','laydate','table'], function () {
 		var jsonEntity = {};
     	jsonEntity.imei = dataRow.imei;
     	jsonEntity.startTime = fun_day(-7).substring(0,10);
     	jsonEntity.endTime = fun_day(1).substring(0,10);
-    	
         var $ = layui.jquery,
             layer = layui.layer,
             echarts = layui.echarts,
         	laydate = layui.laydate,
         	table = layui.table;
-        
         var value = fun_day(-7).substring(0,10) + " - " +new Date().Format("yyyy-MM-dd");
         var d = laydate.render({
             elem: '#times'
@@ -378,7 +378,7 @@ var counts = 0 ;
     	    });
     	}
         
-    	$("._lead_excel_out").on('click',function(){
+    	$(".lead_excel_out").on('click',function(){
     		if(counts != 0){
     			var v = {};
         		v.imei = $("._imei").text();
@@ -406,7 +406,7 @@ var counts = 0 ;
     		}
     		
     	})
-    	$("._clean_alarm").on('click',function(){
+    	$(".clean_alarm").on('click',function(){
     		openPopUp('清除告警验证',"CLEAN_ALARM_PAGE",60,30);
     	})
 	});
@@ -448,6 +448,26 @@ var counts = 0 ;
     	    	console.log(data.cid + "------------>" + data.lac)
     	    }
     	});
+	}
+	
+	function _init_buttons(code){
+	    $.ajax({
+	        url: "/button/info/" +  indexHome(window).menuMap.get(indexHome(window).tabName())+"/" + authUser.roleId,
+	        type : "GET",
+	    　　            dataType : "json",
+	    　　             cache:true, 
+	            async:false, 
+	    　　             contentType: "application/json;charset=utf-8",
+	            headers: { "Authorization": authorization},//通过请求头来发送token，放弃了通过cookie的发送方式
+	            success:function(data){
+	                var _toolbar_demo_html = '';
+	                var _current_table_bar = "";
+	                data.data.data.forEach(function(item){
+	                  _toolbar_demo_html += '<div class="layui-inline" >  <i class="iconfont '+item.event+'" style="font-size: 24px;cursor: pointer;"  data-toggle="tooltip" title="'+item.title+'" >'+item.icon+'</i></div>';
+	                });
+	                $("._buttons").html(_toolbar_demo_html);
+	            }
+	      });
 	}
 </script>
 </body>

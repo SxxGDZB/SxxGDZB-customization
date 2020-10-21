@@ -27,7 +27,7 @@ public class AuthRoleResourceServiceImpl implements AuthRoleResourceService{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("count", authRoleResourceMapper.selectRoleResourceCount(roleId,auRoleResourceVo));
 		List<AuthRoleMenuDetails> list = new ArrayList<AuthRoleMenuDetails>();
-		System.out.println(auRoleResourceVo.getTrigger());
+		System.out.println(auRoleResourceVo.getType());
 		if (page != null) {
 			list = authRoleResourceMapper.selectRoleResourceList((page - 1) * limit,limit,roleId,auRoleResourceVo);
 		} else {

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>修改角色</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<div class="layui-form layuimini-form _custom_form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">选择角色</label>
+        <div class="layui-input-block">
+            <select name="roleId" lay-verify="required" lay-filter="roleId" lay-reqtext="角色不能为空"  placeholder="所属角色" id="roleId">
+				<option value="">所属角色</option>
+			</select>
+        </div>
+    </div>
+    <div class="layui-form-item ">
+        <label class="layui-form-label required">选择资源</label>
+        <div class="layui-input-inline">
+            <!-- <input type="text" name="name" placeholder="请输入" lay-verify="required" lay-reqtext="资源名称不能为空" autocomplete="off" class="layui-input" id="demo"> -->
+        	<textarea name="name" placeholder="请点击选择" lay-verify="required" lay-reqtext="资源名称不能为空"  autocomplete="off" id="demo" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item _submitBtn">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script th:inline="none">
+	var ids = [];
+    layui.use(['form','tableSelect'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            table = layui.table,
+            tableSelect = layui.tableSelect,
+            $ = layui.$;
+        
+        //监听角色
+        form.on('select(roleId)', function(data) {
+        	ids = [];
+        	$("#demo").attr("ts-selected","");
+        	$("#demo").text("");
+        	tableSelect.render({
+                elem: '#demo',
+                searchKey: 'resName',
+                checkedKey: 'id',
+                searchPlaceholder: '根据资源名称搜索',
+                table: {
+                    url: getRootPath() + '/resourcerole/list',
+                    headers: { "Authorization": authorization,"dz-usr":authUser.uid },
+                    where:{"roleId":data.value,"trigger":2,"type":2},
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'resCode', title: '资源CODE', width: '50%' },
+                        { field: 'resName', title: '资源名称', width: '50%' }
+                    ]]
+                },
+                done: function (elem, data) {
+                    var NEWJSON = []
+                	var NEWJSONIDS = []
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.resName)
+                        NEWJSONIDS.push(item.id);
+                    })
+                    elem.val(NEWJSON.join(","))
+                    elem.attr("data-ids",NEWJSONIDS.join(","));
+                }
+            })
+            /*查询当前角色的资源*/
+            $.ajax({
+    			url: '/resourcerole/list',
+    			type : "GET",
+    	　　		dataType : "json",
+    	  		data:{"roleId":data.value,"trigger":3,"type":2},
+    	　　		contentType: "application/json;charset=utf-8",
+    	　　		async:false,
+    		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+    		    	var vals = [];
+   		    	 	if(data.code == 0){
+   		    	 		$.each(data.data,function(index,xx){
+   	    		    		ids.push(xx.id);
+   	    		    		vals.push(xx.resName);
+   	    		    	})
+   	    		    	$("#demo").attr("ts-selected",ids.join(","));
+   		    	 		$("#demo").attr("data-ids",ids.join(","));
+   		    	 		$("#demo").text(vals.join(","));
+   					}else{
+   						layer.msg(data.msg);
+   					}
+    		    }
+    		});
+		});
+        initSelectRole();
+        //加载角色列表
+        function initSelectRole(){
+    	   	$.ajax({
+    			url: "/role/user/"+authUser.roleId,
+    			type : "POST",
+    	　　		dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+   		    	 	if(data.success){
+   		    	 		var html = "";
+   		    	 		data.data.list.forEach(function(item){
+   		    	 			html += "<option value="+item.ID+"> "+item.CODE+" </option>"
+   		    	 		});
+   		    	 		$("#roleId").append(html);
+   		    	 		form.render();
+   					}else{
+   						layer.msg(data.msg);
+   					}
+    		    }
+    		});
+        }
+        
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+           data.field.resIds = $("#demo").attr('data-ids');
+           if(data.field.resIds == ids.join(",")){
+        	   layer.msg("没有要修改的类容", {
+  	 			  icon: 5,
+  	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+  	 			});
+           }else{
+        	   UPDATE("/resourcerole/" +data.field.roleId +"/"+ data.field.resIds,data.field);
+        	   /* $.ajax({
+       			url: "/resourcerole/" +data.field.roleId +"/"+ data.field.resIds,
+       			type : "PUT",
+       	　　		dataType : "json",
+       	  		data:JSON.stringify(data.field),
+       	　　		contentType: "application/json;charset=utf-8",
+       		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+       		    success:function(data){
+   		    	 	if(data.success){
+   		    	 		layer.msg(data.msg, {
+	    	 			    icon: 6,
+	    	 			    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+ 		    	 		}, function(){
+	    	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
+			    	 		parent.layer.close(iframeIndex);
+ 		    	 		}); 
+   					}else{
+   						layer.msg(data.msg,{icon: 5, time: 2000});
+   					}
+       		    }
+       		}); */
+           }
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

@@ -45,16 +45,17 @@ layui.define(["element", "layer", "jquery"], function (exports) {
             options.title = options.title || null;
             options.isIframe = options.isIframe || false;
             options.maxTabNum = options.maxTabNum || 20;
+            //options.menuId = options.menuId || null;
             if ($(".layuimini-tab .layui-tab-title li").length >= options.maxTabNum) {
                 layer.msg('Tab窗口已达到限定数量，请先关闭部分Tab');
                 return false;
             }
             var ele = element;
             if (options.isIframe) ele = parent.layui.element;
-            console.log("创建Tab -------->" + options.title )
+            console.log(options);
             ele.tabAdd('layuiminiTab', {
                 title: '<span class="layuimini-tab-active"></span><span>' + options.title + '</span><i class="layui-icon layui-unselect layui-tab-close">ဆ</i>' //用于演示
-                , content: '<iframe width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0"   src="' + options.href + '"></iframe>'
+                , content: '<iframe width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" lay-menuId="****"  src="' + options.href + '"></iframe>'
                 , id: options.tabId
             });
             $('.layuimini-menu-left').attr('layuimini-tab-tag', 'add');
@@ -419,7 +420,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
             console.log(options.menuList);
             // 判断是否为右侧菜单
             var menu = miniTab.searchMenu(tabId, options.menuList);
-            console.log("menu------------->")
+            console.log("menu------------->" + tabId)
             console.log(menu);
             if (menu !== undefined) {
             	console.log("开始创建---------->tab")

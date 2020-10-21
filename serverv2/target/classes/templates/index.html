@@ -90,7 +90,7 @@
     <!-- 移动导航 -->
     <div class="layuimini-site-mobile"><i class="layui-icon"></i></div>
     <div class="layui-body">
-        <div class="layuimini-tab layui-tab-rollTool layui-tab" lay-filter="layuiminiTab" lay-allowclose="true">
+        <div class="layuimini-tab layui-tab-rollTool layui-tab" id="_tab_menu" lay-filter="layuiminiTab" lay-allowclose="true">
             <ul class="layui-tab-title">
                 <li class="layui-this" id="layuiminiHomeTabId" lay-id=""></li>
             </ul>
@@ -126,6 +126,7 @@
 	var miniTab;
 	var staticResource = new Map;
 	var staticResourceID = new Map();
+	var menuMap = new Map();
 	layui.use(['jquery', 'layer', 'miniAdmin','miniTongji','miniTab'], function () {
     	var authorization = localStorage.getItem('Authorization');
     	var authUser = JSON.parse(localStorage.getItem('authUser'));
@@ -181,6 +182,27 @@
 			 }
 		   });
 		}
+		
+		initMenuMap();
+        /*获取静态页面列表*/
+        function initMenuMap(){
+        	$.ajax({
+                url: "/menu/authMenuButtonLists?roleId=" + authUser.roleId,
+                type : "POST",
+        　　               dataType : "json",
+                async : false,
+        　　               contentType: "application/json;charset=utf-8",
+                headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+                success:function(data){
+                    var dv = data.data.data.data.data;
+                    for(let v in dv){
+                       console.log(v);
+                       var arr = v.split("_");
+                       menuMap.set(arr[0],arr[1]);
+                    }
+                }
+            });
+        }
 		/*退出登录*/
         $('.login-out').on("click", function () {
             $.ajax({
@@ -201,6 +223,9 @@
 			    }
 			}); 
         });
+		
+		
+		
     	/*初始化点击告警弹框的事件*/
         function initAlarmClick(){
     		$.each($(".the-message"),function(){

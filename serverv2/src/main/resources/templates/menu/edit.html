@@ -62,6 +62,7 @@
         var jsonEntity = {};
         var returnedItem;
         var menuForm = $("#menuFormId");
+        var ORIGINAL_ELEM_VALUE = "fa-address-book";
         if(dataRow.parentId == 0){
         	$('input[type="checkbox"]').prop('checked', true);
         	$("#parentTree").addClass('layui-hide');
@@ -78,13 +79,14 @@
         		}else{
         			menuForm.find("[name='"+key+"']").val("根节点");
         		} 
-        		
         	}else{
         		menuForm.find("[name='"+key+"']").val(val);
         	}
         	
        });
+        ORIGINAL_ELEM_VALUE = dataRow.icon;
         form.render();
+        
         iconPickerFa.render({
             // 选择器，推荐使用input
             elem: '#iconPicker1',
@@ -94,6 +96,7 @@
             search: true,
             // 是否开启分页
             page: true,
+            defaultIcon : ORIGINAL_ELEM_VALUE,
             // 每页显示数量，默认12
             limit: 12,
             // 点击回调
@@ -146,24 +149,6 @@
         		 data.field.icon = 'fa-adjust';
         	 }
         	 UPDATE("/menu",data.field,true);
-        	/* $.ajax({
-     			url: "/menu",
-			    type: "PUT",
-			    data:JSON.stringify(data.field),
-			    dataType : "json",
-    	　　		contentType: "application/json;charset=utf-8",
-			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-			    success:function(data){
-		    	 	if(data.success){
-		    	 		indexHome(window).init();
-		    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
-		    	 		parent.layer.close(iframeIndex);
-		    	 		window.parent.initTreeTable();
-					}else{
-						layer.msg(data.msg,{icon: 5, time: 2000});
-					}
-			    }
-			});  */
             return false;
         });
     });

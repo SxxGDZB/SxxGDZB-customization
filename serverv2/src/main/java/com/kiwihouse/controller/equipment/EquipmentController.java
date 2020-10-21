@@ -105,9 +105,9 @@ public class EquipmentController extends BaseController{
     @DeleteMapping("/info/{imeis}")
     public Response deleteInfo(@PathVariable String imeis, HttpServletRequest request) {
         logger.info("删除设备信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("删除设备信息").setParam(imeis));
-        if (!checkAdminService.isEqptSnBelong2admin(imeis, request.getHeader("dz-usr"))) {
-        	return  new Response().Success(Code.PRIVILEGE_FAIL.getCode(), Code.PRIVILEGE_FAIL.getMsg());
-        }
+//        if (!checkAdminService.isEqptSnBelong2admin(imeis, request.getHeader("dz-usr"))) {
+//        	return  new Response().Success(Code.PRIVILEGE_FAIL.getCode(), Code.PRIVILEGE_FAIL.getMsg());
+//        }
         return equipmentService.deleteInfo(imeis, new UserInfo(request));
     }
 

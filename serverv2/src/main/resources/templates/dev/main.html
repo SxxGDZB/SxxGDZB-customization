@@ -118,9 +118,7 @@ layui.use(['form', 'table','miniTab','upload'], function () {
         table = layui.table;
         layer = layui.layer;
         miniTab = layui.miniTab;
-        
-        _init_buttons_common("DEV_PAGE");
-        
+        _init_buttons_common(indexHome(window).tabName());
      	loadTable(jsonEntity);
      var upload = layui.upload;
      
@@ -184,7 +182,7 @@ layui.use(['form', 'table','miniTab','upload'], function () {
 	 			    success:function(data){
  			    	 	if(data.success){
  			    	 		layer.msg(data.msg);
- 			    	 		location.reload();
+ 			    	 		flush(currentPage, jsonEntity);
  			    	 		/*刷新check_True*/
  			    	 		check_True = new Array();
  						}else{

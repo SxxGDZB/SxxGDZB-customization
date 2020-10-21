@@ -1,9 +1,9 @@
 package com.kiwihouse.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.kiwihouse.dao.entity.SysMenu;
+import com.kiwihouse.domain.vo.Response;
 
 public interface SysMenuService {
 	/**
@@ -38,6 +38,12 @@ public interface SysMenuService {
 	 * @return
 	 */
 	boolean deleteBatchMenuByIds(String[] idsStrArr);
+	/**
+	 * 	获取静态按钮页面列表
+	 * @param roleId
+	 * @return
+	 */
+	Response getAuthMenuButtonLists(Integer roleId);
 	
 
 }

@@ -8,6 +8,9 @@
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="event" jdbcType="VARCHAR" property="event" />
   </resultMap>
+  <resultMap id="MenuBtnModelMap" type="com.kiwihouse.dao.entity.MenuBtnModel">
+   
+  </resultMap>
   <sql id="Base_Column_List">
     id, title, icon, type, event
   </sql>
@@ -92,13 +95,45 @@
   </update>
   
   <select id="queryInfo" resultMap="BaseResultMap" parameterType="Integer">
-    select * from button 
+    <choose>
+        <when test="trigger == 1">
+           <!-- SELECT * FROM button WHERE id not in (
+           SELECT button_id FROM menu_btn WHERE menu_id = #{buttons.menuId} AND role_id = #{buttons.roleId} 
+           )
+           queryInfo -->
+            SELECT * FROM button WHERE id not in (SELECT button_id FROM menu_btn_model WHERE menu_id = #{buttons.menuId} ) 
+        </when>
+        <when test="trigger == 2">
+           <!-- SELECT * FROM button WHERE id not in (
+           SELECT button_id FROM menu_btn WHERE menu_id = #{buttons.menuId} AND role_id = #{buttons.roleId} 
+           )
+           queryInfo -->
+            SELECT * FROM button WHERE id in (SELECT button_id FROM menu_btn_model WHERE menu_id = #{buttons.menuId} ) 
+        </when>
+        <otherwise>
+         select * from button 
+        </otherwise>
+    </choose>
+   
     <if test="limit != null and limit != ''">
         limit #{page},#{limit}
     </if>
   </select>
   <select id="queryCount" resultType="Integer">
-      select count(*) from button
+      <choose>
+        <when test="trigger == 1">
+            <!-- SELECT count(*) FROM button WHERE id not in (
+            SELECT button_id FROM menu_btn WHERE menu_id = #{buttons.menuId} 
+            AND role_id = #{buttons.roleId} ) -->
+            SELECT count(*) FROM button WHERE id not in (SELECT button_id FROM menu_btn_model WHERE menu_id = #{buttons.menuId} ) 
+        </when>
+        <when test="trigger == 2">
+            SELECT count(*) FROM button WHERE id in (SELECT button_id FROM menu_btn_model WHERE menu_id = #{buttons.menuId} ) 
+        </when>
+        <otherwise>
+         select count(*) from button 
+        </otherwise>
+    </choose>
   </select>
   
   <delete id="deleteBatch">
@@ -108,10 +143,13 @@
             #{id}
         </foreach>
     </delete>
-  <select id="queryButtonsPower" resultMap="BaseResultMap">
-        SELECT rb.title,rb.icon,rb.event,rb.type,rb.id,ar.`NAME`,ar.URI,rrb.role_id FROM `auth_resource` ar 
-        LEFT JOIN role_resource_button rrb on ar.ID = rrb.resource_id 
-        LEFT JOIN button rb on rrb.resource_button_id = rb.id 
-        WHERE ar.TYPE = 0
+  <select id="queryButtonsPower" resultMap="MenuBtnModelMap">
+       SELECT b.title,b.icon,b.type,b.event,b.id as buttonId ,rb.menu_id,rb.button_id,sm.name FROM menu_btn rb 
+       INNER JOIN sys_menu sm on rb.menu_id = sm.id
+        INNER JOIN button b on b.id = rb.button_id WHERE  sm.id in(
+        SELECT menu_id FROM auth_role_menu 
+            WHERE 1 = 1
+            AND role_id = #{roleId}
+            AND sm.page_type = 1 ) AND rb.role_id = #{roleId}
   </select>
  </mapper>

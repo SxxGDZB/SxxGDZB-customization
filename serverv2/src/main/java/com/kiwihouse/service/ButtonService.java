@@ -10,9 +10,10 @@ public interface ButtonService {
 	 * 	查询系统按钮列表
 	 * @param limit 
 	 * @param page 
+	 * @param trigger 
 	 * @return
 	 */
-	Map<String, Object> queryInfo(Integer page, Integer limit);
+	Map<String, Object> queryInfo(Integer page, Integer limit, Integer trigger,Buttons buttons);
 	/**
 	 * 	删除按钮
 	 * @param idsArray
@@ -33,8 +34,9 @@ public interface ButtonService {
 	Response updateByPrimaryKey(Buttons resourceButtons);
 	/**
 	 *	 查询所有静态资源按钮权限
+	 * @param roleId 
 	 * @return
 	 */
-	Response queryButtonsPower();
+	Response queryButtonsPower(Integer roleId);
 
 }
