@@ -13,19 +13,20 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
     	
-    	
+    	<!-- 
+    	<div class="layui-btn-container">
+             <div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
+        </div>
+    	 -->
         <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-				<div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
-				<div class="layui-inline" lay-event="delete"><i class="iconfont"  data-toggle="tooltip" title="删除" >&#xeba5;</i></div>
-            </div>
+            
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
-
+        <!-- <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
+            <a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除"></a> -->
         <script type="text/html" id="currentTableBar">
-            <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-            <a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除"></a>
+            
         </script>
 
     </div>
@@ -34,31 +35,20 @@
 <script th:inline="none">
 var dataRow,table;
 var currentPage = 1;
-var jsonEntity = {};
+var jsonEntity = null;
 layui.use(['form', 'table'], function () {
     var $ = layui.jquery,
         form = layui.form;
         table = layui.table;
-    jsonEntity.roleId = authUser.roleId;
-    loadTickets(jsonEntity);
-    // 监听搜索操作
-    form.on('submit(data-search-btn)', function (data) {
-        var result = JSON.stringify(data.field);
-        var jsonEntity = {};
-        $.each(data.field, function(key, val) {
-        	if(data.field[key] != null && data.field[key].length > 0){
-        		jsonEntity[key] = val;
-        	}
-       });
-        loadTickets(jsonEntity);
-        return false;
-    });
+        _init_buttons_common();
+    loadTickets();
+    
     /**
      * toolbar监听事件
      */
     table.on('toolbar(currentTableFilter)', function (obj) {
         if (obj.event === 'add') {  // 监听添加操作
-        	openPopUp('添加','RESOURCE_ADD_PAGE');///admin/resource/add
+        	openPopUp('角色添加','ADD_ROLE_PAGE');///admin/resource/add
         } else if (obj.event === 'delete') {  // 监听删除操作
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
@@ -72,20 +62,19 @@ layui.use(['form', 'table'], function () {
     table.on('tool(currentTableFilter)', function (obj) {
         dataRow = obj.data;
         if (obj.event === 'edit') {
-            openPopUp('资源修改','RESOURCE_UPDATE_PAGE');///admin/resource/edit
+            openPopUp('角色修改','UPDATE_ROLE_PAGE');
             return false;
         } else if (obj.event === 'delete') {
-        	DELETE("/resource/menu/"+dataRow.id);
+        	DELETE("/role/"+dataRow.id);
         }
     });
 });
 
-function loadTickets(jsonEntity){
+function loadTickets(){
 	table.render({
         elem: '#currentTableId',
-        url: getRootPath() + '/resource/auth/select',
+        url: getRootPath() + '/role/all',
         headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-        where : jsonEntity,
         async : false,
         toolbar: '#toolbarDemo',
         defaultToolbar: ['filter', 'exports', 'print', {
@@ -95,12 +84,9 @@ function loadTickets(jsonEntity){
         }],
         cols: [[
             {type: "checkbox"},
-            {field: 'code',title: '资源名称', sort: true},
-            {field: 'name',title: '资源描述', sort: true},
+            {field: 'code',title: '角色编码', sort: true},
+            {field: 'name',title: '角色名称', sort: true},
             {field: 'id',title: 'id', hide:true},
-            {field: 'uri', title: '访问地址URL'},
-            {field: 'type',title: '资源类别'},
-            {field: 'method',  title: '请求类型', sort: true},
             {field: 'status',  title: '状态', sort: true,
 				templet : function(row) {
 					if(row.status == 1){
@@ -108,6 +94,7 @@ function loadTickets(jsonEntity){
 					}
 					return "禁用";
 			}},
+			{field: 'createTime', title: '创建时间'},
             {title: '操作', toolbar: '#currentTableBar', align: "center",width:'20%'}
         ]],
         limits: [5, 10, 20, 25, 50, 100],
@@ -120,12 +107,11 @@ function loadTickets(jsonEntity){
     });
 }
 //刷新
-function flush(currentPage, jsonEntity) {
+function flush(currentPage) {
 	table.reload('currentTableId', {
 		page : {
 			curr : currentPage
-		},
-		where : jsonEntity
+		}
 	});
 }
 </script>

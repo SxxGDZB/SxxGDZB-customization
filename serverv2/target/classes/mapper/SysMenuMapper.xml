@@ -262,7 +262,11 @@
 		</foreach>
 	</delete>
 	<select id="getAuthMenuButtonLists" resultMap="MenuBtnModelMap">
-		SELECT b.title,b.icon,b.type,b.event,b.id as buttonId ,mbm.menu_id,mbm.button_id,sm.name FROM menu_btn_model mbm INNER JOIN sys_menu sm on mbm.menu_id = sm.id INNER JOIN button b on b.id = mbm.button_id WHERE  sm.id in(SELECT menu_id FROM auth_role_menu 
-            WHERE role_id = #{roleId} AND sm.page_type = 1 )
+		<!-- SELECT b.title,b.icon,b.type,b.event,b.id as buttonId ,mbm.menu_id,mbm.button_id,sm.name FROM menu_btn_model mbm INNER JOIN sys_menu sm on mbm.menu_id = sm.id INNER JOIN button b on b.id = mbm.button_id WHERE  sm.id in(SELECT menu_id FROM auth_role_menu 
+            WHERE role_id = #{roleId} AND sm.page_type = 1 ) -->
+            SELECT b.title,b.icon,b.type,b.event,b.id as buttonId ,sm.id as menuId,mbm.button_id,sm.name FROM sys_menu sm
+			LEFT JOIN  menu_btn_model mbm  on mbm.menu_id = sm.id 
+			LEFT JOIN button b on b.id = mbm.button_id 
+			WHERE sm.id in(SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId} AND sm.page_type = 1 ) 
 	</select>
 </mapper>

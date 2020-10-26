@@ -29,7 +29,6 @@ layui.use(['form', 'table'], function () {
         form = layui.form;
         table = layui.table;
         loadTickets();
-        
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'add') {
                 openPopUp('添加','RESOURCE_BUTTON_ADD',60,80);
@@ -95,30 +94,42 @@ layui.use(['form', 'table'], function () {
             {type: "checkbox"},
             {field: 'name',title: '页面名称',align:'center'},
             {field: 'icons', title: '顶部按钮',align:'center',templet : function(row) {
-                var titles = row.titles.split(",");
-                var icons = row.icons.split(",");
-                var types = row.types.split(",");
-                var ids = row.ids.split(",");
-                var h = "";
-                titles.forEach(function(xx,index){
-                	if(types[index] == 1){
-                		 h += '<a class="iconfont" style="font-size: 24px; color: #1E9FFF;" title="'+xx+'">'+icons[index]+'</a>';
-                	}
-                   
-                })
+            	var titles,icons,types,ids;
+            	var h = "";
+            	if(row.icons != null){
+            		icons = row.icons.split(",");
+                }if(row.types != null){
+                	types = row.types.split(",");
+                }if(row.ids != null){
+                	ids = row.ids.split(",");
+                }if(row.titles != null){
+                    titles  = row.titles.split(",");
+                    titles.forEach(function(xx,index){
+                        if(types[index] == 1){
+                             h += '<a class="iconfont" style="font-size: 24px; color: #1E9FFF;" title="'+xx+'">'+icons[index]+'</a>';
+                        }
+                       
+                    })
+                }
                 return h;
             }},
             {field: 'icons', title: '右侧按钮',align:'center',templet : function(row) {
-            	var titles = row.titles.split(",");
-            	var icons = row.icons.split(",");
-            	var ids = row.ids.split(",");
-            	var types = row.types.split(",");
+            	var titles,icons,types,ids;
             	var h = "";
-            	titles.forEach(function(xx,index){
-            		if(types[index] == 2){
-                        h += '<a class="iconfont" style="font-size: 24px; color: #1E9FFF;" title="'+xx+'">'+icons[index]+'</a>';
-                   }
-            	})
+            	if(row.icons != null){
+                    icons = row.icons.split(",");
+                }if(row.types != null){
+                    types = row.types.split(",");
+                }if(row.ids != null){
+                    ids = row.ids.split(",");
+                }if(row.titles != null){
+                    titles  = row.titles.split(",");
+                    titles.forEach(function(xx,index){
+                        if(types[index] == 2){
+                            h += '<a class="iconfont" style="font-size: 24px; color: #1E9FFF;" title="'+xx+'">'+icons[index]+'</a>';
+                       }
+                    })
+                }
                 return h;
             }},
             

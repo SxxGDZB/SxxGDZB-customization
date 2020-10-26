@@ -98,8 +98,11 @@ layui.use(['form'], function () {
                     text += "           "+arr[0]+"";
                     text += "       </label>";
                     text += "       <div class=\"layui-input-block  _check_div\" name=\""+arr[1]+"\">";
+                    console.log(dv[v]);
                     dv[v].forEach(function(xx){
-                        text += "           <input type=\"checkbox\" name=\""+xx.buttonId+"\" lay-skin=\"primary\" title=\""+xx.title+"\">";
+                    	if(xx.buttonId != null){
+                    		text += "           <input type=\"checkbox\" name=\""+xx.buttonId+"\" lay-skin=\"primary\" title=\""+xx.title+"\">";
+                    	}
                     })
                     text += "       </div>";
                     text += "   </div>";

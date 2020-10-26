@@ -17,52 +17,19 @@
 <div class="layui-form layuimini-form _custom_form" id="resourceForm">
 	<input type="hidden" name="id"  class="layui-input">
     <div class="layui-form-item">
-        <label class="layui-form-label required">资源名称</label>
+        <label class="layui-form-label required">角色名称</label>
         <div class="layui-input-block">
-            <input type="text" name="code" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
+            <input type="text" name="name" lay-verify="required" lay-reqtext="角色名称不能为空" placeholder="请输入角色名称 " value="" class="layui-input">
             <tip>填写自己管理账号的名称。</tip>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">资源描述</label>
+        <label class="layui-form-label">角色编码</label>
         <div class="layui-input-block">
-            <input type="text" name="name"  placeholder="请输入资源名称" value="" class="layui-input">
+            <input type="text" name="code"  placeholder="请输入角色编码" value="" class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">访问地址</label>
-        <div class="layui-input-block">
-            <input type="text" name="uri" lay-reqtext="url不能为空" class="layui-input" placeholder="URL地址">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">类别</label>
-        <div class="layui-input-block">
-             <select name="type" lay-verify="" placeholder="资源类别">
-				  <option value="1">菜单menu</option>
-				  <option value="2">资源element(rest-api)</option>
-				  <option value="3">资源分类</option>
-			 </select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">请求类型</label>
-        <div class="layui-input-block">
-            <select name="method" lay-verify="" placeholder="请求类型">
-			  <option value="GET">GET</option>
-			  <option value="POST">POST</option>
-			  <option value="PUT">PUT</option>
-			  <option value="DELETE">DELETE</option>
-			</select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-	    <label class="layui-form-label">状态</label>
-	    <div class="layui-input-block">
-	      <input type="checkbox" name="status" lay-skin="switch" lay-text="ON|OFF">
-	    </div>
-    </div>
-
+    
     <div class="layui-form-item _submitBtn">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
@@ -70,7 +37,7 @@
     </div>
 </div>
 <div th:include="include::footer"></div>
-<script>
+<script th:inline="none">
     layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -92,12 +59,7 @@
         
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-        	if(data.field.status == "on"){
-             	data.field.status = 1;
-             }else{
-             	data.field.status = 0;
-             }
-        	UPDATE("/resource/menu",data.field);
+        	UPDATE("/role",data.field);
             return false;
         });
     });

@@ -76,13 +76,13 @@
 <script th:inline="none">
 var dataRow,table;
 var currentPage = 1;
-var jsonEntity = {};
+var jsonEntity = {},upload;
 layui.use(['form', 'table','upload'], function () {
     var $ = layui.jquery,
-    	upload = layui.upload,
         form = layui.form;
         table = layui.table;
-    _init_buttons_common(indexHome(window).tabName());
+        upload = layui.upload;
+    _init_buttons_common();
     jsonEntity.roleId = authUser.roleId;
     jsonEntity.mtStatus = 0;
     loadTickets(jsonEntity); 
@@ -96,6 +96,7 @@ layui.use(['form', 'table','upload'], function () {
         	}
        });
         loadTickets(jsonEntity);
+        uploadFile();
         return false;
     });
     /**
@@ -157,22 +158,26 @@ layui.use(['form', 'table','upload'], function () {
             	
         }
     });
-    upload.render({ //允许上传的文件后缀
+    uploadFile();
+	});
+function uploadFile(){
+	upload.render({ //允许上传的文件后缀
         elem: '#lead_excel_in'
         ,url: '/maintain/importData' //改成您自己的上传接口
         ,headers: { "Authorization": authorization }
         ,accept: 'file' //普通文件
         ,exts: 'xlsx' //只允许上传压缩文件
         ,done: function(res){
-        	if(res.code == 6001){
-        		layer.msg(data.msg,{icon: 5, time: 2000});
-        	}else{
-        		layer.msg('上传成功');
+            if(res.code == 6001){
+                layer.msg(data.msg,{icon: 5, time: 2000});
+            }else{
+                layer.msg('上传成功');
                 flush(currentPage, jsonEntity);
-        	}
+            }
       }
-	});
-	});
+    });
+}	
+
 function loadTickets(jsonEntity){
 	table.render({
         elem: '#currentTableId',
@@ -231,22 +236,24 @@ function loadTickets(jsonEntity){
 			//自定义实现 bar根据状态变化
 			res.data.forEach(function(item,index){
 				if(item.mtStatus == "1"){
-					$.each($("tbody").find("tr"),function(){
+					$.each($("tbody").find("tr").eq(index),function(){
                         $.each($(this).find("td"),function(){
                             if($(this).attr("data-field") == "comp"){
                                 $.each($(this).find("a"),function(){
-                                	if($(this).attr("lay-event") != "backout"){
-                                		$(this).empty();
+                                	var v = $(this);
+                                	if(v.attr("lay-event") != "backout"){
+                                		v.empty();
                                 	}
                                 })
                             }
                         })
                     })
 				}else if(item.mtStatus == "2"){
-					$.each($("tbody").find("tr"),function(){
+					$.each($("tbody").find("tr").eq(index),function(){
 						$.each($(this).find("td"),function(){
-							if($(this).attr("data-field") == "comp"){
-								$(this).empty();
+							var v = $(this);
+							if(v.attr("data-field") == "comp"){
+								v.empty();
 							}
 						})
 					})
@@ -264,6 +271,7 @@ function flush(currentPage, jsonEntity) {
 		},
 		where : jsonEntity
 	});
+	uploadFile();
 }
 </script>
 

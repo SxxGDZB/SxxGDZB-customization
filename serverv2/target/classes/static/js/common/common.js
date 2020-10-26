@@ -102,8 +102,6 @@ var indexHome = function(elem,i) {
 	   }
 	return indexHome(elem.parent,i);
 }
-
-//list ---> listTree
 /**
  * list转化 树List
  * @param rows list
@@ -134,7 +132,6 @@ function convert(rows) {
 		
 		toDo.push(nodes[i]);
 	}
-	
 	while (toDo.length) {
 		var node = toDo.shift(); 
 		for (var i = 0; i < rows.length; i++) {
@@ -215,6 +212,11 @@ function Mayclickable() {
 var authorization = localStorage.getItem('Authorization');
 var authUser = JSON.parse(localStorage.getItem('authUser'));
 (function ($) {
+	/**
+	 * 路径携带的参数
+	 * @param $
+	 * @returns
+	 */
     $.getUrlParam = function (name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
@@ -286,7 +288,6 @@ function oneNet(e,hint,w){
 　　		contentType: "application/json;charset=utf-8",
 	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 	    success:function(data){
-	    	console.log("------------>下发成功")
 	    	if(hint){
 	    		if(data.result.data[e[0].imei] == 'read time out'){
 		    		w.layer.msg('连接超时', {
@@ -324,12 +325,6 @@ function oneNet(e,hint,w){
 /*3:上报告警信息，4:上报系统参数*/
 var onenetVariable = function(imei,eqptType){
 	var e = {},r= {},array = new Array();
-//	e.imei = imei;
-//	r.reg_00 = 3;
-//	e.register = r;
-//	e.eqptType = eqptType;
-//	array.push(e);
-	var e = {},r= {};
 	e.imei = imei;
 	r.reg_00 = 4;
 	e.register = r;
@@ -426,9 +421,6 @@ function ADD(url,parameterDate,isLeft){
 	    	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
 			    	 		parent.layer.close(iframeIndex);
 	    	 				if(isLeft){
-//	    	 					indexHome(window).init();
-//	    	 					window.parent.flush();
-	    	 					console.log(indexHome(window));
 	    	 					indexHome(window).init();
 				    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
 				    	 		parent.layer.close(iframeIndex);
@@ -581,17 +573,19 @@ var _alarmIcons = function (v,e){
 	 });
 	return '<div title="' + msg + '">' + _icon + '</div>';
 }
+
 /**
- * 获取tab名称
+ * 获取菜单页面ID
  * @returns
  */
-function tabName(){
-	var elm = $("li.layui-this", parent.document).find("span").eq(1);
-	return $.trim(elm.text());
+function tabMenuId(){
+	var elm = $(".layui-tab-item.layui-show", parent.document).find("iframe");
+	return elm[0].getAttribute("lay-menuid");
 }
-function _init_buttons_common(code){
+
+function _init_buttons_common(){
 	$.ajax({
-		url: "/button/info/" +  indexHome(window).menuMap.get(code)+"/" + authUser.roleId,
+		url: "/button/info/" + tabMenuId()+"/" + authUser.roleId,
 		type : "GET",
 	　　		dataType : "json",
 	　　		cache:true, 

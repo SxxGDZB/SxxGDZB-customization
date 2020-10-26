@@ -16,52 +16,18 @@
 <body>
 <div class="layui-form layuimini-form _custom_form">
     <div class="layui-form-item">
-        <label class="layui-form-label required">资源名称</label>
+        <label class="layui-form-label required">角色名称</label>
         <div class="layui-input-block">
-            <input type="text" name="code" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
+            <input type="text" name="name" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
             <tip>填写自己管理账号的名称。</tip>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">资源描述</label>
+        <label class="layui-form-label">角色编码</label>
         <div class="layui-input-block">
-            <input type="text" name="name"  placeholder="请输入资源名称" value="" class="layui-input">
+            <input type="text" name="code"  placeholder="请输入资源名称" value="" class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">访问地址</label>
-        <div class="layui-input-block">
-            <input type="text" name="uri"  class="layui-input" placeholder="URL地址">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">类别</label>
-        <div class="layui-input-block">
-             <select name="type" lay-verify="" placeholder="资源类别">
-				  <option value="1">菜单menu</option>
-				  <option value="2">资源element(rest-api)</option>
-				  <option value="3">资源分类</option>
-			 </select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">请求类型</label>
-        <div class="layui-input-block">
-            <select name="method" lay-verify="" placeholder="请求类型">
-			  <option value="GET">GET</option>
-			  <option value="POST">POST</option>
-			  <option value="PUT">PUT</option>
-			  <option value="DELETE">DELETE</option>
-			</select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-	    <label class="layui-form-label">状态</label>
-	    <div class="layui-input-block">
-	      <input type="checkbox" name="status" checked="" lay-skin="switch" lay-text="ON|OFF">
-	    </div>
-    </div>
-
     <div class="layui-form-item">
         <div class="layui-input-block _submitBtn">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
@@ -76,33 +42,7 @@
             $ = layui.$;
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-        	if(data.field.status == "on"){
-            	data.field.status = 1;
-            }else{
-            	data.field.status = 0;
-            }
-            $.ajax({
-     			url: "/resource/menu",
-			    type: "POST",
-			    data:JSON.stringify(data.field),
-			    dataType : "json",
-    	　　		contentType: "application/json;charset=utf-8",
-			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-			    success:function(data){
-			    	 	if(data.success){
-			    	 		layer.msg(data.msg, {
-  		    	 			  icon: 6,
-  		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
-  		    	 			}, function(){
-  		    	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
-  				    	 		parent.layer.close(iframeIndex);
-  				    	 		window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
-  		    	 			}); 
-						}else{
-							layer.msg(data.msg,{icon: 5, time: 2000});
-						}
-			    }
-			});
+        	ADD("/role",data.field);
             return false;
         });
     });

@@ -56,14 +56,14 @@ public class ButtonController extends BaseController{
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数",response = GroupDto.class))
     @GetMapping("/info")
     public Map<String, Object> queryInfo(Integer page,Integer limit,Integer trigger,Buttons buttons){
-    	try {
+//    	try {
     		map = buttonService.queryInfo(page,limit,trigger, buttons);
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
-		} catch (Exception e) {
+//		} catch (Exception e) {
 			// TODO: handle exception
-			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
-		}
+//			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
+//		}
         return map;
     }
 

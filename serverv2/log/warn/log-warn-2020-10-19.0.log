@@ -1,0 +1,852 @@
+2020-10-19 09:08:08.384 [http-nio-8001-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.dao.RecoverableDataAccessException: 
+### Error querying database.  Cause: com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 29,363 milliseconds ago. The last packet sent successfully to the server was 29,370 milliseconds ago.
+### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\RoleResourceButtonMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.RoleResourceButtonMapper.buttonListById-Inline
+### The error occurred while setting parameters
+### SQL: SELECT rb.* FROM `role_resource_button` rrb INNER JOIN button rb on rrb.resource_button_id = rb.id   where 1 = 1         and role_id = ?                   and resource_id = ?
+### Cause: com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 29,363 milliseconds ago. The last packet sent successfully to the server was 29,370 milliseconds ago.
+; Communications link failure
+
+The last packet successfully received from the server was 29,363 milliseconds ago. The last packet sent successfully to the server was 29,370 milliseconds ago.; nested exception is com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 29,363 milliseconds ago. The last packet sent successfully to the server was 29,370 milliseconds ago.]
+2020-10-19 09:11:44.147 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'objectMapperConfigurer' defined in class path resource [springfox/documentation/spring/web/SpringfoxWebMvcConfiguration.class]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.ProxyCachingConfiguration': BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authorizationAttributeSourceAdvisor' defined in class path resource [org/apache/shiro/spring/boot/autoconfigure/ShiroAnnotationProcessorAutoConfiguration.class]: Unsatisfied dependency expressed through method 'authorizationAttributeSourceAdvisor' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'shiroConfig': Unsatisfied dependency expressed through field 'accountProvider'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'AccountProvider': Unsatisfied dependency expressed through field 'accountService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'AccountService': Unsatisfied dependency expressed through field 'userMapper'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authUserMapper' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\dao\mapper\AuthUserMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSourceConfig': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'kiwihouse.datasource.url' in value "${kiwihouse.datasource.url}"
+2020-10-19 09:12:03.023 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:13:32.585 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'objectMapperConfigurer' defined in class path resource [springfox/documentation/spring/web/SpringfoxWebMvcConfiguration.class]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.ProxyCachingConfiguration': BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authorizationAttributeSourceAdvisor' defined in class path resource [org/apache/shiro/spring/boot/autoconfigure/ShiroAnnotationProcessorAutoConfiguration.class]: Unsatisfied dependency expressed through method 'authorizationAttributeSourceAdvisor' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'shiroConfig': Unsatisfied dependency expressed through field 'accountProvider'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'AccountProvider': Unsatisfied dependency expressed through field 'accountService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'AccountService': Unsatisfied dependency expressed through field 'userMapper'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authUserMapper' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\dao\mapper\AuthUserMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSourceConfig': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'kiwihouse.datasource.url' in value "${kiwihouse.datasource.url}"
+2020-10-19 09:14:04.662 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'objectMapperConfigurer' defined in class path resource [springfox/documentation/spring/web/SpringfoxWebMvcConfiguration.class]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.ProxyCachingConfiguration': BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authorizationAttributeSourceAdvisor' defined in class path resource [org/apache/shiro/spring/boot/autoconfigure/ShiroAnnotationProcessorAutoConfiguration.class]: Unsatisfied dependency expressed through method 'authorizationAttributeSourceAdvisor' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'shiroConfig': Unsatisfied dependency expressed through field 'accountProvider'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'AccountProvider': Unsatisfied dependency expressed through field 'accountService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'AccountService': Unsatisfied dependency expressed through field 'userMapper'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authUserMapper' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\dao\mapper\AuthUserMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSourceConfig': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'kiwihouse.datasource.url' in value "${kiwihouse.datasource.url}"
+2020-10-19 09:30:27.383 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:31:29.082 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:32:38.388 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:32:48.100 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:33:14.969 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:33:32.908 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:33:44.430 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:36:31.187 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:36:38.143 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:38:56.340 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:39:16.411 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:42:12.654 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:42:19.775 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:43:04.214 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:43:58.946 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:44:08.578 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:44:17.807 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:44:27.153 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:44:37.871 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 09:44:46.051 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 10:04:25.232 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 10:09:42.339 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 10:11:17.253 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 10:11:25.877 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 10:59:26.480 [http-nio-8001-exec-1] WARN  o.s.w.s.m.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2020-10-19 10:59:52.938 [http-nio-8001-exec-4] WARN  o.s.w.s.m.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2020-10-19 11:02:23.080 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:03:07.293 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:04:07.377 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:04:53.682 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:07:05.778 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:07:21.997 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:07:35.973 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:07:38.089 [http-nio-8001-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:07:46.146 [http-nio-8001-exec-8] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:08:21.122 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:08:23.668 [http-nio-8001-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:08:39.567 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:08:41.439 [http-nio-8001-exec-5] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:08:43.533 [http-nio-8001-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:09:48.748 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:10:48.742 [http-nio-8001-exec-5] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:11:38.510 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:11:45.719 [http-nio-8001-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:13:26.985 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:13:32.275 [http-nio-8001-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:13:40.200 [http-nio-8001-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:15:20.647 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:15:26.068 [http-nio-8001-exec-8] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:16:41.379 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:17:23.033 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:19:43.828 [http-nio-8001-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:20:22.350 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:20:33.274 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:20:41.753 [http-nio-8001-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:21:18.478 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:21:29.148 [http-nio-8001-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 11:22:05.065 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:22:48.769 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:23:26.145 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 11:41:09.908 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 13:45:24.266 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 13:46:05.914 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 13:47:25.314 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 14:07:51.919 [http-nio-8001-exec-2] WARN  org.apache.shiro.authc.AbstractAuthenticator - Authentication failed for token submission [JwtToken(ipHost=0:0:0:0:0:0:0:1, deviceInfo=null, jwt=eyJhbGciOiJIUzUxMiIsInppcCI6IkRFRiJ9.eNosjNsKwyAQRP9lnxV26yWanylWLdhLUtSEQsi_V6VPM3OYmQMeNcEMJIzXGCSfpPZckrpwd7eSK7JGWQyEnoBB2W6t7MI7LS2lUlqq6zMuvMS8x9yhqzCTRoHaaqEYxO_nD8w0QF5fsQ-7XscXG3ZrH3D-AAAA__8.lJ6Brrc-01DSLdpAeVfv44KkZeXu-nYs_DmjPiXkFw90tq91qyJAASDHjB19KldyYlJAqgFSGKLqZlVjOlrAeg)].  Possible unexpected error? (Typical or expected login exceptions should extend from AuthenticationException).
+io.jsonwebtoken.ExpiredJwtException: JWT expired at 2020-10-19T14:07:15Z. Current time: 2020-10-19T14:07:51Z, a difference of 36917 milliseconds.  Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:385)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:481)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:541)
+	at com.kiwihouse.util.JsonWebTokenUtil.parseJwt(JsonWebTokenUtil.java:148)
+	at com.kiwihouse.shiro.matcher.JwtMatcher.doCredentialsMatch(JwtMatcher.java:31)
+	at org.apache.shiro.realm.AuthenticatingRealm.assertCredentialsMatch(AuthenticatingRealm.java:600)
+	at org.apache.shiro.realm.AuthenticatingRealm.getAuthenticationInfo(AuthenticatingRealm.java:581)
+	at org.apache.shiro.authc.pam.ModularRealmAuthenticator.doSingleRealmAuthentication(ModularRealmAuthenticator.java:180)
+	at com.kiwihouse.shiro.realm.AonModularRealmAuthenticator.doAuthenticate(AonModularRealmAuthenticator.java:30)
+	at org.apache.shiro.authc.AbstractAuthenticator.authenticate(AbstractAuthenticator.java:198)
+	at org.apache.shiro.mgt.AuthenticatingSecurityManager.authenticate(AuthenticatingSecurityManager.java:106)
+	at org.apache.shiro.mgt.DefaultSecurityManager.login(DefaultSecurityManager.java:275)
+	at org.apache.shiro.subject.support.DelegatingSubject.login(DelegatingSubject.java:260)
+	at com.kiwihouse.shiro.filter.JwtFilter.isAccessAllowed(JwtFilter.java:63)
+	at com.kiwihouse.shiro.filter.AbstractPathMatchingFilter.onPreHandle(AbstractPathMatchingFilter.java:83)
+	at org.apache.shiro.web.filter.PathMatchingFilter.isFilterChainContinued(PathMatchingFilter.java:214)
+	at org.apache.shiro.web.filter.PathMatchingFilter.preHandle(PathMatchingFilter.java:189)
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:131)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365)
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90)
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83)
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:387)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.kiwihouse.support.XssSqlFilter.doFilter(XssSqlFilter.java:29)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:124)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2020-10-19 14:08:41.923 [http-nio-8001-exec-10] WARN  org.apache.shiro.authc.AbstractAuthenticator - Authentication failed for token submission [JwtToken(ipHost=0:0:0:0:0:0:0:1, deviceInfo=null, jwt=eyJhbGciOiJIUzUxMiIsInppcCI6IkRFRiJ9.eNosjNsKwyAQRP9lnxV26yWanylWLdhLUtSEQsi_V6VPM3OYmQMeNcEMJIzXGCSfpPZckrpwd7eSK7JGWQyEnoBB2W6t7MI7LS2lUlqq6zMuvMS8x9yhqzCTRoHaaqEYxO_nD8w0QF5fsQ-7XscXG3ZrH3D-AAAA__8.lJ6Brrc-01DSLdpAeVfv44KkZeXu-nYs_DmjPiXkFw90tq91qyJAASDHjB19KldyYlJAqgFSGKLqZlVjOlrAeg)].  Possible unexpected error? (Typical or expected login exceptions should extend from AuthenticationException).
+io.jsonwebtoken.ExpiredJwtException: JWT expired at 2020-10-19T14:07:15Z. Current time: 2020-10-19T14:08:41Z, a difference of 86923 milliseconds.  Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:385)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:481)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:541)
+	at com.kiwihouse.util.JsonWebTokenUtil.parseJwt(JsonWebTokenUtil.java:148)
+	at com.kiwihouse.shiro.matcher.JwtMatcher.doCredentialsMatch(JwtMatcher.java:31)
+	at org.apache.shiro.realm.AuthenticatingRealm.assertCredentialsMatch(AuthenticatingRealm.java:600)
+	at org.apache.shiro.realm.AuthenticatingRealm.getAuthenticationInfo(AuthenticatingRealm.java:581)
+	at org.apache.shiro.authc.pam.ModularRealmAuthenticator.doSingleRealmAuthentication(ModularRealmAuthenticator.java:180)
+	at com.kiwihouse.shiro.realm.AonModularRealmAuthenticator.doAuthenticate(AonModularRealmAuthenticator.java:30)
+	at org.apache.shiro.authc.AbstractAuthenticator.authenticate(AbstractAuthenticator.java:198)
+	at org.apache.shiro.mgt.AuthenticatingSecurityManager.authenticate(AuthenticatingSecurityManager.java:106)
+	at org.apache.shiro.mgt.DefaultSecurityManager.login(DefaultSecurityManager.java:275)
+	at org.apache.shiro.subject.support.DelegatingSubject.login(DelegatingSubject.java:260)
+	at com.kiwihouse.shiro.filter.JwtFilter.isAccessAllowed(JwtFilter.java:63)
+	at com.kiwihouse.shiro.filter.AbstractPathMatchingFilter.onPreHandle(AbstractPathMatchingFilter.java:83)
+	at org.apache.shiro.web.filter.PathMatchingFilter.isFilterChainContinued(PathMatchingFilter.java:214)
+	at org.apache.shiro.web.filter.PathMatchingFilter.preHandle(PathMatchingFilter.java:189)
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:131)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365)
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90)
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83)
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:387)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.kiwihouse.support.XssSqlFilter.doFilter(XssSqlFilter.java:29)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:124)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2020-10-19 14:08:57.396 [http-nio-8001-exec-10] WARN  org.apache.shiro.authc.AbstractAuthenticator - Authentication failed for token submission [JwtToken(ipHost=0:0:0:0:0:0:0:1, deviceInfo=null, jwt=eyJhbGciOiJIUzUxMiIsInppcCI6IkRFRiJ9.eNosjNsKwyAQRP9lnxV26yWanylWLdhLUtSEQsi_V6VPM3OYmQMeNcEMJIzXGCSfpPZckrpwd7eSK7JGWQyEnoBB2W6t7MI7LS2lUlqq6zMuvMS8x9yhqzCTRoHaaqEYxO_nD8w0QF5fsQ-7XscXG3ZrH3D-AAAA__8.lJ6Brrc-01DSLdpAeVfv44KkZeXu-nYs_DmjPiXkFw90tq91qyJAASDHjB19KldyYlJAqgFSGKLqZlVjOlrAeg)].  Possible unexpected error? (Typical or expected login exceptions should extend from AuthenticationException).
+io.jsonwebtoken.ExpiredJwtException: JWT expired at 2020-10-19T14:07:15Z. Current time: 2020-10-19T14:08:57Z, a difference of 102396 milliseconds.  Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:385)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:481)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:541)
+	at com.kiwihouse.util.JsonWebTokenUtil.parseJwt(JsonWebTokenUtil.java:148)
+	at com.kiwihouse.shiro.matcher.JwtMatcher.doCredentialsMatch(JwtMatcher.java:31)
+	at org.apache.shiro.realm.AuthenticatingRealm.assertCredentialsMatch(AuthenticatingRealm.java:600)
+	at org.apache.shiro.realm.AuthenticatingRealm.getAuthenticationInfo(AuthenticatingRealm.java:581)
+	at org.apache.shiro.authc.pam.ModularRealmAuthenticator.doSingleRealmAuthentication(ModularRealmAuthenticator.java:180)
+	at com.kiwihouse.shiro.realm.AonModularRealmAuthenticator.doAuthenticate(AonModularRealmAuthenticator.java:30)
+	at org.apache.shiro.authc.AbstractAuthenticator.authenticate(AbstractAuthenticator.java:198)
+	at org.apache.shiro.mgt.AuthenticatingSecurityManager.authenticate(AuthenticatingSecurityManager.java:106)
+	at org.apache.shiro.mgt.DefaultSecurityManager.login(DefaultSecurityManager.java:275)
+	at org.apache.shiro.subject.support.DelegatingSubject.login(DelegatingSubject.java:260)
+	at com.kiwihouse.shiro.filter.JwtFilter.isAccessAllowed(JwtFilter.java:63)
+	at com.kiwihouse.shiro.filter.AbstractPathMatchingFilter.onPreHandle(AbstractPathMatchingFilter.java:83)
+	at org.apache.shiro.web.filter.PathMatchingFilter.isFilterChainContinued(PathMatchingFilter.java:214)
+	at org.apache.shiro.web.filter.PathMatchingFilter.preHandle(PathMatchingFilter.java:189)
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:131)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365)
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90)
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83)
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:387)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.kiwihouse.support.XssSqlFilter.doFilter(XssSqlFilter.java:29)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:124)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2020-10-19 14:08:57.418 [http-nio-8001-exec-3] WARN  org.apache.shiro.authc.AbstractAuthenticator - Authentication failed for token submission [JwtToken(ipHost=0:0:0:0:0:0:0:1, deviceInfo=null, jwt=eyJhbGciOiJIUzUxMiIsInppcCI6IkRFRiJ9.eNosjNsKwyAQRP9lnxV26yWanylWLdhLUtSEQsi_V6VPM3OYmQMeNcEMJIzXGCSfpPZckrpwd7eSK7JGWQyEnoBB2W6t7MI7LS2lUlqq6zMuvMS8x9yhqzCTRoHaaqEYxO_nD8w0QF5fsQ-7XscXG3ZrH3D-AAAA__8.lJ6Brrc-01DSLdpAeVfv44KkZeXu-nYs_DmjPiXkFw90tq91qyJAASDHjB19KldyYlJAqgFSGKLqZlVjOlrAeg)].  Possible unexpected error? (Typical or expected login exceptions should extend from AuthenticationException).
+io.jsonwebtoken.ExpiredJwtException: JWT expired at 2020-10-19T14:07:15Z. Current time: 2020-10-19T14:08:57Z, a difference of 102417 milliseconds.  Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:385)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:481)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:541)
+	at com.kiwihouse.util.JsonWebTokenUtil.parseJwt(JsonWebTokenUtil.java:148)
+	at com.kiwihouse.shiro.matcher.JwtMatcher.doCredentialsMatch(JwtMatcher.java:31)
+	at org.apache.shiro.realm.AuthenticatingRealm.assertCredentialsMatch(AuthenticatingRealm.java:600)
+	at org.apache.shiro.realm.AuthenticatingRealm.getAuthenticationInfo(AuthenticatingRealm.java:581)
+	at org.apache.shiro.authc.pam.ModularRealmAuthenticator.doSingleRealmAuthentication(ModularRealmAuthenticator.java:180)
+	at com.kiwihouse.shiro.realm.AonModularRealmAuthenticator.doAuthenticate(AonModularRealmAuthenticator.java:30)
+	at org.apache.shiro.authc.AbstractAuthenticator.authenticate(AbstractAuthenticator.java:198)
+	at org.apache.shiro.mgt.AuthenticatingSecurityManager.authenticate(AuthenticatingSecurityManager.java:106)
+	at org.apache.shiro.mgt.DefaultSecurityManager.login(DefaultSecurityManager.java:275)
+	at org.apache.shiro.subject.support.DelegatingSubject.login(DelegatingSubject.java:260)
+	at com.kiwihouse.shiro.filter.JwtFilter.isAccessAllowed(JwtFilter.java:63)
+	at com.kiwihouse.shiro.filter.AbstractPathMatchingFilter.onPreHandle(AbstractPathMatchingFilter.java:83)
+	at org.apache.shiro.web.filter.PathMatchingFilter.isFilterChainContinued(PathMatchingFilter.java:214)
+	at org.apache.shiro.web.filter.PathMatchingFilter.preHandle(PathMatchingFilter.java:189)
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:131)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365)
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90)
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83)
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:387)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.kiwihouse.support.XssSqlFilter.doFilter(XssSqlFilter.java:29)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:124)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2020-10-19 14:08:57.425 [http-nio-8001-exec-9] WARN  org.apache.shiro.authc.AbstractAuthenticator - Authentication failed for token submission [JwtToken(ipHost=0:0:0:0:0:0:0:1, deviceInfo=null, jwt=eyJhbGciOiJIUzUxMiIsInppcCI6IkRFRiJ9.eNosjNsKwyAQRP9lnxV26yWanylWLdhLUtSEQsi_V6VPM3OYmQMeNcEMJIzXGCSfpPZckrpwd7eSK7JGWQyEnoBB2W6t7MI7LS2lUlqq6zMuvMS8x9yhqzCTRoHaaqEYxO_nD8w0QF5fsQ-7XscXG3ZrH3D-AAAA__8.lJ6Brrc-01DSLdpAeVfv44KkZeXu-nYs_DmjPiXkFw90tq91qyJAASDHjB19KldyYlJAqgFSGKLqZlVjOlrAeg)].  Possible unexpected error? (Typical or expected login exceptions should extend from AuthenticationException).
+io.jsonwebtoken.ExpiredJwtException: JWT expired at 2020-10-19T14:07:15Z. Current time: 2020-10-19T14:08:57Z, a difference of 102425 milliseconds.  Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:385)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:481)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:541)
+	at com.kiwihouse.util.JsonWebTokenUtil.parseJwt(JsonWebTokenUtil.java:148)
+	at com.kiwihouse.shiro.matcher.JwtMatcher.doCredentialsMatch(JwtMatcher.java:31)
+	at org.apache.shiro.realm.AuthenticatingRealm.assertCredentialsMatch(AuthenticatingRealm.java:600)
+	at org.apache.shiro.realm.AuthenticatingRealm.getAuthenticationInfo(AuthenticatingRealm.java:581)
+	at org.apache.shiro.authc.pam.ModularRealmAuthenticator.doSingleRealmAuthentication(ModularRealmAuthenticator.java:180)
+	at com.kiwihouse.shiro.realm.AonModularRealmAuthenticator.doAuthenticate(AonModularRealmAuthenticator.java:30)
+	at org.apache.shiro.authc.AbstractAuthenticator.authenticate(AbstractAuthenticator.java:198)
+	at org.apache.shiro.mgt.AuthenticatingSecurityManager.authenticate(AuthenticatingSecurityManager.java:106)
+	at org.apache.shiro.mgt.DefaultSecurityManager.login(DefaultSecurityManager.java:275)
+	at org.apache.shiro.subject.support.DelegatingSubject.login(DelegatingSubject.java:260)
+	at com.kiwihouse.shiro.filter.JwtFilter.isAccessAllowed(JwtFilter.java:63)
+	at com.kiwihouse.shiro.filter.AbstractPathMatchingFilter.onPreHandle(AbstractPathMatchingFilter.java:83)
+	at org.apache.shiro.web.filter.PathMatchingFilter.isFilterChainContinued(PathMatchingFilter.java:214)
+	at org.apache.shiro.web.filter.PathMatchingFilter.preHandle(PathMatchingFilter.java:189)
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:131)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365)
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90)
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83)
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:387)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.kiwihouse.support.XssSqlFilter.doFilter(XssSqlFilter.java:29)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:124)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2020-10-19 15:07:18.223 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 15:07:23.662 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 15:07:35.574 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 15:07:42.652 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 15:08:30.016 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 15:12:09.034 [http-nio-8001-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.dao.RecoverableDataAccessException: 
+### Error querying database.  Cause: com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 68,655 milliseconds ago. The last packet sent successfully to the server was 68,786 milliseconds ago.
+### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\AlarmMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.AlarmMapper.queryAlarmCount-Inline
+### The error occurred while setting parameters
+### SQL: SELECT count(*) FROM(      SELECT a.alarm_id FROM `alarm` a       LEFT JOIN equipment e on a.imei = e.imei       Left JOIN contacts c on e.user_id = c.user_id       where alarm_type != ''       and if_delete  = 0                                                                                                                       and DATE_FORMAT(a.add_time,'%Y-%m-%d %H:%i:%S') between ? and ?                                GROUP BY a.alarm_id                order by a.add_time                     ) t
+### Cause: com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 68,655 milliseconds ago. The last packet sent successfully to the server was 68,786 milliseconds ago.
+; Communications link failure
+
+The last packet successfully received from the server was 68,655 milliseconds ago. The last packet sent successfully to the server was 68,786 milliseconds ago.; nested exception is com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 68,655 milliseconds ago. The last packet sent successfully to the server was 68,786 milliseconds ago.]
+2020-10-19 15:18:27.416 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 15:19:06.264 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 15:19:40.702 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 15:32:53.285 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:06:33.162 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:06:33.583 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/C:/Users/cmx/.m2/repository/io/springfox/springfox-spring-web/2.9.2/springfox-spring-web-2.9.2.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/C:/Users/cmx/.m2/repository/io/springfox/springfox-spring-web/2.9.2/springfox-spring-web-2.9.2.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'roleResourceButtonController' method 
+com.kiwihouse.controller.RoleResourceButtonController#queryButtonsPower(Integer)
+to {GET /r/res/button/all/power/{roleId}}: There is already 'roleResourceButtonController' bean method
+com.kiwihouse.controller.RoleResourceButtonController#insertOrUpdate(Integer) mapped.
+2020-10-19 16:07:39.234 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:09:22.418 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:09:23.349 [restartedMain] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.util.List<com.kiwihouse.dao.entity.RoleResourceButton>
+2020-10-19 16:09:39.196 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:09:40.031 [restartedMain] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.util.List<com.kiwihouse.dao.entity.RoleResourceButton>
+2020-10-19 16:09:50.754 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:09:51.639 [restartedMain] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.util.List<com.kiwihouse.dao.entity.RoleResourceButton>
+2020-10-19 16:10:31.404 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:10:32.219 [restartedMain] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.util.List<com.kiwihouse.dao.entity.RoleResourceButton>
+2020-10-19 16:10:38.316 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:10:39.493 [restartedMain] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.util.List<com.kiwihouse.dao.entity.RoleResourceButton>
+2020-10-19 16:11:18.005 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:14:30.801 [http-nio-8001-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.kiwihouse.dao.mapper.ButtonMapper.insertOrUpdate]
+2020-10-19 16:14:56.070 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:16:28.358 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:16:48.456 [http-nio-8001-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 16:17:54.532 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:18:05.961 [http-nio-8001-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 16:19:17.336 [http-nio-8001-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException]
+2020-10-19 16:19:40.099 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:28:31.440 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:28:31.724 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'roleResourceButtonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\RoleResourceButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.RoleResourceButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	Syntax error, insert "}" to complete ClassBody
+	Syntax error on token ",", FormalParameter expected after this token
+	Syntax error on token "}", delete this token
+
+2020-10-19 16:29:19.358 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:29:24.344 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:29:28.748 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:29:46.192 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:30:17.335 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:31:47.746 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:32:06.123 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:32:20.846 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:32:29.449 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:32:35.497 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:32:43.546 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:32:55.175 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:33:00.426 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:33:15.079 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:33:51.755 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:34:03.522 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:34:08.547 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:34:13.637 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:34:21.046 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:35:09.831 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:35:31.897 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:36:18.246 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:36:51.552 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:37:09.190 [http-nio-8001-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.binding.BindingException: Parameter 'list' not found. Available parameters are [roleId, roleResourceButtons, param1, param2]]
+2020-10-19 16:42:44.327 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:42:53.503 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:43:07.356 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:43:28.602 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:44:49.469 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:45:05.538 [http-nio-8001-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.binding.BindingException: Parameter 'list' not found. Available parameters are [roleId, roleResourceButtons, param1, param2]]
+2020-10-19 16:46:36.653 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:47:28.897 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:47:35.176 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:47:41.269 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:48:00.406 [http-nio-8001-exec-8] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.binding.BindingException: Parameter 'list' not found. Available parameters are [roleResourceButtons, param1]]
+2020-10-19 16:49:05.351 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:50:13.621 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:50:28.146 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:50:43.414 [http-nio-8001-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: java.sql.SQLException: Column count doesn't match value count at row 1
+### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\RoleResourceButtonMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.RoleResourceButtonMapper.insertOrUpdateBatch-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO role_resource_button         (ID,          resource_button_id,          resource_id,          role_id)          VALUES                        (             ?,             ?,             ?             )          ,              (             ?,             ?,             ?             )          ,              (             ?,             ?,             ?             )                             ON DUPLICATE KEY UPDATE          resource_button_id = VALUES(resource_button_id),         resource_id = VALUES(resource_id),         role_id = VALUES(role_id)
+### Cause: java.sql.SQLException: Column count doesn't match value count at row 1
+; bad SQL grammar []; nested exception is java.sql.SQLException: Column count doesn't match value count at row 1]
+2020-10-19 16:51:46.138 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:57:00.189 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:57:07.670 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:57:51.549 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:58:08.060 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'objectMapperConfigurer' defined in class path resource [springfox/documentation/spring/web/SpringfoxWebMvcConfiguration.class]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.ProxyCachingConfiguration': BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authorizationAttributeSourceAdvisor' defined in class path resource [org/apache/shiro/spring/boot/autoconfigure/ShiroAnnotationProcessorAutoConfiguration.class]: Unsatisfied dependency expressed through method 'authorizationAttributeSourceAdvisor' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'shiroConfig': Unsatisfied dependency expressed through field 'accountProvider'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'AccountProvider': Unsatisfied dependency expressed through field 'accountService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'AccountService': Unsatisfied dependency expressed through field 'userMapper'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authUserMapper' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\dao\mapper\AuthUserMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'SqlSessionFactory' defined in class path resource [com/kiwihouse/config/database/DataSourceConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.ibatis.session.SqlSessionFactory]: Factory method 'SqlSessionFactory' threw exception; nested exception is org.springframework.core.NestedIOException: Failed to parse mapping resource: 'file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\ResourceButtonMapper.xml]'; nested exception is org.apache.ibatis.builder.BuilderException: Error creating document instance.  Cause: org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; 文件提前结束。
+2020-10-19 16:58:32.132 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:58:55.411 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:59:39.074 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 16:59:43.538 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:00:13.294 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:00:43.967 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:00:57.703 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:02:31.874 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:02:36.094 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:02:41.738 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:04:03.322 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:04:14.882 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:05:39.743 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:05:45.799 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:10:08.833 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:10:08.924 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'buttonController': Unsatisfied dependency expressed through field 'roleResourceButtonService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'roleResourceButtonServiceImpl' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\service\impl\RoleResourceButtonServiceImpl.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.impl.RoleResourceButtonServiceImpl]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problem: 
+	The constructor ResourceButton(null, Integer) is undefined
+
+2020-10-19 17:10:13.532 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:12:30.193 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:22:25.708 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:22:32.338 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:28:04.391 [http-nio-8001-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'buttonId' in 'class com.kiwihouse.dao.entity.RoleResourceButton']
+2020-10-19 17:38:30.315 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:38:50.249 [http-nio-8001-exec-5] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Unknown column 'rrb.role_id' in 'on clause'
+### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\ButtonMapper.xml]
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT b.title,b.type,b.icon,ar.`NAME`,ar.`CODE`,rb.resource_id,arr.ROLE_ID FROM `resource_button` rb inner JOIN button b on rb.button_id = b.id         INNER JOIN auth_resource ar on ar.ID = rb.resource_id INNER JOIN auth_role_resource arr on ar.ID = arr.RESOURCE_ID                       and rrb.role_id = ?
+### Cause: java.sql.SQLSyntaxErrorException: Unknown column 'rrb.role_id' in 'on clause'
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: Unknown column 'rrb.role_id' in 'on clause']
+2020-10-19 17:39:27.556 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:42:31.727 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:42:40.129 [http-nio-8001-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Unknown column 'rrb.role_id' in 'where clause'
+### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\ButtonMapper.xml]
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT b.title,b.icon,b.event,b.type,b.id,ar.`NAME`,ar.URI,rb.role_id,ar.`CODE`,ar.ID resourceId FROM `resource_button` rb inner JOIN button b on rb.button_id = b.id         INNER JOIN auth_resource ar on ar.ID = rb.resource_id INNER JOIN auth_role_resource arr on ar.ID = arr.RESOURCE_ID          WHERE ar.TYPE = 0                        and rrb.role_id = ?
+### Cause: java.sql.SQLSyntaxErrorException: Unknown column 'rrb.role_id' in 'where clause'
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: Unknown column 'rrb.role_id' in 'where clause']
+2020-10-19 17:42:54.797 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:44:59.951 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:45:03.812 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:45:13.334 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:45:22.899 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:45:42.947 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:45:55.337 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 17:46:05.855 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:00:06.175 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:04:32.259 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:04:37.654 [http-nio-8001-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Failure in @ExceptionHandler com.kiwihouse.support.GlobalExceptionHandler#notFoundException(RuntimeException)
+java.lang.NullPointerException: null
+	at org.springframework.web.util.UrlPathHelper.removeJsessionid(UrlPathHelper.java:542)
+	at org.springframework.web.util.UrlPathHelper.removeSemicolonContent(UrlPathHelper.java:527)
+	at org.springframework.web.util.UrlPathHelper.decodeAndCleanUriString(UrlPathHelper.java:460)
+	at org.springframework.web.util.UrlPathHelper.getOriginatingRequestUri(UrlPathHelper.java:407)
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.addContentDispositionHeader(AbstractMessageConverterMethodProcessor.java:437)
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.writeWithMessageConverters(AbstractMessageConverterMethodProcessor.java:293)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.handleReturnValue(RequestResponseBodyMethodProcessor.java:181)
+	at org.springframework.web.method.support.HandlerMethodReturnValueHandlerComposite.handleReturnValue(HandlerMethodReturnValueHandlerComposite.java:82)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:124)
+	at org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(ExceptionHandlerExceptionResolver.java:407)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver.doResolveException(AbstractHandlerMethodExceptionResolver.java:61)
+	at org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver.resolveException(AbstractHandlerExceptionResolver.java:141)
+	at org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(HandlerExceptionResolverComposite.java:80)
+	at org.springframework.web.servlet.DispatcherServlet.processHandlerException(DispatcherServlet.java:1300)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1111)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1057)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:61)
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108)
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365)
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90)
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83)
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:387)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.kiwihouse.support.XssSqlFilter.doFilter(XssSqlFilter.java:29)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:124)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2020-10-19 18:04:40.794 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:06:19.481 [http-nio-8001-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'devs.role_resource_button' doesn't exist
+### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\RoleResourceButtonMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.RoleResourceButtonMapper.buttonListById-Inline
+### The error occurred while setting parameters
+### SQL: SELECT rb.* FROM `role_resource_button` rrb INNER JOIN button rb on rrb.resource_button_id = rb.id   where 1 = 1         and role_id = ?                   and resource_id = ?
+### Cause: java.sql.SQLSyntaxErrorException: Table 'devs.role_resource_button' doesn't exist
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: Table 'devs.role_resource_button' doesn't exist]
+2020-10-19 18:06:28.001 [http-nio-8001-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'devs.role_resource_button' doesn't exist
+### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\RoleResourceButtonMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.RoleResourceButtonMapper.buttonListById-Inline
+### The error occurred while setting parameters
+### SQL: SELECT rb.* FROM `role_resource_button` rrb INNER JOIN button rb on rrb.resource_button_id = rb.id   where 1 = 1         and role_id = ?                   and resource_id = ?
+### Cause: java.sql.SQLSyntaxErrorException: Table 'devs.role_resource_button' doesn't exist
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: Table 'devs.role_resource_button' doesn't exist]
+2020-10-19 18:07:50.930 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:07:51.033 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'buttonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\ButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.ButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	ResourceButtonService cannot be resolved to a type
+	roleResourceButtonService cannot be resolved
+
+2020-10-19 18:09:00.556 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:09:00.654 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'buttonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\ButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.ButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	ResourceButtonService cannot be resolved to a type
+	roleResourceButtonService cannot be resolved
+
+2020-10-19 18:09:13.232 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:09:13.363 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'buttonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\ButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.ButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	ResourceButtonService cannot be resolved to a type
+	roleResourceButtonService cannot be resolved
+
+2020-10-19 18:09:42.670 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:09:42.755 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'buttonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\ButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.ButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	ResourceButtonService cannot be resolved to a type
+	roleResourceButtonService cannot be resolved
+
+2020-10-19 18:09:55.882 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:09:55.985 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'buttonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\ButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.ButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	ResourceButtonService cannot be resolved to a type
+	roleResourceButtonService cannot be resolved
+
+2020-10-19 18:10:07.205 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:10:07.294 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'buttonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\ButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.ButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	ResourceButtonService cannot be resolved to a type
+	roleResourceButtonService cannot be resolved
+
+2020-10-19 18:10:26.906 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:10:27.114 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'roleResourceButtonController': Unsatisfied dependency expressed through field 'roleResourceButtonService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.kiwihouse.service.RoleResourceButtonService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2020-10-19 18:10:40.374 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:10:40.587 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'roleResourceButtonController': Unsatisfied dependency expressed through field 'roleResourceButtonService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.kiwihouse.service.RoleResourceButtonService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2020-10-19 18:10:44.707 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:10:44.913 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'roleResourceButtonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\RoleResourceButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.RoleResourceButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The import com.kiwihouse.service.RoleResourceButtonService cannot be resolved
+	RoleResourceButtonService cannot be resolved to a type
+	RoleResourceButtonService cannot be resolved to a type
+
+2020-10-19 18:10:52.206 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:10:52.438 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'roleResourceButtonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\RoleResourceButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.RoleResourceButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The import com.kiwihouse.service.RoleResourceButtonService cannot be resolved
+	RoleResourceButtonService cannot be resolved to a type
+	RoleResourceButtonService cannot be resolved to a type
+
+2020-10-19 18:11:10.399 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:11:10.587 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'resourceButtonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\ResourceButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.ResourceButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	RoleResourceButtonService cannot be resolved to a type
+	RoleResourceButtonService cannot be resolved to a type
+
+2020-10-19 18:11:31.822 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:11:32.082 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'roleResourceButtonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\RoleResourceButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.RoleResourceButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The import com.kiwihouse.service.RoleResourceButtonService cannot be resolved
+	RoleResourceButtonService cannot be resolved to a type
+	RoleResourceButtonService cannot be resolved to a type
+
+2020-10-19 18:11:48.492 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:11:48.887 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'roleResourceButtonController' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\RoleResourceButtonController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.RoleResourceButtonController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The import com.kiwihouse.service.RoleResourceButtonService cannot be resolved
+	RoleResourceButtonService cannot be resolved to a type
+	RoleResourceButtonService cannot be resolved to a type
+
+2020-10-19 18:11:53.756 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:12:59.418 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:14:08.040 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in class path resource [com/kiwihouse/shiro/config/ShiroConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.shiro.spring.web.ShiroFilterFactoryBean]: Factory method 'shiroFilter' threw exception; nested exception is org.apache.ibatis.builder.IncompleteElementException: Could not find result map 'com.kiwihouse.dao.mapper.ResourceButtonMapper.ResourceButtonsMap' referenced from 'com.kiwihouse.dao.mapper.ResourceButtonMapper.buttonListById'
+2020-10-19 18:14:32.709 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in class path resource [com/kiwihouse/shiro/config/ShiroConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.shiro.spring.web.ShiroFilterFactoryBean]: Factory method 'shiroFilter' threw exception; nested exception is org.apache.ibatis.builder.IncompleteElementException: Could not find result map 'com.kiwihouse.dao.mapper.ResourceButtonMapper.ResourceButtonsMap' referenced from 'com.kiwihouse.dao.mapper.ResourceButtonMapper.buttonListById'
+2020-10-19 18:14:49.208 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in class path resource [com/kiwihouse/shiro/config/ShiroConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.shiro.spring.web.ShiroFilterFactoryBean]: Factory method 'shiroFilter' threw exception; nested exception is org.apache.ibatis.builder.IncompleteElementException: Could not find result map 'com.kiwihouse.dao.mapper.ResourceButtonMapper.ResourceButtonsMap' referenced from 'com.kiwihouse.dao.mapper.ResourceButtonMapper.buttonListById'
+2020-10-19 18:15:16.797 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in class path resource [com/kiwihouse/shiro/config/ShiroConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.shiro.spring.web.ShiroFilterFactoryBean]: Factory method 'shiroFilter' threw exception; nested exception is org.apache.ibatis.builder.IncompleteElementException: Could not find result map 'com.kiwihouse.dao.mapper.ResourceButtonMapper.ResourceButtonsMap' referenced from 'com.kiwihouse.dao.mapper.ResourceButtonMapper.buttonListById'
+2020-10-19 18:15:33.712 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in class path resource [com/kiwihouse/shiro/config/ShiroConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.shiro.spring.web.ShiroFilterFactoryBean]: Factory method 'shiroFilter' threw exception; nested exception is org.apache.ibatis.builder.IncompleteElementException: Could not find result map 'com.kiwihouse.dao.mapper.ResourceButtonMapper.ResourceButtonsMap' referenced from 'com.kiwihouse.dao.mapper.ResourceButtonMapper.buttonListById'
+2020-10-19 18:15:45.436 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in class path resource [com/kiwihouse/shiro/config/ShiroConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.shiro.spring.web.ShiroFilterFactoryBean]: Factory method 'shiroFilter' threw exception; nested exception is org.apache.ibatis.builder.IncompleteElementException: Could not find result map 'com.kiwihouse.dao.mapper.ResourceButtonMapper.ResourceButtonsMap' referenced from 'com.kiwihouse.dao.mapper.ResourceButtonMapper.buttonListById'
+2020-10-19 18:15:48.361 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in class path resource [com/kiwihouse/shiro/config/ShiroConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.shiro.spring.web.ShiroFilterFactoryBean]: Factory method 'shiroFilter' threw exception; nested exception is org.apache.ibatis.builder.IncompleteElementException: Could not find result map 'com.kiwihouse.dao.mapper.ResourceButtonMapper.ResourceButtonsMap' referenced from 'com.kiwihouse.dao.mapper.ResourceButtonMapper.buttonListById'
+2020-10-19 18:18:19.877 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in class path resource [com/kiwihouse/shiro/config/ShiroConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.shiro.spring.web.ShiroFilterFactoryBean]: Factory method 'shiroFilter' threw exception; nested exception is org.apache.ibatis.builder.IncompleteElementException: Could not find result map 'com.kiwihouse.dao.mapper.ResourceButtonMapper.ResourceButtonsMap' referenced from 'com.kiwihouse.dao.mapper.ResourceButtonMapper.buttonListById'
+2020-10-19 18:18:34.312 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in class path resource [com/kiwihouse/shiro/config/ShiroConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.shiro.spring.web.ShiroFilterFactoryBean]: Factory method 'shiroFilter' threw exception; nested exception is org.apache.ibatis.builder.IncompleteElementException: Could not find result map 'com.kiwihouse.dao.mapper.ResourceButtonMapper.ResourceButtonsMap' referenced from 'com.kiwihouse.dao.mapper.ResourceButtonMapper.buttonListById'
+2020-10-19 18:20:03.067 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'objectMapperConfigurer' defined in class path resource [springfox/documentation/spring/web/SpringfoxWebMvcConfiguration.class]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.ProxyCachingConfiguration': BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authorizationAttributeSourceAdvisor' defined in class path resource [org/apache/shiro/spring/boot/autoconfigure/ShiroAnnotationProcessorAutoConfiguration.class]: Unsatisfied dependency expressed through method 'authorizationAttributeSourceAdvisor' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'shiroConfig': Unsatisfied dependency expressed through field 'accountProvider'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'AccountProvider': Unsatisfied dependency expressed through field 'accountService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'AccountService': Unsatisfied dependency expressed through field 'userMapper'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authUserMapper' defined in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\dao\mapper\AuthUserMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'SqlSessionFactory' defined in class path resource [com/kiwihouse/config/database/DataSourceConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.ibatis.session.SqlSessionFactory]: Factory method 'SqlSessionFactory' threw exception; nested exception is org.springframework.core.NestedIOException: Failed to parse mapping resource: 'file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\ResourceButtonMapper.xml]'; nested exception is org.apache.ibatis.builder.BuilderException: Error parsing Mapper XML. The XML location is 'file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\ResourceButtonMapper.xml]'. Cause: java.lang.IllegalArgumentException: Mapped Statements collection already contains value for com.kiwihouse.dao.mapper.ResourceButtonMapper.buttonListById. please check file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\ResourceButtonMapper.xml] and file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\ResourceButtonMapper.xml]
+2020-10-19 18:23:55.439 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:25:33.508 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:25:41.952 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:25:48.479 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:25:53.948 [http-nio-8001-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.ClassCastException: com.kiwihouse.dao.entity.ResourceButton cannot be cast to com.kiwihouse.dao.entity.Buttons]
+2020-10-19 18:27:04.212 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:27:15.556 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:28:46.290 [http-nio-8001-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9
+### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\ResourceButtonMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.ResourceButtonMapper.insertOrUpdateBatch-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO resource_button         (          button_id,          resource_id,          role_id)          VALUES                             ON DUPLICATE KEY UPDATE          button_id = VALUES(button_id),         resource_id = VALUES(resource_id),         role_id = VALUES(role_id)
+### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9]
+2020-10-19 18:30:02.575 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:32:40.177 [http-nio-8001-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9
+### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\ResourceButtonMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.ResourceButtonMapper.insertOrUpdateBatch-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO resource_button         (          button_id,          resource_id,          role_id)          VALUES                             ON DUPLICATE KEY UPDATE          button_id = VALUES(button_id),         resource_id = VALUES(resource_id),         role_id = VALUES(role_id)
+### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9]
+2020-10-19 18:33:09.747 [http-nio-8001-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9
+### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\ResourceButtonMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.ResourceButtonMapper.insertOrUpdateBatch-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO resource_button         (          button_id,          resource_id,          role_id)          VALUES                             ON DUPLICATE KEY UPDATE          button_id = VALUES(button_id),         resource_id = VALUES(resource_id),         role_id = VALUES(role_id)
+### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9]
+2020-10-19 18:33:54.516 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:34:24.819 [http-nio-8001-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.kiwihouse.dao.mapper.ResourceButtonMapper.delete]
+2020-10-19 18:36:09.268 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-10-19 18:36:24.420 [http-nio-8001-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9
+### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\ResourceButtonMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.ResourceButtonMapper.insertOrUpdateBatch-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO resource_button         (          button_id,          resource_id,          role_id)          VALUES                             ON DUPLICATE KEY UPDATE          button_id = VALUES(button_id),         resource_id = VALUES(resource_id),         role_id = VALUES(role_id)
+### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE 
+        button_id = VALUES(button_id),
+        resource' at line 9]

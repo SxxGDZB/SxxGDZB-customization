@@ -66,4 +66,11 @@ public interface RoleService {
      * @return
      */
 	List<Map<String, Integer>> queryAuthRole(Integer roleId);
+	/**
+	 * 	查询角色列表分页
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	Map<String, Object> getSelectRolesList(Integer page, Integer limit);
 }

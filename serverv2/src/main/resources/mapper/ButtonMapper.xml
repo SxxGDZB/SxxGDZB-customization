@@ -97,18 +97,22 @@
   <select id="queryInfo" resultMap="BaseResultMap" parameterType="Integer">
     <choose>
         <when test="trigger == 1">
-           <!-- SELECT * FROM button WHERE id not in (
-           SELECT button_id FROM menu_btn WHERE menu_id = #{buttons.menuId} AND role_id = #{buttons.roleId} 
-           )
-           queryInfo -->
-            SELECT * FROM button WHERE id not in (SELECT button_id FROM menu_btn_model WHERE menu_id = #{buttons.menuId} ) 
+            SELECT * FROM button WHERE id not in (
+            SELECT button_id FROM menu_btn_model 
+            WHERE 1 = 1
+            <if test="buttons.menuId != null and buttons.menuId != ''">
+                AND menu_id = #{buttons.menuId}
+            </if>
+             ) 
         </when>
         <when test="trigger == 2">
-           <!-- SELECT * FROM button WHERE id not in (
-           SELECT button_id FROM menu_btn WHERE menu_id = #{buttons.menuId} AND role_id = #{buttons.roleId} 
-           )
-           queryInfo -->
-            SELECT * FROM button WHERE id in (SELECT button_id FROM menu_btn_model WHERE menu_id = #{buttons.menuId} ) 
+            SELECT * FROM button WHERE id in (
+            SELECT button_id FROM menu_btn_model 
+            WHERE 1 = 1
+            <if test="buttons.menuId != null and buttons.menuId != ''">
+                AND menu_id = #{buttons.menuId}
+            </if>
+            ) 
         </when>
         <otherwise>
          select * from button 
@@ -125,10 +129,22 @@
             <!-- SELECT count(*) FROM button WHERE id not in (
             SELECT button_id FROM menu_btn WHERE menu_id = #{buttons.menuId} 
             AND role_id = #{buttons.roleId} ) -->
-            SELECT count(*) FROM button WHERE id not in (SELECT button_id FROM menu_btn_model WHERE menu_id = #{buttons.menuId} ) 
+            SELECT count(*) FROM button WHERE id not in (
+            SELECT button_id FROM menu_btn_model 
+            WHERE 1 = 1
+            <if test="buttons.menuId != null and buttons.menuId != ''">
+                AND menu_id = #{buttons.menuId}
+            </if>
+            ) 
         </when>
         <when test="trigger == 2">
-            SELECT count(*) FROM button WHERE id in (SELECT button_id FROM menu_btn_model WHERE menu_id = #{buttons.menuId} ) 
+            SELECT count(*) FROM button WHERE id in (
+            SELECT button_id FROM menu_btn_model 
+            WHERE 1 = 1
+            <if test="buttons.menuId != null and buttons.menuId != ''">
+                AND menu_id = #{buttons.menuId}
+            </if>
+            ) 
         </when>
         <otherwise>
          select count(*) from button 

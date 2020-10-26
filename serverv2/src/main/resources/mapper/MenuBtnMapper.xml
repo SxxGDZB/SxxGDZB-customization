@@ -55,28 +55,48 @@
   </resultMap>
   
   <select id="queryInfo" resultMap="ResBtnModelMap">
-        SELECT GROUP_CONCAT(bt.title) titles,GROUP_CONCAT(bt.icon) icons,GROUP_CONCAT(bt.id) ids,sm.`NAME`,GROUP_CONCAT(bt.type) types FROM menu_btn_model rbm 
-		INNER JOIN sys_menu sm on rbm.menu_id = sm.id 
-		INNER JOIN button bt on bt.id = rbm.button_id 
+        <!-- SELECT GROUP_CONCAT(bt.title) titles,GROUP_CONCAT(bt.icon) icons,GROUP_CONCAT(bt.id) ids,sm.`NAME`,GROUP_CONCAT(bt.type) types FROM menu_btn_model rbm 
+		LEFT JOIN sys_menu sm on rbm.menu_id = sm.id 
+		LEFT JOIN button bt on bt.id = rbm.button_id 
 		WHERE sm.id in (SELECT menu_id FROM auth_role_menu 
 		            WHERE 1 = 1
 		            <if test="roleId != null and roleId != ''">
 		              AND role_id = #{roleId}
 		            </if>
 		            AND sm.page_type = 1 )
+        GROUP BY sm.ID  -->
+        SELECT GROUP_CONCAT(bt.title) titles,GROUP_CONCAT(bt.icon) icons,GROUP_CONCAT(bt.id) ids,sm.`NAME`,GROUP_CONCAT(bt.type) types FROM sys_menu sm 
+        LEFT JOIN menu_btn_model rbm on sm.id = rbm.menu_id  
+        LEFT JOIN button bt on bt.id = rbm.button_id
+        WHERE page_type = 1 AND sm.id in (SELECT menu_id FROM auth_role_menu 
+                    WHERE 1 = 1
+                  <if test="roleId != null and roleId != ''">
+                      AND role_id = #{roleId}
+                    </if>
+                    AND sm.page_type = 1 )
         GROUP BY sm.ID 
         <if test="limit != null">
             limit #{page},#{limit}
         </if>
   </select>
   <select id="queryCount" resultType="Integer">
-        SELECT count(*) from (
+       <!--  SELECT count(*) from (
 			SELECT GROUP_CONCAT(bt.title) titles,GROUP_CONCAT(bt.icon) icons,GROUP_CONCAT(bt.id) ids,sm.`NAME` FROM menu_btn_model rbm 
         INNER JOIN sys_menu sm on rbm.menu_id = sm.id 
         INNER JOIN button bt on bt.id = rbm.button_id 
         WHERE sm.id in (SELECT menu_id FROM auth_role_menu 
                     WHERE 1 = 1
                     <if test="roleId != null and roleId != ''">
+                      AND role_id = #{roleId}
+                    </if>
+                    AND sm.page_type = 1 )
+        GROUP BY sm.ID ) as tem -->
+        SELECT count(*) FROM (  SELECT GROUP_CONCAT(bt.title) titles,GROUP_CONCAT(bt.icon) icons,GROUP_CONCAT(bt.id) ids,sm.`NAME`,GROUP_CONCAT(bt.type) types FROM sys_menu sm 
+        LEFT JOIN menu_btn_model rbm on sm.id = rbm.menu_id  
+        LEFT JOIN button bt on bt.id = rbm.button_id
+        WHERE page_type = 1 AND sm.id in (SELECT menu_id FROM auth_role_menu 
+                    WHERE 1 = 1
+                  <if test="roleId != null and roleId != ''">
                       AND role_id = #{roleId}
                     </if>
                     AND sm.page_type = 1 )

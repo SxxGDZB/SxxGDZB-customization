@@ -79,4 +79,22 @@ public interface AuthRoleMapper {
      * @return
      */
 	List<Map<String, Integer>> queryAuthRole(Integer roleId);
+	/**
+	 * 	查询角色列表分页
+	 * @param i
+	 * @param limit
+	 * @return
+	 */
+	List<AuthRole> getSelectRolesList(Integer page, Integer limit);
+	/**
+	 * 	查询角色列表总数
+	 * @return
+	 */
+	int getSelectRolesListCount();
+	/**
+	 *	 初始化角色按钮
+	 * @param id
+	 * @return
+	 */
+	void initBtn(Integer roleId);
 }

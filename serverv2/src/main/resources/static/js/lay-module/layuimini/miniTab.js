@@ -45,7 +45,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
             options.title = options.title || null;
             options.isIframe = options.isIframe || false;
             options.maxTabNum = options.maxTabNum || 20;
-            //options.menuId = options.menuId || null;
+            options.menuId = options.menuId || null;
             if ($(".layuimini-tab .layui-tab-title li").length >= options.maxTabNum) {
                 layer.msg('Tab窗口已达到限定数量，请先关闭部分Tab');
                 return false;
@@ -55,11 +55,11 @@ layui.define(["element", "layer", "jquery"], function (exports) {
             console.log(options);
             ele.tabAdd('layuiminiTab', {
                 title: '<span class="layuimini-tab-active"></span><span>' + options.title + '</span><i class="layui-icon layui-unselect layui-tab-close">ဆ</i>' //用于演示
-                , content: '<iframe width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" lay-menuId="****"  src="' + options.href + '"></iframe>'
+                , content: '<iframe width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" lay-menuId="'+options.menuId+'"  src="' + options.href + '"></iframe>'
                 , id: options.tabId
             });
             $('.layuimini-menu-left').attr('layuimini-tab-tag', 'add');
-            sessionStorage.setItem('layuiminimenu_' + options.tabId, options.title);
+            sessionStorage.setItem('layuiminimenu_' + options.tabId, JSON.stringify(options));
         },
 
 
@@ -102,6 +102,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
                     tabId: options.href,
                     href: options.href,
                     title: options.title,
+                    menuId: options.menuId,
                     isIframe: true,
                 });
             }
@@ -213,8 +214,9 @@ layui.define(["element", "layer", "jquery"], function (exports) {
                 var tabId = $(this).attr('layuimini-href'),
                     href = $(this).attr('layuimini-href'),
                     title = $(this).text(),
-                    target = $(this).attr('target');
-
+                    target = $(this).attr('target'),
+                    menuId = $(this).attr("id");
+                
                 var el = $("[layuimini-href='" + href + "']", ".layuimini-menu-left");
                 layer.close(window.openTips);
                 if (el.length) {
@@ -236,6 +238,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
                         tabId: tabId,
                         href: href,
                         title: title,
+                        menuId: menuId,
                         isIframe: false,
                         maxTabNum: options.maxTabNum,
                     });
@@ -253,7 +256,8 @@ layui.define(["element", "layer", "jquery"], function (exports) {
                 var tabId = $(this).attr('layuimini-content-href'),
                     href = $(this).attr('layuimini-content-href'),
                     title = $(this).attr('data-title'),
-                    target = $(this).attr('target');
+                    target = $(this).attr('target'),
+                    menuId = $(this).attr("id");
                 if (target === '_blank') {
                     parent.layer.close(loading);
                     window.open(href, "_blank");
@@ -266,6 +270,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
                         tabId: tabId,
                         href: href,
                         title: title,
+                        menuId: menuId,
                         isIframe: true,
                         maxTabNum: options.maxTabNum,
                     });
@@ -451,11 +456,13 @@ layui.define(["element", "layer", "jquery"], function (exports) {
             var isSearchMenu = false;
             $("[layuimini-content-href]").each(function () {
                 if ($(this).attr("layuimini-content-href") === tabId) {
-                    var title = $(this).attr("data-title");
+                    var title = $(this).attr("data-title"),
+                    menuId = $(this).attr("id");
                     miniTab.create({
                         tabId: tabId,
                         href: tabId,
                         title: title,
+                        menuId: menuId,
                         isIframe: false,
                         maxTabNum: options.maxTabNum,
                     });
@@ -468,14 +475,18 @@ layui.define(["element", "layer", "jquery"], function (exports) {
             if (isSearchMenu) return false;
             console.log("既不是右侧菜单、快捷菜单,就直接打开")
             // 既不是右侧菜单、快捷菜单,就直接打开
-            var title = sessionStorage.getItem('layuiminimenu_' + tabId) === null ? tabId : sessionStorage.getItem('layuiminimenu_' + tabId);
+            var str = sessionStorage.getItem('layuiminimenu_' + tabId) === null ? tabId : sessionStorage.getItem('layuiminimenu_' + tabId);
+            console.log(str)
+            var op = eval('(' + str + ')');
+            console.log(op)
             var checkTab = miniTab.check(tabId, false);
             console.log("checkTab ------------->" + checkTab)
         	if (!checkTab) {
                 miniTab.create({
                     tabId: tabId,
                     href: tabId,
-                    title: title,
+                    title: op.title,
+                    menuId: op.menuId,
                     isIframe: false,
                     maxTabNum: options.maxTabNum,
                 });

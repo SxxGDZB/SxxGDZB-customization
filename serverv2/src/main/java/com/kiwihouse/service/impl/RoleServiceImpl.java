@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public boolean addRole(AuthRole role) throws DataAccessException {
         int num = authRoleMapper.insertSelective(role);
+        if(num > 0) {
+        	System.out.println("添加成功初始化按钮权限---------------->" + role.getId());
+        	authRoleMapper.initBtn(role.getId());
+        }
         return num == 1? Boolean.TRUE : Boolean.FALSE;
     }
 
@@ -69,5 +74,21 @@ public class RoleServiceImpl implements RoleService {
 	public List<Map<String, Integer>> queryAuthRole(Integer roleId) {
 		// TODO Auto-generated method stub
 		return authRoleMapper.queryAuthRole(roleId);
+	}
+
+	@Override
+	public Map<String, Object> getSelectRolesList(Integer page, Integer limit) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<AuthRole> list = null;
+		int count = authRoleMapper.getSelectRolesListCount();
+		if(limit != null) {
+			list = authRoleMapper.getSelectRolesList((page - 1 ) * limit,limit);
+		}else {
+			list = authRoleMapper.getSelectRolesList(null,null);
+		}
+		map.put("data", list);
+		map.put("count", count);
+		return map;
 	}
 }

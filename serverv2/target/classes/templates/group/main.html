@@ -46,11 +46,10 @@ layui.use(['form', 'table'], function () {
         form = layui.form;
         table = layui.table;
     jsonEntity.roleId = authUser.roleId;
-    var staticResourceID = indexHome(window).menuMap;
     _init_Buttons();
     function _init_Buttons(){
     	$.ajax({
-    		url: "/button/info/"+staticResourceID.get(indexHome(window).tabName())+"/"+authUser.roleId,
+    		url: "/button/info/"+tabMenuId()+"/"+authUser.roleId,
     		type : "GET",
     	　　		dataType : "json",
     	　　		cache:true, 

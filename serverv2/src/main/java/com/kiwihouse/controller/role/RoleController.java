@@ -24,7 +24,6 @@ import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.entity.AuthResource;
 import com.kiwihouse.dao.entity.AuthRole;
 import com.kiwihouse.dao.entity.AuthUser;
-import com.kiwihouse.domain.vo.AuthRoleMenuDetails;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.AuthRoleMenuService;
 import com.kiwihouse.service.ResourceService;
@@ -198,4 +197,18 @@ public class RoleController extends BaseController {
 		return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("list", map);
     }
     
+	@ApiOperation(value = "角色列表", notes = "查询", httpMethod = "GET")
+    @GetMapping("/all")
+    public Map<String, Object> list(Integer page, Integer limit) {
+//    	try {
+    		
+    		map = roleService.getSelectRolesList(page,limit);
+    		map.put("code", 0);
+    		map.put("msg",Code.QUERY_SUCCESS);
+//		} catch (Exception e) {
+			// TODO: handle exception
+//			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
+//		}
+        return map;
+    }
 }

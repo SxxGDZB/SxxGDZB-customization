@@ -53,6 +53,7 @@ public class PasswordRealm extends AuthorizingRealm {
             throw new UnknownAccountException();
         }
         String username = (String) authenticationToken.getPrincipal();
+        
         Account account = accountProvider.loadAccountByUsername(username);
         if (account != null) {
             // 用盐对密码进行MD5加密

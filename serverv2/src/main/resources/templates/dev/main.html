@@ -110,18 +110,17 @@
 var table,form;
 var currentPage = 1;
 var jsonEntity = {};
-var dataRow;
-var miniTab;
+var dataRow,miniTab,upload;
+
 layui.use(['form', 'table','miniTab','upload'], function () {
     var $ = layui.jquery;
         form = layui.form;
         table = layui.table;
         layer = layui.layer;
         miniTab = layui.miniTab;
-        _init_buttons_common(indexHome(window).tabName());
+        _init_buttons_common();
      	loadTable(jsonEntity);
-     var upload = layui.upload;
-     
+     upload = layui.upload;
      var InitUpload = function () {
          //submitbtngroup 这个是上传按钮的父节点   动态添加上传按钮   解决上传一次之后choose方法不执行的bug
          $(".layui-btn-container").append('<div class="layui-inline" lay-event="lead_excel_in"><i class="iconfont"   data-toggle="tooltip" title="导入" id="file_Upload" >&#xe6f4;</i></div>');
@@ -155,10 +154,10 @@ layui.use(['form', 'table','miniTab','upload'], function () {
          });
          //执行搜索重载
          loadTable(jsonEntity);
-          InitUpload();
+         uploadFile();
          return false;
      });
-     InitUpload();
+     //InitUpload();
     /**
      * toolbar监听事件
      */
@@ -207,7 +206,7 @@ layui.use(['form', 'table','miniTab','upload'], function () {
     	　　		dataType : "json",
     	　　		data:JSON.stringify(v),
     	　　		contentType: "application/json;charset=utf-8",
-			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+			    headers: { "authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
 			    	if(data.success){
 			    		window.location.href = "/maintain/common/download?fileName=" + data.data.filename + "&delete=" + true;
@@ -329,7 +328,6 @@ function loadTable(jsonEntity){
    				}else{
    					return '';
    				}
-				
 			   }
 			 },
             {field: 'eqptStatus',  title: '状态', sort: true,align: 'center',
@@ -356,6 +354,23 @@ function loadTable(jsonEntity){
 		}
     });
 }
+function uploadFile(){
+    upload.render({ //允许上传的文件后缀
+        elem: '#lead_excel_in'
+        ,url: '/maintain/importData' //改成您自己的上传接口
+        ,headers: { "Authorization": authorization }
+        ,accept: 'file' //普通文件
+        ,exts: 'xlsx' //只允许上传压缩文件
+        ,done: function(res){
+            if(res.code == 6001){
+                layer.msg(data.msg,{icon: 5, time: 2000});
+            }else{
+                layer.msg('上传成功');
+                flush(currentPage, jsonEntity);
+            }
+      }
+    });
+}   
 //刷新
 function flush(currentPage, jsonEntity) {
 	table.reload('currentTableId', {
@@ -364,6 +379,7 @@ function flush(currentPage, jsonEntity) {
 		},
 		where : jsonEntity
 	});
+	uploadFile();
 }
 </script>
 

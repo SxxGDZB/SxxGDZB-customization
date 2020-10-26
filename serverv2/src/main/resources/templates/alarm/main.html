@@ -81,14 +81,13 @@ var currentPage = 1;
 var jsonEntity = {};
 var dataRow;
 var miniTab;
-
 layui.use(['form', 'table','miniTab'], function () {
     var $ = layui.jquery;
         form = layui.form;
         table = layui.table;
         layer = layui.layer;
         miniTab = layui.miniTab;
-        _init_buttons_common(indexHome(window).tabName());
+        _init_buttons_common();
         if($.getUrlParam('imei') != null){
         	jsonEntity.imei = $.getUrlParam('imei');
         	$("input[name='imei']").val(jsonEntity.imei);
@@ -161,19 +160,17 @@ layui.use(['form', 'table','miniTab'], function () {
         	　　		contentType: "application/json;charset=utf-8",
         		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
         		    success:function(data){
-        		    		
-        		    	 	if(data.success){
-        		    	 		obj.update({'alarmStatus':'已处理'});
-        		    	 		layer.msg(data.msg,{icon: 6, time: 2000});
-        					}else{
-        						layer.msg(data.msg,{icon: 5, time: 2000});
-        					}
+       		    	 	if(data.success){
+       		    	 		obj.update({'alarmStatus':'已处理'});
+       		    	 		layer.msg(data.msg,{icon: 6, time: 2000});
+       					}else{
+       						layer.msg(data.msg,{icon: 5, time: 2000});
+       					}
         		    }
         		})
     	   	}else{
     	   		layer.msg('联系人不存在',{icon: 5, time: 2000});
     	   	}
-        	
             return false;
         }else if(obj.event === 'sendAlarm'){
         	var alarmJson = JSON.parse(dataRow.alarmMsg);
@@ -191,13 +188,13 @@ layui.use(['form', 'table','miniTab'], function () {
     	　　		contentType: "application/json;charset=utf-8",
     		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
     		    success:function(data){
-    		    	 	if(data.success){
-    		    	 		indexHome(window).init();
-    		    	 		initTreeTable();
-    		    	 		layer.msg(data.msg,{icon: 6, time: 2000});
-    					}else{
-    						layer.msg(data.msg,{icon: 5, time: 2000});
-    					}
+   		    	 	if(data.success){
+   		    	 		indexHome(window).init();
+   		    	 		initTreeTable();
+   		    	 		layer.msg(data.msg,{icon: 6, time: 2000});
+   					}else{
+   						layer.msg(data.msg,{icon: 5, time: 2000});
+   					}
     		    }
     		})
         }
@@ -251,7 +248,6 @@ function loadTable(jsonEntity){
         }],
         even : true,
         cols: [[
-            //{type: "checkbox"},
             {field: 'addTime',title: '告警时间', sort: true},
             {field: 'imei',title: 'imei', sort: true},
             {field: 'eqptAddr', title: '地址',

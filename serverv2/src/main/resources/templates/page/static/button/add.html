@@ -99,6 +99,15 @@
         	//监听资源
             $("#demo").attr("ts-selected","");
             $("#demo").text("");
+            var entity = {};
+            if(data.value != null){
+            	entity.roleId = $("#roleId").val();
+            	entity.trigger = 1;
+            	entity.menuId = data.value;
+            }else {
+            	entity.roleId = $("#roleId").val();
+                entity.trigger = 1;
+            }
             tableSelect.render({
                 elem: '#_demo',
                 searchKey: 'title',
@@ -107,7 +116,7 @@
                 table: {
                     url: getRootPath() + '/button/info',
                     headers: { "Authorization": authorization},
-                    where:{"roleId":$("#roleId").val(),"trigger":1,"menuId":data.value},
+                    where:entity,
                     cols: [[
                         { type: 'checkbox' },
                         { field: 'title', title: '按钮名称', width: '50%' },
