@@ -291,6 +291,15 @@
             <if test="longitude !=null and longitude !=''">
                 longitude=#{longitude},
             </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="district != null and district != ''">
+                district = #{district},
+            </if>
         </set>
         where eqpt_id=#{eqptId}
     </update>
@@ -337,6 +346,10 @@
             <if test="latitude != null and latitude != ''">
                 latitude,
             </if>
+            <if test="longitude != null and longitude != ''">
+                longitude,
+            </if>
+            
             <if test="province != null and province != ''">
                 province,
             </if>
@@ -389,9 +402,7 @@
             <if test="longitude != null and longitude != ''">
                 #{longitude},
             </if>
-            <if test="latitude != null and latitude != ''">
-                latitude,
-            </if>
+            
             <if test="province != null and province != ''">
                 #{province},
             </if>

@@ -730,8 +730,14 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 					ja.add(warmMsgValue);
 				}
 			}
+			JSONObject lineTemp = (JSONObject) JSONObject.parse(jo.getString("line_temp"));
+		    if(lineTemp != null) {
+		    	WarmMsgValue warmMsgValue = new WarmMsgValue();
+		    	warmMsgValue.setMsg("线温告警");
+		    	warmMsgValue.setValue(lineTemp.getString("value"));
+		    	ja.add(warmMsgValue);
+		    }
 		}
-		
 		return ja.toJSONString();
 	}
 }

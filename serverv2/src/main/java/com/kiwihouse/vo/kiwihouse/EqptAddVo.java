@@ -1,13 +1,8 @@
 package com.kiwihouse.vo.kiwihouse;
-
 import java.util.List;
-
-import javax.validation.constraints.NotBlank;
-
 import com.kiwihouse.common.annotation.doubleNumber.DoubleNumber;
 import com.kiwihouse.common.annotation.imei.Imei;
 import com.kiwihouse.common.annotation.naturalNumber.NaturalNumber;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

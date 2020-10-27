@@ -27,6 +27,10 @@ public class DevInfoServiceImpl implements DevInfoService{
 			return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
 		}
 		if(eqptType == DataType.ONE_PHASE) {
+			
+			
+			
+			
 			return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", devInfo);
 		}else if(eqptType == DataType.THREE_PHASE) {
 			ThreePhaseMeasureDto threePhaseMeasureDto = new ThreePhaseMeasureDto();

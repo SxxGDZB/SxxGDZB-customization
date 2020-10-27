@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.dao.mapper.WxEquipmentMapper">
+  <resultMap id="BaseResultMap" type="com.kiwihouse.dao.entity.vx.dev.WxEquipment">
+    <id column="eqpt_id" jdbcType="INTEGER" property="eqptId" />
+    <result column="device_id" jdbcType="INTEGER" property="deviceId" />
+    <result column="eqpt_name" jdbcType="VARCHAR" property="eqptName" />
+    <result column="imei" jdbcType="VARCHAR" property="imei" />
+    <result column="imsi" jdbcType="VARCHAR" property="imsi" />
+    <result column="eqpt_sn" jdbcType="VARCHAR" property="eqptSn" />
+    <result column="eqpt_type" jdbcType="VARCHAR" property="eqptType" />
+    <result column="power" jdbcType="REAL" property="power" />
+    <result column="voltage" jdbcType="SMALLINT" property="voltage" />
+    <result column="electricity" jdbcType="SMALLINT" property="electricity" />
+    <result column="register" jdbcType="TINYINT" property="register" />
+    <result column="eqpt_addr" jdbcType="VARCHAR" property="eqptAddr" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="site_id" jdbcType="INTEGER" property="siteId" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="last_report_time" jdbcType="TIMESTAMP" property="lastReportTime" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="iccid" jdbcType="VARCHAR" property="iccid" />
+    <result column="imgs" jdbcType="VARCHAR" property="imgs" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="district" jdbcType="VARCHAR" property="district" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    eqpt_id, device_id, eqpt_name, imei, imsi, eqpt_sn, eqpt_type, power, voltage, electricity, 
+    register, eqpt_addr, latitude, longitude, user_id, site_id, role_id, group_id, last_report_time, 
+    add_time, iccid, imgs, province, city, district
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wx_equipment
+    where eqpt_id = #{eqptId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wx_equipment
+    where eqpt_id = #{eqptId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kiwihouse.dao.entity.vx.dev.WxEquipment">
+    insert into wx_equipment (eqpt_id, device_id, eqpt_name, 
+      imei, imsi, eqpt_sn, 
+      eqpt_type, power, voltage, 
+      electricity, register, eqpt_addr, 
+      latitude, longitude, user_id, 
+      site_id, role_id, group_id, 
+      last_report_time, add_time, iccid, 
+      imgs, province, city, 
+      district)
+    values (#{eqptId,jdbcType=INTEGER}, #{deviceId,jdbcType=INTEGER}, #{eqptName,jdbcType=VARCHAR}, 
+      #{imei,jdbcType=VARCHAR}, #{imsi,jdbcType=VARCHAR}, #{eqptSn,jdbcType=VARCHAR}, 
+      #{eqptType,jdbcType=VARCHAR}, #{power,jdbcType=REAL}, #{voltage,jdbcType=SMALLINT}, 
+      #{electricity,jdbcType=SMALLINT}, #{register,jdbcType=TINYINT}, #{eqptAddr,jdbcType=VARCHAR}, 
+      #{latitude,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{siteId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, 
+      #{lastReportTime,jdbcType=TIMESTAMP}, #{addTime,jdbcType=TIMESTAMP}, #{iccid,jdbcType=VARCHAR}, 
+      #{imgs,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{district,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kiwihouse.dao.entity.vx.dev.Add" useGeneratedKeys="true" keyProperty="eqptId">
+    insert into wx_equipment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eqptName != null">
+        eqpt_name,
+      </if>
+      <if test="imei != null">
+        imei,
+      </if>
+      <if test="imsi != null">
+        imsi,
+      </if>
+      <if test="eqptSn != null">
+        eqpt_sn,
+      </if>
+      <if test="eqptType != null">
+        eqpt_type,
+      </if>
+      <if test="register != null">
+        register,
+      </if>
+      <if test="eqptAddr != null">
+        eqpt_addr,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+        add_time,
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="district != null">
+        district,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eqptName != null">
+        #{eqptName,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null">
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null">
+        #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="eqptSn != null">
+        #{eqptSn,jdbcType=VARCHAR},
+      </if>
+      <if test="eqptType != null">
+        #{eqptType,jdbcType=VARCHAR},
+      </if>
+      <if test="register != null">
+        #{register,jdbcType=TINYINT},
+      </if>
+      <if test="eqptAddr != null">
+        #{eqptAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      NOW(),
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kiwihouse.dao.entity.vx.dev.WxEquipment">
+    update wx_equipment
+    <set>
+      <if test="deviceId != null">
+        device_id = #{deviceId,jdbcType=INTEGER},
+      </if>
+      <if test="eqptName != null">
+        eqpt_name = #{eqptName,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null">
+        imei = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null">
+        imsi = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="eqptSn != null">
+        eqpt_sn = #{eqptSn,jdbcType=VARCHAR},
+      </if>
+      <if test="eqptType != null">
+        eqpt_type = #{eqptType,jdbcType=VARCHAR},
+      </if>
+      <if test="power != null">
+        power = #{power,jdbcType=REAL},
+      </if>
+      <if test="voltage != null">
+        voltage = #{voltage,jdbcType=SMALLINT},
+      </if>
+      <if test="electricity != null">
+        electricity = #{electricity,jdbcType=SMALLINT},
+      </if>
+      <if test="register != null">
+        register = #{register,jdbcType=TINYINT},
+      </if>
+      <if test="eqptAddr != null">
+        eqpt_addr = #{eqptAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="siteId != null">
+        site_id = #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="lastReportTime != null">
+        last_report_time = #{lastReportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iccid != null">
+        iccid = #{iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="imgs != null">
+        imgs = #{imgs,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where eqpt_id = #{eqptId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kiwihouse.dao.entity.vx.dev.WxEquipment">
+    update wx_equipment
+    set device_id = #{deviceId,jdbcType=INTEGER},
+      eqpt_name = #{eqptName,jdbcType=VARCHAR},
+      imei = #{imei,jdbcType=VARCHAR},
+      imsi = #{imsi,jdbcType=VARCHAR},
+      eqpt_sn = #{eqptSn,jdbcType=VARCHAR},
+      eqpt_type = #{eqptType,jdbcType=VARCHAR},
+      power = #{power,jdbcType=REAL},
+      voltage = #{voltage,jdbcType=SMALLINT},
+      electricity = #{electricity,jdbcType=SMALLINT},
+      register = #{register,jdbcType=TINYINT},
+      eqpt_addr = #{eqptAddr,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      site_id = #{siteId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=INTEGER},
+      group_id = #{groupId,jdbcType=INTEGER},
+      last_report_time = #{lastReportTime,jdbcType=TIMESTAMP},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      iccid = #{iccid,jdbcType=VARCHAR},
+      imgs = #{imgs,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR}
+    where eqpt_id = #{eqptId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="querInfoByUserIdPage" resultMap="BaseResultMap">
+    SELECT we.* FROM wx_user_equipment wue INNER JOIN wx_equipment we on wue.eqpt_id = we.eqpt_id 
+    WHERE 1 = 1
+    <if test="userId != null and userId != ''">
+       AND wue.user_id = #{userId}
+    </if>
+    <if test="imei != null and imei != ''">
+       AND we.imei = #{imei}
+    </if>
+  </select>
+  
+  <insert id="inertWxEqAndUser">
+    insert into wx_user_equipment (eqpt_id,user_id) values(#{eqptId},#{userId})
+  </insert>
+  
+  <delete id="deleteByImei" parameterType="String">
+    delete from wx_equipment
+    where imei = #{imei}
+  </delete>
+  <delete id="deleteWxEqAndUser" parameterType="Integer">
+    delete from wx_user_equipment
+    where eqpt_id = #{eqptId} and user_id = #{userId}
+  </delete>
+  <select id="selectByImei" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wx_equipment
+    where imei = #{imei,jdbcType=INTEGER}
+  </select>
+</mapper>
