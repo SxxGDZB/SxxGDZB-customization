@@ -220,15 +220,15 @@
     		})
     	}
         //报警监听receive/latestalarm/info/30/1/1000
-    	var time = _sysDictV(0,"Interval");
+    	/* var time = _sysDictV(0,"Interval");
     	var	t;
     	clearInterval(t);
    	    t = setInterval(function(){
    		 $.ajax({
-   	  			url: "/receive/latestalarm/info/" +time.value+ "/1/1000",
+   	  			url: "/receive/latestalarm/info/"+authUser.roleId+"/" +time.value+ "/1/1000",
    			    method: "GET",
    			    dataType : "json",
-   			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+   			    headers: { "Authorization": authorization},//通过请求头来发送token，放弃了通过cookie的发送方式
    			    success:function(data){
    		    	if(data.data != null){
    		    		data.data.forEach(function(item, i){
@@ -243,7 +243,7 @@
    		    	}
    			 }
    		  });
-   		} , 1000 * time.value);
+   		} , 1000 * time.value); */
     });
 	//重新加载
 	function init(){

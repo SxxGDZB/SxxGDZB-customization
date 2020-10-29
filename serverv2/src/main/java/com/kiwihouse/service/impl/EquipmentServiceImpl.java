@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.EqptTypeSta;
 import com.kiwihouse.common.bean.UserInfo;
-import com.kiwihouse.common.customException.ParamException;
 import com.kiwihouse.common.utils.CodeTransferUtil;
 import com.kiwihouse.common.utils.GroupList;
 import com.kiwihouse.common.utils.RedisUtil;
+import com.kiwihouse.dao.entity.RoleDev;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
@@ -130,6 +130,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         if (row == 0) {
         	return new Response().Success(Code.ADD_FAIL.getCode(), Code.ADD_FAIL.getMsg());
         } else {
+        	equipmentMapper.addRoleDev(eqptAddVo.getEqptId(),eqptAddVo.getRoleId());
         	return new Response().Success(Code.ADD_SUCCESS.getCode(), Code.ADD_SUCCESS.getMsg());
         }
     }
@@ -197,6 +198,43 @@ public class EquipmentServiceImpl implements EquipmentService {
 			return new Response().Fail(Code.EXCEL_LEAD_IN_FAIL,Code.EXCEL_LEAD_IN_FAIL.getMsg());
 		}
 		
+	}
+
+	
+	/**
+	 * 	查询角色设备列表
+	 */
+	@Override
+	public Map<String, Object> queryRoleDevList(EqptQueryVo eqptQueryVo) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer limit = eqptQueryVo.getLimit();
+		Integer page = eqptQueryVo.getPage();
+		if(limit!=null) {
+			eqptQueryVo.setPage(limit * (page - 1));
+			eqptQueryVo.setLimit(limit);
+		}
+		List<EqptInfoDto> list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo);
+		int count = equipmentMapper.queryInfoCount(eqptQueryVo);
+		map.put("data", list);
+		map.put("msg", Code.QUERY_SUCCESS.getMsg());
+		map.put("count", count);
+		map.put("code", 0);
+		return map;
+	}
+
+	@Override
+	public Response updateRoleDevList(Integer roleId, String deptIds) {
+		// TODO Auto-generated method stub
+		String [] deptArr = deptIds.split(",");
+		List<RoleDev> roleDevList = new ArrayList<RoleDev>();
+        for(int i = 0;i<deptArr.length;i++) {
+        	RoleDev roleDev = new RoleDev(roleId,Integer.valueOf(deptArr[i]));
+        	roleDevList.add(roleDev);
+        }
+        equipmentMapper.deleteRoleDev(roleId);
+        equipmentMapper.insertRoleDevList(roleDevList);
+		return new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg());
 	}
 
 }

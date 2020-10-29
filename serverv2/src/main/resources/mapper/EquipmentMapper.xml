@@ -9,171 +9,8 @@
 
 	<resultMap type="com.kiwihouse.dto.equipt.Equipt" id="EquiptMap">
 	</resultMap>
-
-    <!--query-->
-    <select id="queryLimitInfo" resultType="com.kiwihouse.dto.EqptInfoDto"
-            parameterType="com.kiwihouse.vo.kiwihouse.EqptQueryVo">
-        select
-        e.eqpt_id,e.imei,e.eqpt_sn,e.eqpt_name,e.eqpt_type,e.register,e.imsi,e.device_id,e.power,e.voltage,e.electricity,e.user_id,e.site_id,e.role_id,e.add_time,
-        s.province,s.city,s.district,s.address,e.eqpt_addr,e.longitude,e.latitude,
-        u.user_name,u.phone,
-        g.group_id,g.group_name
-        from equipment as e
-        left join `group` as g on e.group_id=g.group_id
-        left join site as s on e.site_id=s.site_id
-        left join `user` as u on e.user_id=u.user_id
-        <where>
-            <if test="roleId != null and roleId != ''">
-                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id =
-                #{roleId})
-            </if>
-            <if test="eqptSn != null and eqptSn != ''">
-                and e.eqpt_sn=#{eqptSn}
-            </if>
-            <if test="groupId != null and groupId != ''">
-                and e.group_id=#{groupId}
-            </if>
-            <if test="eqptType != null and eqptType != ''">
-                <choose>
-                    <when test="eqptType==0">
-                        and (e.eqpt_type=0 or e.eqpt_type=2)
-                    </when>
-                    <otherwise>
-                        and e.eqpt_type=#{eqptType}
-                    </otherwise>
-                </choose>
-            </if>
-            <!--            <if test="eqptAddr != null and eqptAddr != ''">-->
-            <!--                and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')-->
-            <!--            </if>-->
-            <if test="province != null and province != ''">
-                and s.province=#{province}
-            </if>
-            <if test="city != null and city != ''">
-                and s.city=#{city}
-            </if>
-            <if test="district != null and district != ''">
-                and s.district=#{district}
-            </if>
-            <if test="address != null and address != ''">
-                and s.address like CONCAT('%',#{address},'%')
-            </if>
-            <if test="userName != null and userName != ''">
-                and u.user_name like CONCAT('%',#{userName},'%')
-            </if>
-            <if test="userPhone != null and userPhone != ''">
-                and u.phone=#{userPhone}
-            </if>
-        </where>
-        order by e.add_time desc limit #{page},#{limit}
-    </select>
-    <select id="queryInfo" resultMap="EqptInfoDtoMap"
-            parameterType="com.kiwihouse.vo.kiwihouse.EqptQueryVo">
-        select
-        e.eqpt_id,e.imei,e.eqpt_sn,e.eqpt_name,e.eqpt_type,e.register,e.imsi,e.device_id,e.power,e.voltage,e.electricity,e.user_id,e.site_id,e.role_id,e.add_time,
-        s.province,s.city,s.district,s.address,e.eqpt_addr,e.longitude,e.latitude,
-        u.USERNAME,u.phone,
-        g.group_id,g.group_name,
-        e.imgs
-        from equipment as e
-        left join `group` as g on e.group_id=g.group_id
-        left join site as s on e.site_id=s.site_id
-        left join `auth_user` as u on e.user_id=u.UID
-        <where>
-            <if test="roleId != null and roleId != ''">
-                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id =
-                #{roleId})
-            </if>
-            <if test="eqptSn != null and eqptSn != ''">
-                and e.eqpt_sn=#{eqptSn}
-            </if>
-            <if test="groupId != null and groupId != ''">
-                and e.group_id=#{groupId}
-            </if>
-            <if test="groupIds !=null and groupIds.length > 0">
-                and e.group_id in
-                <foreach collection="groupIds" item="item" index="index" open="(" close=")" separator=",">
-                    #{item}
-                </foreach>
-            </if>
-            <if test="eqptType != null and eqptType != ''">
-                <choose>
-                    <when test="eqptType==0">
-                        and (e.eqpt_type=0 or e.eqpt_type=2)
-                    </when>
-                    <otherwise>
-                        and e.eqpt_type=#{eqptType}
-                    </otherwise>
-                </choose>
-            </if>
-            <if test="eqptAddr != null and eqptAddr != ''">
-                and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
-            </if>
-            <if test="province != null and province != ''">
-                and s.province=#{province}
-            </if>
-            <if test="city != null and city != ''">
-                and s.city=#{city}
-            </if>
-            <if test="district != null and district != ''">
-                and s.district=#{district}
-            </if>
-            <if test="address != null and address != ''">
-                and s.address like CONCAT('%',#{address},'%')
-            </if>
-            <if test="userName != null and userName != ''">
-                and u.user_name like CONCAT('%',#{userName},'%')
-            </if>
-            <if test="userPhone != null and userPhone != ''">
-                and u.phone=#{userPhone}
-            </if>
-        </where>
-        order by e.add_time desc
-    </select>
-    <select id="queryInfoRow" resultType="java.lang.Integer"
-            parameterType="com.kiwihouse.vo.kiwihouse.EqptQueryVo">
-        select count(*)
-        from equipment as e
-        left join `group` as g on e.group_id=g.group_id
-        left join site as s on e.site_id=s.site_id
-        left join auth_user as u on e.user_id=u.UID
-        <where>
-            <if test="roleId != null and roleId != ''">
-                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id =
-                #{roleId})
-            </if>
-            <if test="eqptSn != null and eqptSn != ''">
-                and e.eqpt_sn=#{eqptSn}
-            </if>
-            <if test="groupId != null and groupId != ''">
-                and e.group_id=#{groupId}
-            </if>
-            <if test="eqptType != null and eqptType != ''">
-                and e.eqpt_type=#{eqptType}
-            </if>
-            <if test="eqptAddr != null and eqptAddr != ''">
-                and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
-            </if>
-            <if test="province != null and province != ''">
-                and s.province=#{province}
-            </if>
-            <if test="city != null and city != ''">
-                and s.city=#{city}
-            </if>
-            <if test="district != null and district != ''">
-                and s.district=#{district}
-            </if>
-            <if test="address != null and address != ''">
-                and s.address like CONCAT('%',#{address},'%')
-            </if>
-            <if test="userName != null and userName != ''">
-                and u.user_name like CONCAT('%',#{userName},'%')
-            </if>
-            <if test="userPhone != null and userPhone != ''">
-                and u.phone=#{userPhone}
-            </if>
-        </where>
-    </select>
+    <resultMap type="com.kiwihouse.dao.entity.IMEI" id="IMEIMap"></resultMap>
+    
     <select id="queryEqptIds" resultType="java.lang.String" parameterType="java.lang.String">
         select eqpt_id from equipment where role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId});
     </select>
@@ -201,8 +38,8 @@
             parameterType="com.kiwihouse.vo.kiwihouse.EqptAddVo">
         select site_id from site
         <where>
-            <if test="doroleId != null and doroleId != ''">
-                and role_id=#{doroleId}
+            <if test="roleId != null and roleId != ''">
+                and role_id=#{roleId}
             </if>
             <if test="province != null and province != ''">
                 and province=#{province}
@@ -310,7 +147,7 @@
         insert into equipment
         <trim prefix="(" suffix=")" suffixOverrides=",">
             eqpt_name,eqpt_sn,imei,eqpt_type,add_time,
-            <if test="doroleId != null and doroleId != ''">
+            <if test="roleId != null and roleId != ''">
                 role_id,
             </if>
             <if test="siteId != null and siteId != ''">
@@ -363,8 +200,8 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             #{eqptName},#{eqptSn},#{imei},#{eqptType},NOW(),
-            <if test="doroleId != null and doroleId != ''">
-                #{doroleId},
+            <if test="roleId != null and roleId != ''">
+                #{roleId},
             </if>
             <if test="siteId != null and siteId != ''">
                 #{siteId},
@@ -430,7 +267,7 @@
             <if test="address != null and address != ''">
                 address,
             </if>
-            <if test="doroleId != null and doroleId != ''">
+            <if test="roleId != null and roleId != ''">
                 role_id,
             </if>
         </trim>
@@ -447,8 +284,8 @@
             <if test="address != null and address != ''">
                 #{address},
             </if>
-            <if test="doroleId != null and doroleId != ''">
-                #{doroleId},
+            <if test="roleId != null and roleId != ''">
+                #{roleId},
             </if>
         </trim>
     </insert>
@@ -497,7 +334,7 @@
     </delete>
     
     <select id="querInfoByUserIdPage" resultMap="EqptInfoDtoMap">
-    	select
+    	<!-- select
         e.eqpt_id,e.imei,e.eqpt_sn,e.eqpt_name,e.eqpt_type,e.register,e.imsi,e.device_id,e.power,e.voltage,e.electricity,e.user_id,e.site_id,e.role_id,e.add_time,
         s.address,e.eqpt_addr,e.longitude,e.latitude,
         u.USERNAME,u.phone,e.province,e.city,e.district,
@@ -506,8 +343,11 @@
         from equipment as e
         left join `group` as g on e.group_id=g.group_id
         left join site as s on e.site_id=s.site_id
-        left join `auth_user` as u on e.user_id=u.UID
+        left join `auth_user` as u on e.user_id=u.UID -->
+        SELECT e.* FROM role_dev rd INNER JOIN equipment e on e.eqpt_id = rd.eqpt_id
+		INNER join `auth_user` as u on e.user_id=u.UID
         <where>
+            FIND_IN_SET(rd.role_id, queryChildrenAreaInfo(#{roleId})) 
             <if test="eqptSn != null and eqptSn != ''">
                 and e.eqpt_sn=#{eqptSn}
             </if>
@@ -537,17 +377,17 @@
                 and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
             </if>
             <if test="province != null and province != ''">
-                and s.province=#{province}
+                and e.province=#{province}
             </if>
             <if test="city != null and city != ''">
-                and s.city=#{city}
+                and e.city=#{city}
             </if>
             <if test="district != null and district != ''">
-                and s.district=#{district}
+                and e.district=#{district}
             </if>
-            <if test="address != null and address != ''">
-                and s.address like CONCAT('%',#{address},'%')
-            </if>
+            <if test="eqptAddr != null and eqptAddr != ''">
+                and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
+            </if> 
             <if test="userName != null and userName != ''">
                 and u.user_name like CONCAT('%',#{userName},'%')
             </if>
@@ -558,21 +398,20 @@
             	and e.imei  like CONCAT('%',#{imei},'%')
             </if>
         </where>
-        order by e.add_time desc
+        GROUP BY e.imei 
+        ORDER BY e.add_time desc
         <if test="limit != null">
         	limit #{page},#{limit}
         </if>
         
     </select>
     
-    <select id="queryInfoCount" parameterType="com.kiwihouse.dto.EqptInfoDto" resultType="Integer">
-    	select
-        count(*)
-        from equipment as e
-        left join `group` as g on e.group_id=g.group_id
-        left join site as s on e.site_id=s.site_id
-        left join `auth_user` as u on e.user_id=u.UID
+    <select id="queryInfoCount" parameterType="com.kiwihouse.vo.kiwihouse.EqptQueryVo" resultType="Integer">
+    	SELECT count(*) FROM (
+SELECT e.* FROM role_dev rd INNER JOIN equipment e on e.eqpt_id = rd.eqpt_id
+INNER join `auth_user` as u on e.user_id=u.UID
         <where>
+            FIND_IN_SET(rd.role_id, queryChildrenAreaInfo(#{roleId})) 
             <if test="eqptSn != null and eqptSn != ''">
                 and e.eqpt_sn=#{eqptSn}
             </if>
@@ -602,17 +441,17 @@
                 and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
             </if>
             <if test="province != null and province != ''">
-                and s.province=#{province}
+                and e.province=#{province}
             </if>
             <if test="city != null and city != ''">
-                and s.city=#{city}
+                and e.city=#{city}
             </if>
             <if test="district != null and district != ''">
-                and s.district=#{district}
+                and e.district=#{district}
             </if>
-            <if test="address != null and address != ''">
-                and s.address like CONCAT('%',#{address},'%')
-            </if>
+             <if test="eqptAddr != null and eqptAddr != ''">
+                and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
+            </if> 
             <if test="userName != null and userName != ''">
                 and u.user_name like CONCAT('%',#{userName},'%')
             </if>
@@ -623,6 +462,9 @@
             	and e.imei  like CONCAT('%',#{imei},'%')
             </if>
             </where>
+            GROUP BY e.imei 
+            ORDER BY e.add_time
+            ) tem
     </select>
     
 	<delete id="deleteBatch">
@@ -721,4 +563,36 @@
 			city = VALUES(city),
 			district = VALUES(district)
     </insert>
+    
+    <insert id="addRoleDev" useGeneratedKeys="true">
+        insert into role_dev(role_id,eqpt_id) values(#{roleId},#{eqptId})
+    </insert>
+    
+    <select id="selectRoleImei" resultMap="IMEIMap" parameterType="Integer">
+        
+        SELECT e.IMEI FROM role_dev rd 
+        INNER JOIN equipment e on e.eqpt_id = rd.eqpt_id 
+        INNER join `auth_user` as u on e.user_id=u.UID 
+        WHERE FIND_IN_SET(rd.role_id, queryChildrenAreaInfo(#{roleId})) 
+        GROUP BY e.imei ORDER BY e.add_time desc
+    </select>
+    
+    <insert id="insertRoleDevList"  parameterType="com.kiwihouse.dao.entity.RoleDev"  useGeneratedKeys="true">
+        INSERT INTO role_dev
+        (   
+            role_id,
+            eqpt_id
+            )
+         VALUES
+        <foreach item="t" collection="list" index="index"  separator="," >
+            (
+            #{t.roleId},
+            #{t.eqptId}
+          
+            )
+        </foreach>
+    </insert>
+    <delete id="deleteRoleDev">
+       delete from role_dev where role_id = #{roleId} 
+    </delete>
 </mapper>

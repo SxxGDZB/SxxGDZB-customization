@@ -42,6 +42,7 @@
             $ = layui.$;
         //监听提交
         form.on('submit(saveBtn)', function (data) {
+        	data.field.parentId = authUser.roleId;
         	ADD("/role",data.field);
             return false;
         });

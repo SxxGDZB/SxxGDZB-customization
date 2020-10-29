@@ -27,5 +27,6 @@ public class DataStatisticsVo {
     @ApiModelProperty(hidden = true)
     private String adminId;
     private String imei;
+    private Integer roleId;
 
 }

@@ -193,8 +193,8 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "获取用户对应所有角色信息",httpMethod = "POST")
     @PostMapping("user/{roleId}")
     public Response queryAuthRole(@PathVariable Integer roleId) {
-    	List<Map<String,Integer>> map  = roleService.queryAuthRole(roleId);
-		return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("list", map);
+    	List<AuthRole> list  = roleService.queryAuthRole(roleId);
+		return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("list", list);
     }
     
 	@ApiOperation(value = "角色列表", notes = "查询", httpMethod = "GET")

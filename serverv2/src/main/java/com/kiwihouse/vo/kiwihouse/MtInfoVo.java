@@ -21,7 +21,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ApiModel(description = "维修记录查询参数")
-public class MtInfoVo extends Basic{
+public class MtInfoVo{
 
     @NaturalNumber
     @ApiModelProperty(value = "维修人姓名",name = "mtName")
@@ -44,4 +44,7 @@ public class MtInfoVo extends Basic{
 
     @ApiModelProperty(value = "每页条数",name = "limit")
     private Integer limit;
+    
+    @ApiModelProperty(value = "角色ID",name = "roleId")
+    private String roleId;
 }

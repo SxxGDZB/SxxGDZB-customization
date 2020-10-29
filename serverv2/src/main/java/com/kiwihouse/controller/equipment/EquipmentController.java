@@ -201,4 +201,27 @@ public class EquipmentController extends BaseController{
 			return new Response().Fail(Code.CLEAR_FAIL,Code.CLEAR_FAIL.getMsg());
 		}
     }
+    
+    @ApiOperation(value = "queryInfo",
+            notes = "<br>@description: <b>查询角色设备列表</b></br>" +
+                    "<br>@Return: <b>以区为单位进行区分</b></br>" +
+                    "<br>@Date: <b>2019-12-30 10:33:36</b></br>",
+            httpMethod = "GET")
+    @ApiResponses({@ApiResponse(code = 0, message = "回调参数", response = EqptInfoDto.class)})
+    @GetMapping("/all")
+    public Map<String, Object> queryRoleDevList(@Validated EqptQueryVo eqptQueryVo, HttpServletRequest request) {
+        //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), eqptQueryVo);
+        return equipmentService.queryRoleDevList(eqptQueryVo);
+    }
+    
+    @ApiOperation(value = "/role/dev",
+            notes = "<br>@description: <b>修改角色设备列表</b></br>" +
+                    "<br>@Date: <b>2020-1-3 17:25:42</b></br>",
+            httpMethod = "PUT")
+    @ApiResponses(@ApiResponse(code = 0, message = "回调参数：只有code和msg,无具体数据result"))
+    @PutMapping("/{roleId}/{deptIds}") 
+    public Response updateRoleDevList(@PathVariable @Validated Integer roleId,@PathVariable @Validated String deptIds , HttpServletRequest request) {
+        logger.info("修改角色设备列表>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("修改角色设备列表").setParam(roleId).setParam(deptIds));
+        return equipmentService.updateRoleDevList(roleId,deptIds);
+    }
 }

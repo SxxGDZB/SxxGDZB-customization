@@ -124,6 +124,7 @@
 	var entity = {},eqptType;
 	/*获取URL-->IMEI*/
 	entity.imei = $.getUrlParam('imei');
+	entity.roleId = authUser.roleId;
 	entity.alarmType = 1;
 	/*根据ID生成仪表盘Echarts对象*/
 	var _chart = function(id){
@@ -609,7 +610,10 @@
 	}
 	/*点击刷新按钮--->上报*/
 	$(".layui-icon-refresh").on('click',function(){
-		oneNet(onenetVariable($("._imei").text(),$("._eqptType").attr('data-type')),true,window);
+		oneNet(onenetVariable($("._imei").text(),$("._eqptType").attr('data-type'),2),true,window);
+		setTimeout(function(){
+			initPanel();
+			},1000 * 2 );
 	})
 	//监听浏览器大小变化重新渲染
 	window.onresize = function () {

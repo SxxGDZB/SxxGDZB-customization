@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.kiwihouse.dao.entity.IMEI;
 import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.dto.MtSmokeInfoDto;
 import com.kiwihouse.vo.kiwihouse.MtInfoVo;
@@ -17,8 +18,8 @@ import com.kiwihouse.vo.kiwihouse.MtUpdateVo;
 @Repository
 public interface MaintainMapper {
     //query
-    List<MtInfoDto> queryInfo(MtInfoVo mtInfoVo);
-    Integer queryInfoRow(MtInfoVo mtInfoVo);
+    List<MtInfoDto> queryInfo(@Param("mtInfoVo") MtInfoVo mtInfoVo, @Param("list") List<IMEI> list);
+    Integer queryInfoRow(@Param("mtInfoVo") MtInfoVo mtInfoVo, @Param("list") List<IMEI> listr);
     List<MtSmokeInfoDto> querySmokeInfo(MtInfoVo mtInfoVo);
     Integer querySmokeInfoRow(MtInfoVo mtInfoVo);
     List<String> queryMtId(String adminId);

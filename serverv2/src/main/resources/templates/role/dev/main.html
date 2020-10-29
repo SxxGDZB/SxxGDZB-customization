@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>设备列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+       
+        <script type="text/html" id="currentTableBar">
+            
+        </script>
+
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script th:inline="none">
+var table,form;
+var currentPage = 1;
+var jsonEntity = {};
+var dataRow,miniTab,upload;
+
+layui.use(['form', 'table','miniTab'], function () {
+    var $ = layui.jquery;
+        form = layui.form;
+        table = layui.table;
+        layer = layui.layer;
+        miniTab = layui.miniTab;
+        jsonEntity.roleId = authUser.roleId;
+        loadTable(jsonEntity);
+     //监听搜索操作
+     form.on('submit(data-search-btn)', function (data) {
+         var result = JSON.stringify(data.field);
+         var jsonEntity = {};
+         jsonEntity.roleId = authUser.roleId;
+         $.each(data.field, function(key, val) {
+            if(data.field[key] != null && data.field[key].length > 0){
+                jsonEntity[key] = val;
+            }
+         });
+         //执行搜索重载
+         loadTable(jsonEntity);
+         return false;
+     });
+    /**
+     * toolbar监听事件
+     */
+    table.on('toolbar(currentTableFilter)', function (obj) {
+        if (obj.event === 'add') {  // 监听添加操作staticResource.get("DEV_ADD_PAGE")
+            openPopUp('添加或修改','ROLE_DEV_ADD_PAGE',60,80);
+        }
+    });
+    /*监听复选框*/
+    table.on('checkbox(currentTableFilter)', function(obj) {
+        checkboxMonitor(obj);
+    });
+    
+    
+});
+function loadTable(jsonEntity){
+    table.render({
+        elem: '#currentTableId',
+        url: getRootPath() + '/equipment/info',
+        headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+        toolbar: '#toolbarDemo',
+        where : jsonEntity,
+        async : false,
+        even : true,
+        cols: [[
+            {type: "checkbox"},
+            {field: 'imei',title: 'IMEI号', sort: true},
+            {field: 'eqptSn',title: '序列号', sort: true},
+            {field: 'eqptAddr', title: '地址',
+             templet : function(row) {
+                    if (typeof(row.eqptAdrr) == "undefined")
+                    {
+                        return row.province + row.city + row.district;
+                    }
+                    return row.province + row.city + row.district + row.eqptAdrr;
+                }},
+            {field: 'eqptName',  
+             title: '名称'
+             },
+             {field: 'eqptType',  
+              title: '设备类型',
+              templet : function(row) {
+                if (row.eqptType == 0)
+                {
+                    return '单相';
+                }else if(row.eqptType == 1){
+                    return '三相';
+                }else if(row.eqptType == 2){
+                    return '烟感告警器';
+                }else{
+                    return '';
+                }
+               }
+             },
+            {field: 'eqptStatus',  title: '状态', sort: true,align: 'center',
+                 templet : function(row) {//layui-icon-rss
+                    if (row.eqptStatus == 9000)
+                    {
+                        return '<i class="fa fa-rss " style="color:green;font-size:24px;" title="在线"></i> ';
+                    }else{
+                        return '<i class="fa fa-rss " style="font-size:24px;" title="离线"></i> ';
+                    }
+                }    
+            },
+            {field: 'addTime',  title: '激活日期', sort: true},
+            {title: '操作', toolbar: '#currentTableBar', align: "center",width:'15%'}
+        ]],
+        limits: [5, 10, 20, 25, 50, 100],
+        limit: 10,
+        page: true,
+        skin: 'line',
+        done : function(res, curr, count) {
+            currentPage = curr;
+            table_Data = res.data;
+            checkRender();
+        }
+    });
+}
+//刷新
+function flush(currentPage, jsonEntity) {
+    table.reload('currentTableId', {
+        page : {
+            curr : currentPage
+        },
+        where : jsonEntity
+    });
+}
+</script>
+
+</body>
+</html>

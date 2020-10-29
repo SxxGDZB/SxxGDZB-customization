@@ -323,10 +323,10 @@ function oneNet(e,hint,w){
 	});
 }
 /*3:上报告警信息，4:上报系统参数*/
-var onenetVariable = function(imei,eqptType){
+var onenetVariable = function(imei,eqptType,reg){
 	var e = {},r= {},array = new Array();
 	e.imei = imei;
-	r.reg_00 = 4;
+	r.reg_00 = reg;
 	e.register = r;
 	e.eqptType = eqptType;
 	array.push(e);
@@ -548,7 +548,10 @@ var _alarmIcons = function (v,e){
 	var _icon = '';
 	var msg = '';
 	e.forEach(function(val,index){
-		msg = msg + val.msg + ":" + val.value + "\n";
+		if($.isEmptyObject(val) == false){
+			msg = msg + val.msg + ":" + val.value + "\n";
+		}
+		
 	})
 	v.forEach(function(item, i){
 		 if(item == 1){
@@ -583,6 +586,10 @@ function tabMenuId(){
 	return elm[0].getAttribute("lay-menuid");
 }
 
+/**
+ * 按钮遍历
+ * @returns
+ */
 function _init_buttons_common(){
 	$.ajax({
 		url: "/button/info/" + tabMenuId()+"/" + authUser.roleId,

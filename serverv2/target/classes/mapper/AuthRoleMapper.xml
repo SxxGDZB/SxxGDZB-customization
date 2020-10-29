@@ -50,6 +50,9 @@
       <if test="updateTime != null">
         UPDATE_TIME,
       </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="code != null">
@@ -69,6 +72,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -111,8 +117,9 @@
     select * from auth_role
   </select>
   
-  <select id="queryAuthRole" parameterType="Integer" resultType="java.util.HashMap">
-  	select CODE,ID from auth_role where 1= 1 AND id >= #{roleId}
+  <select id="queryAuthRole" parameterType="Integer" resultMap="BaseResultMap">
+  	<!-- select CODE,ID from auth_role where 1= 1 AND id >= #{roleId} resultType="java.util.HashMap"-->
+  	select * from auth_role WHERE FIND_IN_SET(ID, queryChildrenAreaInfo(#{roleId}))
   </select>
   
   <select id="getSelectRolesList" resultMap="BaseResultMap">
@@ -128,4 +135,8 @@
   <select id="initBtn">
         call role_btn_model(#{roleId})
   </select>
+  
+  <!-- <select id="initMenu">
+        call role_sys_menu_model(#{roleId})
+  </select> -->
 </mapper>

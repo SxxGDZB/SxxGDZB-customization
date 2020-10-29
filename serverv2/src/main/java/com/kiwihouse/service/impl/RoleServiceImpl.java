@@ -9,6 +9,8 @@ import com.kiwihouse.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +45,7 @@ public class RoleServiceImpl implements RoleService {
         if(num > 0) {
         	System.out.println("添加成功初始化按钮权限---------------->" + role.getId());
         	authRoleMapper.initBtn(role.getId());
+//        	authRoleMapper.initMenu(role.getId());
         }
         return num == 1? Boolean.TRUE : Boolean.FALSE;
     }
@@ -71,9 +74,16 @@ public class RoleServiceImpl implements RoleService {
     }
 
 	@Override
-	public List<Map<String, Integer>> queryAuthRole(Integer roleId) {
+	public List<AuthRole> queryAuthRole(Integer roleId) {
 		// TODO Auto-generated method stub
-		return authRoleMapper.queryAuthRole(roleId);
+		List<AuthRole> lists = new ArrayList<AuthRole>();
+		List<AuthRole> list = authRoleMapper.queryAuthRole(roleId);
+		list.forEach(xx ->{
+			if(xx.getId() != roleId) {
+				lists.add(xx);
+			}
+		});
+		return lists;
 	}
 
 	@Override

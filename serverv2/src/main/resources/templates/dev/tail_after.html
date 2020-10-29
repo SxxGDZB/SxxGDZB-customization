@@ -146,6 +146,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
     function init(){
     	 var entity = {};
     	 entity.imei = $.getUrlParam('imei');
+    	 entity.roleId = authUser.roleId;
     	 $.ajax({
     			url: "/equipment/info",
     		    type: "GET",

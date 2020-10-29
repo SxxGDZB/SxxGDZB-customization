@@ -37,6 +37,13 @@
 						        <option value="">请选择告警类型</option>
 						      </select>
 						    </div>
+						    <div class="layui-input-inline">
+                              <select name="eqptType" id="eqptType" lay-search="" lay-filter="eqptType">
+                                 <option value="">请选择设备类型</option>
+                                 <option value="0">单相</option>
+                                 <option value="1">三相</option>
+                              </select>
+                            </div>
 						  </div>
                     	<div class="layui-inline">
                             <div class="layui-input-inline">
@@ -92,11 +99,13 @@ layui.use(['form', 'table','miniTab'], function () {
         	jsonEntity.imei = $.getUrlParam('imei');
         	$("input[name='imei']").val(jsonEntity.imei);
         }
+        jsonEntity.roleId = authUser.roleId;
      loadTable(jsonEntity);
      //监听搜索操作
      form.on('submit(data-search-btn)', function (data) {
     	 var result = JSON.stringify(data.field);
          var jsonEntity = {};
+         jsonEntity.roleId = authUser.roleId;
          $.each(data.field, function(key, val) {
          	if(data.field[key] != null && data.field[key].length > 0){
          		jsonEntity[key] = val;
@@ -294,7 +303,10 @@ function loadTable(jsonEntity){
         done : function(res, curr, count) {
 			currentPage = curr;
 			table_Data = res.data;
-			checkRender();
+			if(res.data != null){
+				checkRender();
+			}
+			
 		}
     });
 }

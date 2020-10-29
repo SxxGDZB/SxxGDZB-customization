@@ -298,6 +298,7 @@ $(document).ready(function(){
         		str =  e.startTime + "," + str;// + e.endTime
         		addTimeArr = str.split(",");
         	}
+        	e.roleId = authUser.roleId;
         	$.ajax({
         		url: "/statistics/info",
         	    type: "GET",

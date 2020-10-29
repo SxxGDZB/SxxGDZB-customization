@@ -13,26 +13,30 @@
             left join equipment as e on e.imei=mt.imei
             left join site as s on e.site_id=s.site_id
         <where>
-        	<!-- eqpt_type in(0,1) -->
-            <!-- <if test="roleId != null and roleId != ''">
-                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId})
-            </if> -->
-            <if test="imei != null and imei != ''">
-                and mt.imei=#{imei}
+        	
+            <if test="mtInfoVo.imei != null and mtInfoVo.imei != ''">
+                and mt.imei=#{mtInfoVo.imei}
             </if>
-            <if test="mtName != null and mtName != ''">
-                and mt_name=#{mtName}
+            <if test="mtInfoVo.mtName != null and mtInfoVo.mtName != ''">
+                and mt_name=#{mtInfoVo.mtName}
             </if>
-            <if test="mtStatus != null and mtStatus != '' and mtStatus != 'noCancel'">
-                and mt.mt_status=#{mtStatus}
+            <if test="mtInfoVo.mtStatus != null and mtInfoVo.mtStatus != '' and mtInfoVo.mtStatus != 'noCancel'">
+                and mt.mt_status=#{mtInfoVo.mtStatus}
             </if>
-            <if test="mtStatus == 'noCancel'">
+            <if test="mtInfoVo.mtStatus == 'noCancel'">
                 and mt.mt_status != 2
+            </if>
+            <if test="list != null ">
+                and mt.imei in(
+                <foreach collection="list" item="item" index="index" separator=",">
+                    #{item.imei}
+                </foreach>
+                ) 
             </if>
         </where>
         order by mt.update_time desc 
-        <if test="limit != null and limit != '' ">
-        limit #{page},#{limit}
+        <if test="mtInfoVo.limit != null and mtInfoVo.limit != '' ">
+        limit #{mtInfoVo.page},#{mtInfoVo.limit}
         </if>
         
     </select>
@@ -46,18 +50,25 @@
             <!-- <if test="roleId != null and roleId != ''">
                 and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId})
             </if> -->
-            <if test="imei != null and imei != ''">
-                and mt.imei=#{imei}
+            <if test="mtInfoVo.imei != null and mtInfoVo.imei != ''">
+                and mt.imei=#{mtInfoVo.imei}
             </if>
-            <if test="mtName != null and mtName != ''">
-                and mt_name=#{mtName}
+            <if test="mtInfoVo.mtName != null and mtInfoVo.mtName != ''">
+                and mt_name=#{mtInfoVo.mtName}
             </if>
-            <if test="mtStatus != null and mtStatus != '' and mtStatus != 'noCancel'">
-                and mt.mt_status=#{mtStatus}
+            <if test="mtInfoVo.mtStatus != null and mtInfoVo.mtStatus != '' and mtInfoVo.mtStatus != 'noCancel'">
+                and mt.mt_status=#{mtInfoVo.mtStatus}
             </if>
-            <if test="mtStatus == 'noCancel'">
+            <if test="mtInfoVo.mtStatus == 'noCancel'">
                 and mt.mt_status != 2
             </if>
+            <if test="list != null ">
+                 and mt.imei in(
+                 <foreach collection="list" item="item" index="index" separator=",">
+                     #{item.imei}
+                 </foreach>
+                 ) 
+             </if>
         </where>
     </select>
 

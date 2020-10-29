@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3893548",
+      "name": "已上锁",
+      "font_class": "yishangsuo",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "9448521",
+      "name": "锁",
+      "font_class": "suo",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "13479185",
+      "name": "开锁",
+      "font_class": "B",
+      "unicode": "e707",
+      "unicode_decimal": 59143
+    },
+    {
       "icon_id": "1335865",
       "name": "撤销",
       "font_class": "chexiao1",

@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.kiwihouse.dao.entity.EquipmentExcel;
+import com.kiwihouse.dao.entity.IMEI;
+import com.kiwihouse.dao.entity.RoleDev;
 import com.kiwihouse.dto.AlmIdMsgDto;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
 import com.kiwihouse.dto.EqptInfoDto;
@@ -118,5 +120,28 @@ public interface EquipmentMapper {
 	 * @return
 	 */
 	int insertOrUpdateBatch(List<EqptInfoDto> userList);
+	/**
+	 * 添加关联表
+	 * @param eqptId
+	 * @param roleId
+	 * @return
+	 */
+	int addRoleDev(String eqptId, String roleId);
+	/**
+	 * 	返回角色设备的IMEI
+	 * @param eqptQueryVo
+	 * @return
+	 */
+	List<IMEI> selectRoleImei(Integer roleId);
+	/**
+	 * 	修改角色设备
+	 * @param roleDevList
+	 */
+	int insertRoleDevList(List<RoleDev> roleDevList);
+	/**
+	 * 	删除角色设备关系
+	 * @param roleId
+	 */
+	void deleteRoleDev(Integer roleId);
 
 }

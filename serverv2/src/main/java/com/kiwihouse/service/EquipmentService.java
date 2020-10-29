@@ -50,5 +50,18 @@ public interface EquipmentService {
 	 * @return
 	 */
 	Response insertOrUpdateBatch(List<EqptInfoDto> userList);
+	/**
+	 * 不查询在线状态
+	 * @param eqptQueryVo
+	 * @return
+	 */
+	Map<String, Object> queryRoleDevList(EqptQueryVo eqptQueryVo);
+	/**
+	 * 修改角色设备列表
+	 * @param roleId
+	 * @param deptIds
+	 * @return
+	 */
+	Response updateRoleDevList(Integer roleId, String deptIds);
 
 }

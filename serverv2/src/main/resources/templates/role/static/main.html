@@ -108,7 +108,7 @@ layui.use(['form', 'table'], function () {
 		    	 	if(data.success){
 		    	 		var html = "";
 		    	 		data.data.list.forEach(function(item){
-		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
+		    	 			html += "<option vaue="+item.code+"> "+item.code+" </option>"
 		    	 		});
 		    	 		$("#roleCode").append(html);
 		    	 		form.render();

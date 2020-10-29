@@ -76,9 +76,9 @@ public interface AuthRoleMapper {
     /**
      * 	根据roleId 获取其之下的所有角色
      * @param roleId
-     * @return
+     * @returnList
      */
-	List<Map<String, Integer>> queryAuthRole(Integer roleId);
+    List<AuthRole> queryAuthRole(Integer roleId);
 	/**
 	 * 	查询角色列表分页
 	 * @param i
@@ -97,4 +97,9 @@ public interface AuthRoleMapper {
 	 * @return
 	 */
 	void initBtn(Integer roleId);
+	/**
+	 * 	初始化菜单
+	 * @param id
+	 */
+	void initMenu(Integer id);
 }

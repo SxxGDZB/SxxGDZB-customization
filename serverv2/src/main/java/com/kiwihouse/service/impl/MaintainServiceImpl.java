@@ -2,26 +2,22 @@ package com.kiwihouse.service.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.kiwihouse.common.bean.AlmSta;
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.DataType;
 import com.kiwihouse.common.bean.MtSta;
 import com.kiwihouse.common.utils.TimeUtil;
-import com.kiwihouse.dao.entity.MainTainExcel;
+import com.kiwihouse.dao.entity.IMEI;
 import com.kiwihouse.dao.mapper.AlarmMapper;
+import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.dao.mapper.MaintainMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.dto.MtSmokeInfoDto;
-import com.kiwihouse.dto.WarmMsgValue;
-import com.kiwihouse.dto.WarnMsgDto;
 import com.kiwihouse.service.MaintainService;
 import com.kiwihouse.vo.entire.Result;
 import com.kiwihouse.vo.entire.ResultList;
@@ -36,6 +32,8 @@ public class MaintainServiceImpl implements MaintainService{
 
 	 	@Autowired
 	 	AlarmMapper AlarmMapper;
+	 	@Autowired
+	 	EquipmentMapper equipmentMapper;
 	    /**
 	     * 查询:告警信息+维修记录
 	     * @param mtInfoVo 查询参数
@@ -66,12 +64,14 @@ public class MaintainServiceImpl implements MaintainService{
 	            }
 
 	        }else{
+	        	//获取角色的设备IMEI号
+	        	List<IMEI> imeiList = equipmentMapper.selectRoleImei(Integer.valueOf(mtInfoVo.getRoleId()));
 	            //查询用电设备工单
-	            List<MtInfoDto> list = maintainMapper.queryInfo(mtInfoVo);
+	            List<MtInfoDto> list = maintainMapper.queryInfo(mtInfoVo,imeiList);
 	            if(list.isEmpty()){
 	                return new ResultList(Code.QUERY_NULL.getCode(),Code.QUERY_NULL.getMsg(),null);
 	            }else{
-	                Integer row = maintainMapper.queryInfoRow(mtInfoVo);
+	                Integer row = maintainMapper.queryInfoRow(mtInfoVo,imeiList);
 	                if(row==0){
 	                    return new ResultList(Code.EXECUTION_ERROR.getCode(),Code.EXECUTION_ERROR.getMsg(),null);
 	                }else{

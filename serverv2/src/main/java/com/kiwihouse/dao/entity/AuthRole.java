@@ -22,7 +22,17 @@ public class AuthRole {
     
     private String groups;
 
-    public String getGroups() {
+    private Integer parentId;
+    
+    public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+
+	public String getGroups() {
 		return groups;
 	}
 

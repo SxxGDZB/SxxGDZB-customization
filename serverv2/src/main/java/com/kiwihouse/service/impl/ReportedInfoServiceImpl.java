@@ -16,19 +16,15 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.DataType;
-import com.kiwihouse.common.utils.CodeTransferUtil;
 import com.kiwihouse.common.utils.GroupList;
 import com.kiwihouse.common.utils.TimeUtil;
-import com.kiwihouse.dao.entity.Alarm;
 import com.kiwihouse.dao.entity.DevInfo;
-import com.kiwihouse.dao.entity.ThreeMsgInfo;
-import com.kiwihouse.dao.entity.ThreePhaseMsg;
+import com.kiwihouse.dao.entity.IMEI;
 import com.kiwihouse.dao.mapper.AlarmMapper;
 import com.kiwihouse.dao.mapper.DevInfoMapper;
+import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.dao.mapper.ReportedInfoMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.AlarmEqptDto;
@@ -57,6 +53,9 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 	AlarmMapper alarmMapper;
 	@Autowired
 	DevInfoMapper devInfoMapper;
+	@Autowired
+	EquipmentMapper equipmentMapper;
+	
 	static final Object room = new Object();
 	static List<FirePwrDto>  lists = new ArrayList<FirePwrDto>();
     /**
@@ -323,20 +322,26 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
     @Override
 	public Map<String, Object> queryAlmInfo(AlmQueryVo almQueryVo) {
     	 Map<String, Object> map = new HashMap<String, Object>();
-    	int count  = alarmMapper.queryAlarmCount(almQueryVo);
-    	if(almQueryVo.getLimit() != null) {
-    		almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
-    	}
-    	List<AlarmEqptDto> list  = alarmMapper.queryAlarm(almQueryVo);
-    	list.forEach(aed -> {
-    		if("0".equals(aed.getEqptType())) {
-    			aed.setAlarmMsg(onePhaseAlarm(aed.getAlarmMsg()));
-    		}else if("1".equals(aed.getEqptType())) {
-    			aed.setAlarmMsg(threePhaseAlarm(aed.getAlarmMsg()));
-    		}
-    	});
-    	map.put("count", count);
-    	map.put("data", list);
+        List<IMEI> imeiList = equipmentMapper.selectRoleImei(Integer.valueOf(almQueryVo.getRoleId()));
+        if(imeiList.size() > 0) {
+        	int count  = alarmMapper.queryAlarmCount(almQueryVo,imeiList);
+        	if(almQueryVo.getLimit() != null) {
+        		almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
+        	}
+        	List<AlarmEqptDto> list  = alarmMapper.queryAlarm(almQueryVo,imeiList);
+        	list.forEach(aed -> {
+        		if("0".equals(aed.getEqptType())) {
+        			aed.setAlarmMsg(onePhaseAlarm(aed.getAlarmMsg()));
+        		}else if("1".equals(aed.getEqptType())) {
+        			aed.setAlarmMsg(threePhaseAlarm(aed.getAlarmMsg()));
+        		}
+        	});
+        	map.put("count", count);
+        	map.put("data", list);
+        	return map;
+        }
+        map.put("count", 0);
+    	map.put("data", null);
 		// TODO Auto-generated method stub
 		return map;
 	}
@@ -699,19 +704,11 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 			}
 			JSONObject leak = (JSONObject) JSONObject.parse(jo.getString("leak"));
 			if(leak != null) {
-				JSONArray leak_line = JSONArray.parseArray(leak.getString("line"));
-				JSONArray leak_value = JSONArray.parseArray(leak.getString("value"));
-				JSONArray leak_status = JSONArray.parseArray(leak.getString("status"));
-				for(int i = 0;i<leak_line.size();i++) {
-					System.out.println(leak_line.get(i).toString());
-					WarmMsgValue warmMsgValue = new WarmMsgValue();
-					if("1".equals(leak_status.get(i).toString())) {
-						warmMsgValue.setMsg(leak_line.get(i).toString() + "相 漏电流过流告警");
-						warmMsgValue.setValue(leak_value.get(i).toString());
-					}
-					System.out.println(warmMsgValue);
-					ja.add(warmMsgValue);
-				}
+				//JSONArray leak_line = JSONArray.parseArray(leak.getString("line"));
+				WarmMsgValue warmMsgValue = new WarmMsgValue();
+				warmMsgValue.setMsg( "漏电流告警");
+				warmMsgValue.setValue(leak.getString("value"));
+				ja.add(warmMsgValue);
 			}
 			
 			JSONObject overload = (JSONObject) JSONObject.parse(jo.getString("overload"));

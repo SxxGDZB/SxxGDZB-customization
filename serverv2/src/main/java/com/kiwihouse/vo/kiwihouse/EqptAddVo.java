@@ -84,7 +84,7 @@ public class EqptAddVo {
     private List<String> imgs;
 
     @ApiModelProperty(value = "执行操作的角色ID", name = "doroleId", hidden = true)
-    private String doroleId;
+    private String roleId;
     @ApiModelProperty(hidden = true)
     private String province;
     @ApiModelProperty(hidden = true)

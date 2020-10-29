@@ -21,22 +21,32 @@
   </ul>
   <div class="_addTime" style="position: absolute;top: 20px;right: 30px;"> 
    </div>
+   <div class="layui-form layuimini-form" id="_password" style="display: none;">
+       <div class="layui-form-item" style="padding-top: 20px;width: 90%;">
+           <label class="layui-form-label required">请输入指令</label>
+           <div class="layui-input-block">
+               <input type="password" name="instruct" lay-verify="required" lay-reqtext="指令不能为空" placeholder="请输入指令"  value="" class="layui-input">
+           </div>
+       </div>
+   </div>
   <div class="layui-tab-content">
     <div class="layui-tab-item layui-show">
      	<div class="layui-form layuimini-form _dev_param">
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置电流变比</label>
 		        <div class="layui-input-inline">
-		            <input type="text" name="reg_01" lay-verify="oneToFourNine|numberInt"  value="" class="layui-input">
+		            <input type="text" name="reg_01" lay-verify="oneToFourNine|numberInt"  value="" class="layui-input _lock_input layui-disabled" disabled="disabled">
 		        </div>
+		        <div class="layui-form-mid layui-word-aux _lock_icon" ><i class="iconfont _lock" style="font-size: 30px; color: #1E9FFF;cursor: pointer;">&#xe64d;</i></div>
 		        <div class="layui-form-mid layui-word-aux">范围1-9999。</div>
 		    </div>
 		   
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置漏电流变比</label>
 		        <div class="layui-input-inline">
-		            <input type="text" name="reg_02" lay-verify="oneToFourNine|numberInt" value="" class="layui-input">
+		            <input type="text" name="reg_02" lay-verify="oneToFourNine|numberInt" value="" class="layui-input _lock_input layui-disabled" disabled="disabled">
 		        </div>
+		        <div class="layui-form-mid layui-word-aux _lock_icon" ><i class="iconfont _lock" style="font-size: 30px; color: #1E9FFF;cursor: pointer;">&#xe64d;</i></div>
 		        <div class="layui-form-mid layui-word-aux">范围1-9999。</div>
 		    </div>
 		    
@@ -113,6 +123,7 @@
 		    <div class="layui-form-item" >
 		        <div class="layui-input-block"  style="float: right;">
 		        	<button type="button" class="layui-btn layui-btn-primary _zero_setting _disable">电能置零</button>
+		        	<button type="button" class="layui-btn layui-btn-primary _reset _disable">重置</button>
 		            <button class="layui-btn layui-btn-normal _disable" lay-submit lay-filter="devParamBtn" >确认添加</button>
 		        </div>
 		    </div>
@@ -172,7 +183,21 @@
 <script>
 	var dataRow = window.parent.dataRow;
 	var formDATe;
-	oneNet(onenetVariable(dataRow.imei,dataRow.eqptType),false,window,false);
+	//电压下限告警： 187V 03
+    ///电压上限告警： 242V 04
+    ///电流上限 ：50A 
+    ///漏电流上限： 500mA     
+    ///温度告警 ：70℃
+	var defaults = {
+			"reg_03" : 242,
+			"reg_04" : 187,
+			"reg_05" : 50,
+			"reg_06" : 17600,
+			"reg_07" : 500,
+			"reg_08" : 70
+	}
+	console.log(defaults);
+	oneNet(onenetVariable(dataRow.imei,dataRow.eqptType,4),false,window,false);
     layui.use(['form','iconPickerFa','layarea','element'], function () {
         var form = layui.form,
         	element = layui.element;
@@ -180,6 +205,15 @@
             layer = layui.layer,
             layarea = layui.layarea,
             $ = layui.$;
+        	var LOCK_PASSWORD = sessionStorage.getItem("LOCK_PASSWORD");
+        	if(LOCK_PASSWORD == "true"){
+        		var h = '<i class="iconfont _lock" style="font-size: 30px; color: #1E9FFF;cursor: pointer;">&#xe707;</i>';
+                $("._lock_icon").html(h);
+                $("._lock_input").removeAttr("disabled");
+                $("._lock_input").removeClass("layui-disabled");
+                form.render();
+        	}
+        	console.log("==========》" + LOCK_PASSWORD);
         form.verify({
         	oneToFourNine : function(value){
        		if(parseFloat(value)> 9999 || parseFloat(value) < 0 && $.trim(value) != ''){
@@ -221,7 +255,6 @@
 		});
         init();
         function init(){
-        	console.log("---------->开始查询")
         	var entity = {};
         	entity.alarmType = 3;
         	entity.imei = dataRow.imei;
@@ -302,7 +335,7 @@
 	       		e.eqptType = dataRow.eqptType;
 	       		array.push(e);
                 oneNet(array,true,window.parent,true);
-                oneNet(onenetVariable(dataRow.imei,dataRow.eqptType),false,window,false);
+                oneNet(onenetVariable(dataRow.imei,dataRow.eqptType,4),false,window,false);
                 var iframeIndex = parent.layer.getFrameIndex(window.name);
     	 		parent.layer.close(iframeIndex);
            }else{
@@ -353,11 +386,47 @@
              	e.eqptType = dataRow.eqptType;
              	array.push(e);
              	oneNet(array,true,window.parent,true);
-                 oneNet(onenetVariable(dataRow.imei,dataRow.eqptType),false,window,false);
-                 var iframeIndex = parent.layer.getFrameIndex(window.name);
+                oneNet(onenetVariable(dataRow.imei,dataRow.eqptType,4),false,window,false);
+                var iframeIndex = parent.layer.getFrameIndex(window.name);
      	 		parent.layer.close(iframeIndex);
              }
         	
+        })
+        
+        $("._reset").on('click',function(){
+        	var custom_form = $("._dev_param")
+            $.each(defaults, function(key, val) {
+                custom_form.find("[name='"+key+"']").val(Number(val));
+            });
+        	form.render();
+        })
+        
+        $("._lock").on('click',function(){
+        	var index = layer.open({
+        		type : 1,
+        		offset: 'auto',
+        		area: ['550px', '200px'],
+                title : "添加页面",
+                content : $("#_password"),
+                btn: ['确定', '取消'],
+                yes: function(index, layero){
+                	if($("input[type='password']").val() == '123456'){
+                		layer.msg("密码正确",{icon: 6, time: 2000});
+                		sessionStorage.setItem("LOCK_PASSWORD",true)
+                		var h = '<i class="iconfont _lock" style="font-size: 30px; color: #1E9FFF;cursor: pointer;">&#xe707;</i>';
+                		$("._lock_icon").html(h);
+                		$("._lock_input").removeAttr("disabled");
+                		$("._lock_input").removeClass("layui-disabled");
+                		form.render();
+                	}else{
+                		layer.msg("密码错误",{icon: 5, time: 2000});
+                	}
+                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                  },
+                  btn2: function(index, layero){ 
+                      layer.close(index)
+                    }
+                });
         })
     });
     

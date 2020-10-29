@@ -117,8 +117,8 @@ public class FireDevReportedInfoController extends BaseController{
                     "<br>@Date: <b>2020-3-25 09:44:13</b></br>",
             httpMethod = "GET")
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = AlarmEqptDto.class)})
-    @GetMapping(value = "/latestalarm/info/{second}/{page}/{limit}")
-    public Map<String, Object> queryLatestAlmInfo(@PathVariable int page, @PathVariable int limit, @PathVariable int second, HttpServletRequest request) {
+    @GetMapping(value = "/latestalarm/info/{roleId}/{second}/{page}/{limit}")
+    public Map<String, Object> queryLatestAlmInfo(@PathVariable int page,@PathVariable Integer roleId, @PathVariable int limit, @PathVariable int second, HttpServletRequest request) {
 
         String currentTime = TimeUtil.getCurrentTime();
         String passSecTime = TimeUtil.getPassSecTime(currentTime, -second);
@@ -128,6 +128,7 @@ public class FireDevReportedInfoController extends BaseController{
                 .setStartTime(passSecTime)
                 .setEndTime(currentTime)
                 .setAlarmStatus("0")
+                .setRoleId(roleId.toString())
                 .setPage(page)
                 .setLimit(limit);
         return queryAlmInfo(almQueryVo, request);

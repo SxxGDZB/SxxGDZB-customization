@@ -40,6 +40,13 @@
 						         <option value="-1">掉线</option>
 						      </select>
 						    </div>
+						    <div class="layui-input-inline">
+                              <select name="eqptType" id="eqptType" lay-search="" lay-filter="eqptType">
+                                 <option value="">请选择设备类型</option>
+                                 <option value="0">单相</option>
+                                 <option value="1">三相</option>
+                              </select>
+                            </div>
 						  </div>
 						<div class="layui-inline">
                             <div class="layui-input-inline">
@@ -119,6 +126,7 @@ layui.use(['form', 'table','miniTab','upload'], function () {
         layer = layui.layer;
         miniTab = layui.miniTab;
         _init_buttons_common();
+        jsonEntity.roleId = authUser.roleId;
      	loadTable(jsonEntity);
      upload = layui.upload;
      var InitUpload = function () {
@@ -144,9 +152,9 @@ layui.use(['form', 'table','miniTab','upload'], function () {
      
      //监听搜索操作
      form.on('submit(data-search-btn)', function (data) {
-    	
     	 var result = JSON.stringify(data.field);
          var jsonEntity = {};
+         jsonEntity.roleId = authUser.roleId;
          $.each(data.field, function(key, val) {
          	if(data.field[key] != null && data.field[key].length > 0){
          		jsonEntity[key] = val;
@@ -304,14 +312,17 @@ function loadTable(jsonEntity){
             {type: "checkbox"},
             {field: 'imei',title: 'IMEI号', sort: true},
             {field: 'eqptSn',title: '序列号', sort: true},
-            {field: 'eqptAddr', title: '地址',
+            {field: '', title: '省市区',
+                templet : function(row) {
+                       return row.province + row.city + row.district;
+                   }},
+            {field: 'eqptAddr', title: '详细地址',
    			 templet : function(row) {
-	   				if (typeof(row.eqptAdrr) == "undefined")
-	   				{
-	   					return row.province + row.city + row.district;
+	   				if(typeof(row.eqptAdrr) == 'undefined'){
+	   					return '';
 	   				}
-					return row.province + row.city + row.district + row.eqptAdrr;
-				}},
+					return row.eqptAdrr;
+			}},
             {field: 'eqptName',  
              title: '名称'
 			 },

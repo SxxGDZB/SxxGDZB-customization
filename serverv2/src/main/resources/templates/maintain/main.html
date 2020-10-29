@@ -95,6 +95,7 @@ layui.use(['form', 'table','upload'], function () {
         		jsonEntity[key] = val;
         	}
        });
+        jsonEntity.roleId = authUser.roleId;
         loadTickets(jsonEntity);
         uploadFile();
         return false;
@@ -234,32 +235,33 @@ function loadTickets(jsonEntity){
         done : function(res, curr, count) {
 			currentPage = curr;
 			//自定义实现 bar根据状态变化
-			res.data.forEach(function(item,index){
-				if(item.mtStatus == "1"){
-					$.each($("tbody").find("tr").eq(index),function(){
-                        $.each($(this).find("td"),function(){
-                            if($(this).attr("data-field") == "comp"){
-                                $.each($(this).find("a"),function(){
-                                	var v = $(this);
-                                	if(v.attr("lay-event") != "backout"){
-                                		v.empty();
-                                	}
-                                })
-                            }
-                        })
-                    })
-				}else if(item.mtStatus == "2"){
-					$.each($("tbody").find("tr").eq(index),function(){
-						$.each($(this).find("td"),function(){
-							var v = $(this);
-							if(v.attr("data-field") == "comp"){
-								v.empty();
-							}
-						})
-					})
-				}
-			})
-			
+			if(res.data != null){
+				res.data.forEach(function(item,index){
+	                if(item.mtStatus == "1"){
+	                    $.each($("tbody").find("tr").eq(index),function(){
+	                        $.each($(this).find("td"),function(){
+	                            if($(this).attr("data-field") == "comp"){
+	                                $.each($(this).find("a"),function(){
+	                                    var v = $(this);
+	                                    if(v.attr("lay-event") != "backout"){
+	                                        v.empty();
+	                                    }
+	                                })
+	                            }
+	                        })
+	                    })
+	                }else if(item.mtStatus == "2"){
+	                    $.each($("tbody").find("tr").eq(index),function(){
+	                        $.each($(this).find("td"),function(){
+	                            var v = $(this);
+	                            if(v.attr("data-field") == "comp"){
+	                                v.empty();
+	                            }
+	                        })
+	                    })
+	                }
+	            })
+			}
 		}
     });
 }

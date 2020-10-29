@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @ApiModel(description = "查询告警信息参数")
-public class AlmQueryVo extends Basic {
+public class AlmQueryVo {
 
     @NaturalNumber
     @ApiModelProperty(value = "区域编码",name = "code")
@@ -80,7 +80,8 @@ public class AlmQueryVo extends Basic {
     
     private String addTime;
     
-    
+    private String eqptType;
+    private String roleId;
     
     
 }

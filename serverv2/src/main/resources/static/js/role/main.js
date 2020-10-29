@@ -42,28 +42,6 @@ layui.use(['form', 'table'], function () {
         });
     }
     initSelectRole();
-    //加载角色列表
-    function initSelectRole(){
-	   	$.ajax({
-			url: "/role/user/"+authUser.roleId,
-			type : "POST",
-	　　		dataType : "json",
-	　　		contentType: "application/json;charset=utf-8",
-		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-		    success:function(data){
-		    	 	if(data.success){
-		    	 		var html = "";
-		    	 		data.data.listRole.forEach(function(item){
-		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
-		    	 		});
-		    	 		$("#roleCode").append(html);
-		    	 		form.render();
-					}else{
-						layer.msg(data.msg);
-					}
-		    }
-		});
-    }
     // 监听搜索操作
     form.on('submit(data-search-btn)', function (data) {
         var result = JSON.stringify(data.field);
