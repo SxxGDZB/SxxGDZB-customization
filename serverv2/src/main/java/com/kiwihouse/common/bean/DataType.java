@@ -31,4 +31,6 @@ public class DataType {
     public final static Integer ONE_PHASE = 0;
     /*三相*/
     public final static Integer THREE_PHASE = 1;
+    
+    public final static String admin = "admin";
 }

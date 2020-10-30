@@ -192,17 +192,27 @@ public class RoleController extends BaseController {
 
     @ApiOperation(value = "获取用户对应所有角色信息",httpMethod = "POST")
     @PostMapping("user/{roleId}")
-    public Response queryAuthRole(@PathVariable Integer roleId) {
-    	List<AuthRole> list  = roleService.queryAuthRole(roleId);
+    public Response queryAuthRole(@PathVariable Integer roleId,HttpServletRequest request) {
+    	String oneself = request.getHeader("oneself");
+    	System.out.println("oneself===============>" + oneself);
+    	String userId = request.getHeader("dz-usr");
+    	List<AuthRole> list  = roleService.queryAuthRole(roleId,oneself,Integer.valueOf(userId));
+		return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("list", list);
+    }
+    
+    @ApiOperation(value = "获取下级用户信息",httpMethod = "POST")
+    @PostMapping("user/all/{roleId}")
+    public Response queryAuthUserByUserId(@PathVariable Integer roleId) {
+    	List<AuthUser> list  = roleService.queryAuthUserByUserId(roleId);
 		return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("list", list);
     }
     
 	@ApiOperation(value = "角色列表", notes = "查询", httpMethod = "GET")
     @GetMapping("/all")
-    public Map<String, Object> list(Integer page, Integer limit) {
+    public Map<String, Object> list(Integer page, Integer limit,Integer roleId) {
 //    	try {
     		
-    		map = roleService.getSelectRolesList(page,limit);
+    		map = roleService.getSelectRolesList(page,limit,roleId);
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
 //		} catch (Exception e) {

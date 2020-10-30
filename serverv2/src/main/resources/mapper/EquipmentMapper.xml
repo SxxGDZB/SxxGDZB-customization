@@ -334,136 +334,159 @@
     </delete>
     
     <select id="querInfoByUserIdPage" resultMap="EqptInfoDtoMap">
-    	<!-- select
-        e.eqpt_id,e.imei,e.eqpt_sn,e.eqpt_name,e.eqpt_type,e.register,e.imsi,e.device_id,e.power,e.voltage,e.electricity,e.user_id,e.site_id,e.role_id,e.add_time,
-        s.address,e.eqpt_addr,e.longitude,e.latitude,
-        u.USERNAME,u.phone,e.province,e.city,e.district,
-        g.group_id,g.group_name,
-        e.imgs
-        from equipment as e
-        left join `group` as g on e.group_id=g.group_id
-        left join site as s on e.site_id=s.site_id
-        left join `auth_user` as u on e.user_id=u.UID -->
-        SELECT e.* FROM role_dev rd INNER JOIN equipment e on e.eqpt_id = rd.eqpt_id
-		INNER join `auth_user` as u on e.user_id=u.UID
-        <where>
-            FIND_IN_SET(rd.role_id, queryChildrenAreaInfo(#{roleId})) 
-            <if test="eqptSn != null and eqptSn != ''">
-                and e.eqpt_sn=#{eqptSn}
+    	<if test="eqptQueryVo.adminId == null">
+    	      SELECT e.*  FROM auth_user_dev aud 
+    	      INNER JOIN equipment  e on aud.eqpt_id = e.eqpt_id 
+    	      INNER join `auth_user` as u on e.user_id=u.UID
+    	      where 1 = 1
+    	     <if test="list != null  ">
+                and e.imei in(
+                <foreach collection="list" item="item" index="index" separator=",">
+                    #{item.imei}
+                </foreach>
+                ) 
             </if>
-            <if test="groupId != null and groupId != ''">
-                and e.group_id=#{groupId}
+            
+        </if>
+        <if  test="eqptQueryVo.adminId != null">
+             SELECT e.*  FROM equipment e
+				LEFT JOIN auth_user_dev aud on e.eqpt_id = e.eqpt_id
+				INNER join `auth_user` as u on e.user_id=u.UID where 1 = 1
+           
+        </if>
+        <if test="eqptQueryVo.userId != null and eqptQueryVo.userId != ''">
+               and  aud.user_id = #{eqptQueryVo.userId}
             </if>
-            <if test="groupIds !=null and groupIds.length > 0">
+        <if test="eqptQueryVo.eqptSn != null and eqptQueryVo.eqptSn != ''">
+                and e.eqpt_sn=#{eqptQueryVo.eqptSn}
+            </if>
+            <if test="eqptQueryVo.groupId != null and eqptQueryVo.groupId != ''">
+                and e.group_id=#{eqptQueryVo.groupId}
+            </if>
+            <if test="eqptQueryVo.groupIds !=null and groupIds.length > 0">
                 and e.group_id in
-                <foreach collection="groupIds" item="item" index="index" open="(" close=")" separator=",">
+                <foreach collection="eqptQueryVo.groupIds" item="item" index="index" open="(" close=")" separator=",">
                     #{item}
                 </foreach>
             </if>
-            <if test="eqptType != null and eqptType != ''">
+            <if test="eqptQueryVo.eqptType != null and eqptQueryVo.eqptType != ''">
                 <choose>
-                    <when test="eqptType==0">
+                    <when test="eqptQueryVo.eqptType==0">
                         and (e.eqpt_type=0 or e.eqpt_type=2)
                     </when>
                     <otherwise>
-                        and e.eqpt_type=#{eqptType}
+                        and e.eqpt_type=#{eqptQueryVo.eqptType}
                     </otherwise>
                 </choose>
             </if>
-            <if test="eqptName != null and eqptName != ''">
-                and e.eqpt_name like CONCAT('%',#{eqptName},'%')
+            <if test="eqptQueryVo.eqptName != null and eqptQueryVo.eqptName != ''">
+                and e.eqpt_name like CONCAT('%',#{eqptQueryVo.eqptName},'%')
             </if>
-            <if test="eqptAddr != null and eqptAddr != ''">
-                and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
+            <if test="eqptQueryVo.eqptAddr != null and eqptQueryVo.eqptAddr != ''">
+                and e.eqpt_addr like CONCAT('%',#{eqptQueryVo.eqptAddr},'%')
             </if>
-            <if test="province != null and province != ''">
-                and e.province=#{province}
+            <if test="eqptQueryVo.province != null and eqptQueryVo.province != ''">
+                and e.province=#{eqptQueryVo.province}
             </if>
-            <if test="city != null and city != ''">
-                and e.city=#{city}
+            <if test="eqptQueryVo.city != null and eqptQueryVo.city != ''">
+                and e.city=#{eqptQueryVo.city}
             </if>
-            <if test="district != null and district != ''">
-                and e.district=#{district}
+            <if test="eqptQueryVo.district != null and eqptQueryVo.district != ''">
+                and e.district=#{eqptQueryVo.district}
             </if>
-            <if test="eqptAddr != null and eqptAddr != ''">
-                and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
+            <if test="eqptQueryVo.eqptAddr != null and eqptQueryVo.eqptAddr != ''">
+                and e.eqpt_addr like CONCAT('%',#{eqptQueryVo.eqptAddr},'%')
             </if> 
-            <if test="userName != null and userName != ''">
-                and u.user_name like CONCAT('%',#{userName},'%')
+            <if test="eqptQueryVo.userName != null and eqptQueryVo.userName != ''">
+                and u.user_name like CONCAT('%',#{eqptQueryVo.userName},'%')
             </if>
-            <if test="userPhone != null and userPhone != ''">
-                and u.phone=#{userPhone}
+            <if test="eqptQueryVo.userPhone != null and eqptQueryVo.userPhone != ''">
+                and u.phone=#{eqptQueryVo.userPhone}
             </if>
-            <if test="imei != null">
-            	and e.imei  like CONCAT('%',#{imei},'%')
+            <if test="eqptQueryVo.imei != null">
+                and e.imei  like CONCAT('%',#{eqptQueryVo.imei},'%')
             </if>
-        </where>
+            
         GROUP BY e.imei 
         ORDER BY e.add_time desc
-        <if test="limit != null">
-        	limit #{page},#{limit}
+        <if test="eqptQueryVo.limit != null">
+        	limit #{eqptQueryVo.page},#{eqptQueryVo.limit}
         </if>
         
     </select>
     
     <select id="queryInfoCount" parameterType="com.kiwihouse.vo.kiwihouse.EqptQueryVo" resultType="Integer">
     	SELECT count(*) FROM (
-SELECT e.* FROM role_dev rd INNER JOIN equipment e on e.eqpt_id = rd.eqpt_id
-INNER join `auth_user` as u on e.user_id=u.UID
-        <where>
-            FIND_IN_SET(rd.role_id, queryChildrenAreaInfo(#{roleId})) 
-            <if test="eqptSn != null and eqptSn != ''">
+          <if test="eqptQueryVo.adminId == null">
+              SELECT e.*  FROM auth_user_dev aud 
+              INNER JOIN equipment  e on aud.eqpt_id = e.eqpt_id 
+              INNER join `auth_user` as u on e.user_id=u.UID
+              where 1 = 1
+              <if test="list != null  ">
+                and e.imei in(
+                <foreach collection="list" item="item" index="index" separator=",">
+                    #{item.imei}
+                </foreach>
+                ) 
+             </if>
+           </if>
+        <if  test="eqptQueryVo.adminId != null">
+            SELECT e.*  FROM equipment e INNER join `auth_user` as u on e.user_id=u.UID where 1 = 1
+        </if>
+        
+        <if test="eqptQueryVo.eqptSn != null and eqptQueryVo.eqptSn != ''">
                 and e.eqpt_sn=#{eqptSn}
             </if>
-            <if test="groupId != null and groupId != ''">
+            <if test="eqptQueryVo.groupId != null and eqptQueryVo.groupId != ''">
                 and e.group_id=#{groupId}
             </if>
-            <if test="groupIds !=null and groupIds.length > 0">
+            <if test="eqptQueryVo.groupIds !=null and eqptQueryVo.groupIds.length > 0">
                 and e.group_id in
-                <foreach collection="groupIds" item="item" index="index" open="(" close=")" separator=",">
+                <foreach collection="eqptQueryVo.groupIds" item="item" index="index" open="(" close=")" separator=",">
                     #{item}
                 </foreach>
             </if>
-            <if test="eqptType != null and eqptType != ''">
-                <choose>
-                    <when test="eqptType==0">
-                        and (e.eqpt_type=0 or e.eqpt_type=2)
+            <if test="eqptQueryVo.eqptType != null and eqptQueryVo.eqptType != ''">
+                <!-- <choose>
+                    <when test="eqptQueryVo.eqptType==0">
+                        and (e.eqpt_type=0 or e.eqpt_type=1)
                     </when>
                     <otherwise>
-                        and e.eqpt_type=#{eqptType}
+                        and e.eqpt_type=#{eqptQueryVo.eqptType}
                     </otherwise>
-                </choose>
+                </choose> -->
+                and e.eqpt_type=#{eqptQueryVo.eqptType}
             </if>
-            <if test="eqptName != null and eqptName != ''">
-                and e.eqpt_name like CONCAT('%',#{eqptName},'%')
+            <if test="eqptQueryVo.eqptName != null and eqptQueryVo.eqptName != ''">
+                and e.eqpt_name like CONCAT('%',#{eqptQueryVo.eqptName},'%')
             </if>
-            <if test="eqptAddr != null and eqptAddr != ''">
-                and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
+            <if test="eqptQueryVo.eqptAddr != null and eqptQueryVo.eqptAddr != ''">
+                and e.eqpt_addr like CONCAT('%',#{eqptQueryVo.eqptAddr},'%')
             </if>
-            <if test="province != null and province != ''">
-                and e.province=#{province}
+            <if test="eqptQueryVo.province != null and eqptQueryVo.province != ''">
+                and e.province=#{eqptQueryVo.province}
             </if>
-            <if test="city != null and city != ''">
-                and e.city=#{city}
+            <if test="eqptQueryVo.city != null and eqptQueryVo.city != ''">
+                and e.city=#{eqptQueryVo.city}
             </if>
-            <if test="district != null and district != ''">
-                and e.district=#{district}
+            <if test="eqptQueryVo.district != null and eqptQueryVo.district != ''">
+                and e.district=#{eqptQueryVo.district}
             </if>
-             <if test="eqptAddr != null and eqptAddr != ''">
-                and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
+            <if test="eqptQueryVo.eqptAddr != null and eqptQueryVo.eqptAddr != ''">
+                and e.eqpt_addr like CONCAT('%',#{eqptQueryVo.eqptAddr},'%')
             </if> 
-            <if test="userName != null and userName != ''">
-                and u.user_name like CONCAT('%',#{userName},'%')
+            <if test="eqptQueryVo.userName != null and eqptQueryVo.userName != ''">
+                and u.user_name like CONCAT('%',#{eqptQueryVo.userName},'%')
             </if>
-            <if test="userPhone != null and userPhone != ''">
-                and u.phone=#{userPhone}
+            <if test="eqptQueryVo.userPhone != null and eqptQueryVo.userPhone != ''">
+                and u.phone=#{eqptQueryVo.userPhone}
             </if>
-             <if test="imei != null">
-            	and e.imei  like CONCAT('%',#{imei},'%')
+            <if test="eqptQueryVo.imei != null">
+                and e.imei  like CONCAT('%',#{eqptQueryVo.imei},'%')
             </if>
-            </where>
-            GROUP BY e.imei 
-            ORDER BY e.add_time
+            
+        GROUP BY e.imei 
+        ORDER BY e.add_time desc
             ) tem
     </select>
     
@@ -577,6 +600,18 @@ INNER join `auth_user` as u on e.user_id=u.UID
         GROUP BY e.imei ORDER BY e.add_time desc
     </select>
     
+    <select id="selectUserImei" resultMap="IMEIMap" parameterType="Integer">
+       SELECT e.imei FROM auth_user_dev aud 
+       INNER JOIN equipment e on e.eqpt_id = aud.eqpt_id 
+       where aud.user_id in(
+       SELECT au.uid FROM auth_user_role aur 
+       INNER JOIN auth_user au on au.uid = aur.user_id 
+       WHERE aur.role_id in (SELECT id FROM auth_role 
+       WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId})))) 
+	   GROUP BY e.imei
+	   ORDER BY e.add_time 
+    </select>
+    
     <insert id="insertRoleDevList"  parameterType="com.kiwihouse.dao.entity.RoleDev"  useGeneratedKeys="true">
         INSERT INTO role_dev
         (   
@@ -595,4 +630,23 @@ INNER join `auth_user` as u on e.user_id=u.UID
     <delete id="deleteRoleDev">
        delete from role_dev where role_id = #{roleId} 
     </delete>
+    
+     <delete id="deleteUserDev">
+       delete from auth_user_dev where user_id = #{userId} 
+    </delete>
+     <insert id="insertUserDevList"  parameterType="com.kiwihouse.dao.entity.UserDev"  useGeneratedKeys="true">
+        INSERT INTO auth_user_dev
+        (   
+            user_id,
+            eqpt_id
+            )
+         VALUES
+        <foreach item="t" collection="list" index="index"  separator="," >
+            (
+            #{t.userId},
+            #{t.eqptId}
+          
+            )
+        </foreach>
+    </insert>
 </mapper>

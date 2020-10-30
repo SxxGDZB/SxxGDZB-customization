@@ -38,16 +38,16 @@
   				LEFT JOIN sys_menu sys on arm.menu_id = sys.id 
   				INNER JOIN auth_role ar on ar.id = arm.role_id WHERE 1=1 
   				AND role_id != #{roleId} -->
-  				SELECT count(*) FROM sys_menu sys LEFT JOIN auth_role_menu arm on sys.id = arm.menu_id 
+  				SELECT count(*) FROM sys_menu sys INNER JOIN auth_role_menu arm on sys.id = arm.menu_id 
 				INNER JOIN auth_role ar on  ar.id = arm.role_id
-				WHERE sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId}) AND is_basic = 0
+				WHERE sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId})
   			</when>
   			<when test="trigger ==2 ">
 				SELECT count(*) FROM sys_menu  
   			</when>
   			<when test="trigger ==3 ">
   				SELECT count(*) FROM `auth_role_menu` arm 
-		    	LEFT JOIN sys_menu sys on arm.menu_id = sys.id 
+		    	INNER JOIN sys_menu sys on arm.menu_id = sys.id 
 		    	INNER JOIN auth_role ar on  ar.id = arm.role_id
 		    	WHERE 1=1
 	    		<if test="roleId != null and roleId !=''">
@@ -83,14 +83,14 @@
     	<choose>
   			<when test="trigger ==1 ">
 				SELECT sys.id ,sys.parent_id,sys.name ,sys.url FROM sys_menu sys 
-				WHERE sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId})   AND is_basic = 0
+				WHERE sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId})
   			</when>
   			<when test="trigger ==2 ">
 				SELECT id ,parent_id,name ,url FROM sys_menu  
   			</when>
   			<when test="trigger ==3 ">
   				SELECT arm.role_id ,sys.id,sys.parent_id,sys.name ,sys.url,ar.`CODE` FROM `auth_role_menu` arm 
-		    	LEFT JOIN sys_menu sys on arm.menu_id = sys.id 
+		    	INNER JOIN sys_menu sys on arm.menu_id = sys.id 
 		    	INNER JOIN auth_role ar on  ar.id = arm.role_id
 		    	WHERE 1=1
 	    		<if test="roleId != null and roleId !=''">
@@ -105,7 +105,7 @@
   			</when>
   			 <otherwise>
   			 	SELECT arm.role_id ,sys.id,sys.parent_id,sys.name ,sys.url,ar.`CODE` FROM `auth_role_menu` arm 
-		    	LEFT JOIN sys_menu sys on arm.menu_id = sys.id 
+		    	INNER JOIN sys_menu sys on arm.menu_id = sys.id 
 		    	INNER JOIN auth_role ar on  ar.id = arm.role_id
 		    	WHERE 1=1
 	    		<if test="roleId != null and roleId !=''">

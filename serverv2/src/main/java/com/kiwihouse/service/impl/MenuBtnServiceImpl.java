@@ -101,6 +101,7 @@ public class MenuBtnServiceImpl implements MenuBtnService{
 		try {
 			int count = menuBtnMapper.deleteModelBtn(menuId);
 			if(count > 0) {
+				menuBtnMapper.deleteByMenuId(menuId);
 				return new Response().Success(Code.DELETE_SUCCESS,Code.DELETE_SUCCESS.getMsg());
 			}
 			return new Response().Fail(Code.DELETE_FAIL,Code.DELETE_FAIL.getMsg());

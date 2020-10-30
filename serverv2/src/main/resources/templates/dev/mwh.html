@@ -125,6 +125,7 @@
 	/*获取URL-->IMEI*/
 	entity.imei = $.getUrlParam('imei');
 	entity.roleId = authUser.roleId;
+	entity.userId = authUser.uid;
 	entity.alarmType = 1;
 	/*根据ID生成仪表盘Echarts对象*/
 	var _chart = function(id){

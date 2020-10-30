@@ -57,5 +57,10 @@ public interface MenuBtnMapper {
 	 * @return
 	 */
 	int deleteModelBtn(Integer menuId);
+	/**
+	 * 根据菜单ID删除按钮关联
+	 * @param menuId
+	 */
+	void deleteByMenuId(Integer menuId);
 
 }

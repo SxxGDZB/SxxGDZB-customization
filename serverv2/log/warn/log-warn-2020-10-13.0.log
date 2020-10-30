@@ -1,8 +1,0 @@
-2020-10-13 17:08:47.748 [http-nio-8001-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.exceptions.PersistenceException: 
-### Error querying database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is com.alibaba.druid.pool.DataSourceClosedException: dataSource already closed at Tue Oct 13 17:08:47 CST 2020
-### The error may exist in file [C:\Users\cmx\git\SxxGDZB-customization\serverv2\target\classes\mapper\AlarmMapper.xml]
-### The error may involve com.kiwihouse.dao.mapper.AlarmMapper.selectByTimesAndType
-### The error occurred while executing a query
-### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is com.alibaba.druid.pool.DataSourceClosedException: dataSource already closed at Tue Oct 13 17:08:47 CST 2020]
-2020-10-13 17:08:50.918 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
-2020-10-13 17:20:15.092 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised

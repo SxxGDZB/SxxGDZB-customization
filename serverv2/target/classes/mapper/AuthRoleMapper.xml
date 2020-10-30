@@ -123,20 +123,28 @@
   </select>
   
   <select id="getSelectRolesList" resultMap="BaseResultMap">
-    select * from auth_role 
+    SELECT * FROM auth_role 
+        WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId} )) AND id not in (#{roleId})
     <if test="limit != null">
         limit #{page},#{limit}
     </if>
   </select>
   <select id="getSelectRolesListCount" resultType="Integer">
-    select count(*) from auth_role 
+    SELECT count(*) FROM auth_role 
+        WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId} )) AND id not in (#{roleId})
   </select>
   
   <select id="initBtn">
         call role_btn_model(#{roleId})
   </select>
-  
+  <select id="selectIsAdmin" resultType="com.kiwihouse.dao.entity.AuthRole">
+    SELECT ar.* FROM auth_role ar INNER JOIN auth_user_role aur on aur.ROLE_ID = ar.ID WHERE aur.USER_ID = #{userId}
+  </select>
   <!-- <select id="initMenu">
         call role_sys_menu_model(#{roleId})
   </select> -->
+  <select id="queryAuthUserByUserId" resultType="com.kiwihouse.dao.entity.AuthUser">
+        SELECT au.uid,au.username FROM auth_user_role aur INNER JOIN auth_user au on au.uid = aur.user_id WHERE aur.role_id in (SELECT id FROM auth_role 
+        WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId}))  AND id not in( #{roleId}))
+  </select>
 </mapper>

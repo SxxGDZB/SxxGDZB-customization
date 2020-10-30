@@ -28,5 +28,6 @@ public class DataStatisticsVo {
     private String adminId;
     private String imei;
     private Integer roleId;
+    private Integer userId;
 
 }

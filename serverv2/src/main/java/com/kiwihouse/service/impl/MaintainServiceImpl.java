@@ -11,8 +11,11 @@ import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.DataType;
 import com.kiwihouse.common.bean.MtSta;
 import com.kiwihouse.common.utils.TimeUtil;
+import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.dao.entity.IMEI;
 import com.kiwihouse.dao.mapper.AlarmMapper;
+import com.kiwihouse.dao.mapper.AuthRoleMapper;
+import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.dao.mapper.MaintainMapper;
 import com.kiwihouse.domain.vo.Response;
@@ -34,6 +37,10 @@ public class MaintainServiceImpl implements MaintainService{
 	 	AlarmMapper AlarmMapper;
 	 	@Autowired
 	 	EquipmentMapper equipmentMapper;
+	 	@Autowired
+	 	AuthRoleMapper authRoleMapper;
+	 	@Autowired
+	 	AuthUserMapper authUserMapper;
 	    /**
 	     * 查询:告警信息+维修记录
 	     * @param mtInfoVo 查询参数
@@ -65,9 +72,16 @@ public class MaintainServiceImpl implements MaintainService{
 
 	        }else{
 	        	//获取角色的设备IMEI号
-	        	List<IMEI> imeiList = equipmentMapper.selectRoleImei(Integer.valueOf(mtInfoVo.getRoleId()));
-	            //查询用电设备工单
-	            List<MtInfoDto> list = maintainMapper.queryInfo(mtInfoVo,imeiList);
+	        	List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(mtInfoVo.getRoleId()));
+	            //查询用户信息  判断是否是最大管理员
+//	        	AuthRole authRole =  authRoleMapper.selectIsAdmin(mtInfoVo.getUserId());
+	        	AuthUser auth = authUserMapper.selectByPrimaryKey(mtInfoVo.getUserId());
+	        	List<MtInfoDto> list = null;
+	        	if(auth.getUsername().equals(DataType.admin)) {
+	        		list = maintainMapper.queryInfo(mtInfoVo,null);
+	    		}else {
+	    			list = maintainMapper.queryInfo(mtInfoVo,imeiList);
+	    		}
 	            if(list.isEmpty()){
 	                return new ResultList(Code.QUERY_NULL.getCode(),Code.QUERY_NULL.getMsg(),null);
 	            }else{

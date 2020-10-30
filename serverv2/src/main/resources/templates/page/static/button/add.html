@@ -10,14 +10,14 @@
 </head>
 <body>
 <div class="layui-form layuimini-form _custom_form">
-     <div class="layui-form-item">
+     <!-- <div class="layui-form-item">
 	      <label class="layui-form-label required">选择角色</label>
 	      <div class="layui-input-block">
 	          <select name="roleId" lay-verify="required" lay-filter="roleId"  placeholder="所属角色" id="roleId">
 	              <option value="">所属角色</option>
 	          </select>
 	      </div>
-    </div>
+    </div> -->
     <div class="layui-form-item">
         <label class="layui-form-label required">选择页面</label>
         <div class="layui-input-block">
@@ -47,36 +47,13 @@
             table = layui.table,
             tableSelect = layui.tableSelect,
             $ = layui.$;
-        initSelectRole();
-        //加载角色列表
-        function initSelectRole(){
-            $.ajax({
-                url: "/role/user/"+authUser.roleId,
-                type : "POST",
-        　　                                  dataType : "json",
-        　　                                  contentType: "application/json;charset=utf-8",
-                headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-                success:function(data){
-                        if(data.success){
-                            var html = "";
-                            data.data.list.forEach(function(item){
-                                html += "<option value="+item.id+"> "+item.code+" </option>"
-                            });
-                            $("#roleId").append(html);
-                            form.render();
-                        }else{
-                            layer.msg(data.msg);
-                        }
-                }
-            });
-        }
-        
-        form.on('select(roleId)', function(data) {
+        initMenu();
+        function initMenu(){
         	$("#menu").empty();
-        	var h = "<option value=''>选择页面</option>";
-        	$("#menu").append(h);
-        	$.ajax({
-                url: "/menu/authMenuButtonLists?roleId=" + data.value,
+            var h = "<option value=''>选择页面</option>";
+            $("#menu").append(h);
+            $.ajax({
+                url: "/menu/authMenuButtonLists?roleId=" + authUser.roleId,
                 type : "POST",
         　　                                  dataType : "json",
                 async : false,
@@ -86,15 +63,14 @@
                     var dv = data.data.data.data.data;
                     var html = "";
                     for(let v in dv){
-                    	var arr = v.split("_");
-                    	html += "<option value="+arr[1]+"> "+arr[0]+" </option>"
+                        var arr = v.split("_");
+                        html += "<option value="+arr[1]+"> "+arr[0]+" </option>"
                     }
                     $("#menu").append(html);
                     form.render();
                 }
             });
-        	
-        })
+        }
         form.on('select(menu)', function(data) {
         	//监听资源
             $("#demo").attr("ts-selected","");

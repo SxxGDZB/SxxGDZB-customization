@@ -37,7 +37,17 @@ public class AuthUser {
     
     private String roleName;
     
-    public String getRoleName() {
+    private String menuIds;
+    
+    public String getMenuIds() {
+		return menuIds;
+	}
+
+	public void setMenuIds(String menuIds) {
+		this.menuIds = menuIds;
+	}
+
+	public String getRoleName() {
 		return roleName;
 	}
 

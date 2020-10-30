@@ -40,12 +40,14 @@ layui.use(['form', 'table','miniTab'], function () {
         layer = layui.layer;
         miniTab = layui.miniTab;
         jsonEntity.roleId = authUser.roleId;
+        jsonEntity.userId = authUser.uid;
         loadTable(jsonEntity);
      //监听搜索操作
      form.on('submit(data-search-btn)', function (data) {
          var result = JSON.stringify(data.field);
          var jsonEntity = {};
          jsonEntity.roleId = authUser.roleId;
+         jsonEntity.userId = authUser.uid;
          $.each(data.field, function(key, val) {
             if(data.field[key] != null && data.field[key].length > 0){
                 jsonEntity[key] = val;

@@ -83,5 +83,7 @@ public class AlmQueryVo {
     private String eqptType;
     private String roleId;
     
+    private Integer adminId;
+    
     
 }

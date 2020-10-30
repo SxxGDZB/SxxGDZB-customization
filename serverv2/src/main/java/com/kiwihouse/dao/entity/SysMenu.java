@@ -79,10 +79,20 @@ public class SysMenu  extends BaseTreeNode implements Serializable{
 	
 	private Integer isBasic;
 	
+	private Integer pageType;
+	
 	private List<Integer> ids = new ArrayList<Integer>();
 	
 	private Integer roleId;
 	
+	public Integer getPageType() {
+		return pageType;
+	}
+
+	public void setPageType(Integer pageType) {
+		this.pageType = pageType;
+	}
+
 	public Integer getRoleId() {
 		return roleId;
 	}

@@ -12,12 +12,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kiwihouse.common.bean.Code;
+import com.kiwihouse.common.bean.DataType;
 import com.kiwihouse.common.bean.EqptTypeSta;
 import com.kiwihouse.common.bean.UserInfo;
 import com.kiwihouse.common.utils.CodeTransferUtil;
 import com.kiwihouse.common.utils.GroupList;
 import com.kiwihouse.common.utils.RedisUtil;
+import com.kiwihouse.dao.entity.AuthRole;
+import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.dao.entity.AuthUserRole;
+import com.kiwihouse.dao.entity.IMEI;
 import com.kiwihouse.dao.entity.RoleDev;
+import com.kiwihouse.dao.entity.UserDev;
+import com.kiwihouse.dao.mapper.AuthRoleMapper;
+import com.kiwihouse.dao.mapper.AuthUserMapper;
+import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
@@ -39,6 +48,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	@Autowired
 	RedisUtil redisUtil;
+	
+	@Autowired
+	AuthRoleMapper authRoleMapper;
+	@Autowired
+	AuthUserMapper authUserMapper;
+	
+	@Autowired
+	AuthUserRoleMapper authUserRoleMapper;
 
 	@Override
 	public Map<String, Object> queryInfo(EqptQueryVo eqptQueryVo) {
@@ -47,9 +64,16 @@ public class EquipmentServiceImpl implements EquipmentService {
 		List<EqptInfoDto> list = new ArrayList<EqptInfoDto>();
 		Integer limit = eqptQueryVo.getLimit();
 		Integer page = eqptQueryVo.getPage();
+//		AuthRole authRole =  authRoleMapper.selectIsAdmin(eqptQueryVo.getUserId());
+		List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(eqptQueryVo.getRoleId()));
+		AuthUser auth = authUserMapper.selectByPrimaryKey(eqptQueryVo.getUserId());
+		if(auth.getUsername().equals(DataType.admin)) {
+			eqptQueryVo.setAdminId(2);
+		}
+		eqptQueryVo.setUserId(null);
 		if (StringUtils.isNotBlank(eqptQueryVo.getOnline())) {// 如果查询设备状态
 			eqptQueryVo.setLimit(null);
-			list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo);
+			list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo,imeiList);
 			list.forEach(eqpt -> {
 				eqpt.setEqptStatus(String.valueOf(Code.NOTONLINE.getCode()));
                   if (redisUtil.hasKey(eqpt.getImei())) {
@@ -79,14 +103,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 				eqptQueryVo.setPage(limit * (page - 1));
 				eqptQueryVo.setLimit(limit);
 			}
-			list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo);
+			list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo,imeiList);
 			list.forEach(eqpt -> {
 				eqpt.setEqptStatus(String.valueOf(Code.NOTONLINE.getCode()));
 				if (redisUtil.hasKey(eqpt.getImei())) {
 					eqpt.setEqptStatus(String.valueOf(Code.ONLINE.getCode()));
 				}
 			});
-			int count = equipmentMapper.queryInfoCount(eqptQueryVo);
+			int count = equipmentMapper.queryInfoCount(eqptQueryVo,imeiList);
 			map.put("data", list);
 			map.put("msg", Code.QUERY_SUCCESS.getMsg());
 			map.put("count", count);
@@ -210,12 +234,19 @@ public class EquipmentServiceImpl implements EquipmentService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Integer limit = eqptQueryVo.getLimit();
 		Integer page = eqptQueryVo.getPage();
+		List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(eqptQueryVo.getRoleId()));
+//		AuthRole authRole =  authRoleMapper.selectIsAdmin(eqptQueryVo.getUserId());
+		AuthUser auth = authUserMapper.selectByPrimaryKey(eqptQueryVo.getUserId());
+		if(auth.getUsername().equals(DataType.admin)) {
+			eqptQueryVo.setAdminId(2);
+		}
 		if(limit!=null) {
 			eqptQueryVo.setPage(limit * (page - 1));
 			eqptQueryVo.setLimit(limit);
 		}
-		List<EqptInfoDto> list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo);
-		int count = equipmentMapper.queryInfoCount(eqptQueryVo);
+		eqptQueryVo.setUserId(null);
+		List<EqptInfoDto> list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo,imeiList);
+		int count = equipmentMapper.queryInfoCount(eqptQueryVo,imeiList);
 		map.put("data", list);
 		map.put("msg", Code.QUERY_SUCCESS.getMsg());
 		map.put("count", count);
@@ -235,6 +266,51 @@ public class EquipmentServiceImpl implements EquipmentService {
         equipmentMapper.deleteRoleDev(roleId);
         equipmentMapper.insertRoleDevList(roleDevList);
 		return new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg());
+	}
+
+	@Override
+	public Response updateUserDevList(Integer userId, String deptIds) {
+		// TODO Auto-generated method stub
+		String [] deptArr = deptIds.split(",");
+		List<UserDev> roleDevList = new ArrayList<UserDev>();
+        for(int i = 0;i<deptArr.length;i++) {
+        	UserDev userDev = new UserDev(userId,Integer.valueOf(deptArr[i]));
+        	roleDevList.add(userDev);
+        }
+        equipmentMapper.deleteUserDev(userId);
+        equipmentMapper.insertUserDevList(roleDevList);
+		return new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg());
+	}
+
+	@Override
+	public Map<String, Object> queryUserDevList(EqptQueryVo eqptQueryVo) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer limit = eqptQueryVo.getLimit();
+		Integer page = eqptQueryVo.getPage();
+		AuthUser auth = authUserMapper.selectByPrimaryKey(eqptQueryVo.getUserId());
+		AuthUserRole  authUserRole = authUserRoleMapper.selectByUid(eqptQueryVo.getUserId());
+		if(eqptQueryVo.getRoleId() == null) {
+			eqptQueryVo.setRoleId(authUserRole.getRoleId().toString());
+		}
+		List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(eqptQueryVo.getRoleId()));
+		if(auth.getUsername().equals(DataType.admin)) {
+			eqptQueryVo.setAdminId(2);
+		}
+		if(limit!=null) {
+			eqptQueryVo.setPage(limit * (page - 1));
+			eqptQueryVo.setLimit(limit);
+		}
+		if(imeiList.size() == 0) {
+			imeiList = null;
+		}
+		List<EqptInfoDto> list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo,imeiList);
+		int count = equipmentMapper.queryInfoCount(eqptQueryVo,imeiList);
+		map.put("data", list);
+		map.put("msg", Code.QUERY_SUCCESS.getMsg());
+		map.put("count", count);
+		map.put("code", 0);
+		return map;
 	}
 
 }

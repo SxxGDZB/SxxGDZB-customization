@@ -44,6 +44,9 @@
     <delete id="delete">
     delete from menu_btn where role_id =#{roleId}
   </delete>
+  <delete id="deleteByMenuId">
+    delete from menu_btn where menu_id =#{menuId}
+  </delete>
   <resultMap id="BaseResultMap" type="com.kiwihouse.dao.entity.Buttons">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
@@ -65,7 +68,7 @@
 		            </if>
 		            AND sm.page_type = 1 )
         GROUP BY sm.ID  -->
-        SELECT GROUP_CONCAT(bt.title) titles,GROUP_CONCAT(bt.icon) icons,GROUP_CONCAT(bt.id) ids,sm.`NAME`,GROUP_CONCAT(bt.type) types FROM sys_menu sm 
+        SELECT GROUP_CONCAT(bt.title) titles,GROUP_CONCAT(bt.icon) icons,GROUP_CONCAT(bt.id) ids,sm.`NAME`,GROUP_CONCAT(bt.type) types,rbm.menu_id FROM sys_menu sm 
         LEFT JOIN menu_btn_model rbm on sm.id = rbm.menu_id  
         LEFT JOIN button bt on bt.id = rbm.button_id
         WHERE page_type = 1 AND sm.id in (SELECT menu_id FROM auth_role_menu 

@@ -99,12 +99,14 @@ layui.use(['form', 'table','miniTab'], function () {
         	jsonEntity.imei = $.getUrlParam('imei');
         	$("input[name='imei']").val(jsonEntity.imei);
         }
+        jsonEntity.userId = authUser.uid;
         jsonEntity.roleId = authUser.roleId;
      loadTable(jsonEntity);
      //监听搜索操作
      form.on('submit(data-search-btn)', function (data) {
     	 var result = JSON.stringify(data.field);
          var jsonEntity = {};
+         jsonEntity.userId = authUser.uid;
          jsonEntity.roleId = authUser.roleId;
          $.each(data.field, function(key, val) {
          	if(data.field[key] != null && data.field[key].length > 0){

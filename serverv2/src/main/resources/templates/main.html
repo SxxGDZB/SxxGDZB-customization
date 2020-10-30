@@ -167,7 +167,7 @@ $(document).ready(function(){
 	        	        trigger: 'axis'
 	        	    },
 	        	    legend: {
-	        	        data: ['过压告警', '过流告警', '过载告警', '欠压告警', '漏电告警','温升告警','烟雾告警','用电告警总故障']
+	        	        data: ['过压告警', '过流告警', '过载告警', '欠压告警', '漏电告警','温升告警','烟雾告警','掉电告警','用电告警总故障']
 	        	    },
 	        	    grid: {
 	        	        left: '3%',
@@ -231,6 +231,12 @@ $(document).ready(function(){
 	        	            //stack: '总量',
 	        	            data: smokeAlarmArray
 	        	        },
+	        	        {
+                            name: '掉电告警',
+                            type: 'line',
+                            //stack: '总量',
+                            data: useingTheAlarmArray
+                        },
 	        	        {
 	        	            name: '用电告警总故障',
 	        	            type: 'line',
@@ -299,6 +305,7 @@ $(document).ready(function(){
         		addTimeArr = str.split(",");
         	}
         	e.roleId = authUser.roleId;
+        	e.userId = authUser.uid;
         	$.ajax({
         		url: "/statistics/info",
         	    type: "GET",

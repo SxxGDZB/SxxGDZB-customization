@@ -128,21 +128,37 @@ public interface AuthUserMapper {
      */
 	List<String> queryUserIds(String adminId);
 	/**
-	 *  根据userId、roleId获取用户可以查询的用户信息
+	 * 	根据userId、roleId获取用户可以查询的用户信息
 	 * @param userId
 	 * @param roleId
 	 * @return
 	 */
 	List<Map<String, Integer>> queryAuthUserByRoleUserId(Integer userId, Integer roleId);
 	/**
-	 * 用户联系人
+	 * 	用户联系人
 	 * @param userPhone
 	 * @return
 	 */
 	List<String> queryCtsPhone(String userPhone);
 	
 	/**
-	 * 查询最大ID
+	 * 	查询最大ID
 	 */
 	Integer selectMaxId();
+	/**
+	 * 	下级角色的用户列表
+	 * @param i
+	 * @param limit
+	 * @param roleId
+	 * @param adminId 
+	 * @return
+	 */
+	List<AuthUser> getList(Integer page, Integer limit, Integer roleId, Integer adminId);
+	/**
+	 * 	下级角色的用户记录数
+	 * @param roleId
+	 * @param adminId 
+	 * @return
+	 */
+	int getListCount(Integer roleId, Integer adminId);
 }

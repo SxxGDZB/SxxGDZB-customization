@@ -45,5 +45,16 @@ public class AuthRoleMenu {
 		return "AuthRoleMenu [roleId=" + roleId + ", menuId=" + menuId + ", ids=" + ids + "]";
 	}
 
+	public AuthRoleMenu() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public AuthRoleMenu(Integer roleId, Integer menuId) {
+		super();
+		this.roleId = roleId;
+		this.menuId = menuId;
+	}
+
 
 }

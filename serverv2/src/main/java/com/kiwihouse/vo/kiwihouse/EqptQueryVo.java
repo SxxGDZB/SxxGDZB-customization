@@ -85,4 +85,8 @@ public class EqptQueryVo extends Basic {
      */
     private Date addTime;
     
+    private Integer userId;
+    
+    private Integer adminId;
+    
 }

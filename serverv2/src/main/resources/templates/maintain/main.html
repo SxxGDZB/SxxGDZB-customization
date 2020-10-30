@@ -84,6 +84,7 @@ layui.use(['form', 'table','upload'], function () {
         upload = layui.upload;
     _init_buttons_common();
     jsonEntity.roleId = authUser.roleId;
+    jsonEntity.userId = authUser.uid;
     jsonEntity.mtStatus = 0;
     loadTickets(jsonEntity); 
     // 监听搜索操作
@@ -95,6 +96,7 @@ layui.use(['form', 'table','upload'], function () {
         		jsonEntity[key] = val;
         	}
        });
+        jsonEntity.userId = authUser.uid;
         jsonEntity.roleId = authUser.roleId;
         loadTickets(jsonEntity);
         uploadFile();

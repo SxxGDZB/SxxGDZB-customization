@@ -17,6 +17,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_basic" jdbcType="VARCHAR" property="isBasic" />
+    <result column="page_type" jdbcType="INTEGER" property="pageType" />
   </resultMap>
   
    <resultMap id="MenuBtnModelMap" type="com.kiwihouse.dao.entity.MenuBtnModel">
@@ -41,12 +42,12 @@
        url, 
        perms, icon, 
       create_by, create_time, update_by, 
-      update_time, remark,role_id)
+      update_time, remark,role_id,page_type)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
        #{url,jdbcType=VARCHAR}, 
        #{perms,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR},#{roleId,jdbcType=INTEGER})
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR},#{roleId,jdbcType=INTEGER},#{pageType,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kiwihouse.dao.entity.SysMenu">
     insert into sys_menu
@@ -96,6 +97,9 @@
       <if test="roleId != null">
         role_id,
       </if>
+      <if test="pageType != null">
+        page_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -143,6 +147,9 @@
       <if test="roleId != null">
         #{roleId,jdbcType=VARCHAR},
       </if>
+      <if test="pageType != null">
+        #{pageType,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.kiwihouse.dao.entity.SysMenu">
@@ -186,6 +193,9 @@
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
+      </if>
+       <if test="pageType != null">
+        page_type = #{pageType,jdbcType=INTEGER},
       </if>
     </set>
     where menu_id = #{menuId,jdbcType=INTEGER}
@@ -235,6 +245,9 @@
         <if test="icon != null ">  
             icon = #{icon},  
         </if>  
+        <if test="pageType != null">
+            page_type = #{pageType}, 
+        </if>
     </set>  
     WHERE id = #{id};   
   </update>

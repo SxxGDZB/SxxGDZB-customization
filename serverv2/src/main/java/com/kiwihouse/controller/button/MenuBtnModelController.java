@@ -83,4 +83,5 @@ public class MenuBtnModelController extends BaseController{
 		public Response deleteModelBtn(@PathVariable Integer menuId){
 		    return menuBtnService.deleteModelBtn(menuId);
 		}
+	 
 }

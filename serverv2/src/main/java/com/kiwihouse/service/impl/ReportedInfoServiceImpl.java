@@ -20,9 +20,12 @@ import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.DataType;
 import com.kiwihouse.common.utils.GroupList;
 import com.kiwihouse.common.utils.TimeUtil;
+import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.dao.entity.DevInfo;
 import com.kiwihouse.dao.entity.IMEI;
 import com.kiwihouse.dao.mapper.AlarmMapper;
+import com.kiwihouse.dao.mapper.AuthRoleMapper;
+import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.dao.mapper.DevInfoMapper;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.dao.mapper.ReportedInfoMapper;
@@ -55,7 +58,10 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 	DevInfoMapper devInfoMapper;
 	@Autowired
 	EquipmentMapper equipmentMapper;
-	
+	@Autowired
+	AuthRoleMapper authRoleMapper;
+	@Autowired
+	AuthUserMapper authUserMapper;
 	static final Object room = new Object();
 	static List<FirePwrDto>  lists = new ArrayList<FirePwrDto>();
     /**
@@ -322,13 +328,18 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
     @Override
 	public Map<String, Object> queryAlmInfo(AlmQueryVo almQueryVo) {
     	 Map<String, Object> map = new HashMap<String, Object>();
-        List<IMEI> imeiList = equipmentMapper.selectRoleImei(Integer.valueOf(almQueryVo.getRoleId()));
-        if(imeiList.size() > 0) {
-        	int count  = alarmMapper.queryAlarmCount(almQueryVo,imeiList);
+        //获取角色的设备IMEI号
+    	List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(almQueryVo.getRoleId()));
+        //查询用电设备工单
+    	//AuthRole authRole =  authRoleMapper.selectIsAdmin(Integer.valueOf(almQueryVo.getUserId()));
+    	AuthUser auth = authUserMapper.selectByPrimaryKey(Integer.valueOf(almQueryVo.getUserId()));
+    	List<AlarmEqptDto> list = null;
+    	if(auth.getUsername().equals(DataType.admin)) {
+    		int count  = alarmMapper.queryAlarmCount(almQueryVo,null);
         	if(almQueryVo.getLimit() != null) {
         		almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
         	}
-        	List<AlarmEqptDto> list  = alarmMapper.queryAlarm(almQueryVo,imeiList);
+        	list  = alarmMapper.queryAlarm(almQueryVo,null);
         	list.forEach(aed -> {
         		if("0".equals(aed.getEqptType())) {
         			aed.setAlarmMsg(onePhaseAlarm(aed.getAlarmMsg()));
@@ -339,7 +350,26 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
         	map.put("count", count);
         	map.put("data", list);
         	return map;
-        }
+		}else {
+			if(imeiList.size() > 0) {
+	        	int count  = alarmMapper.queryAlarmCount(almQueryVo,imeiList);
+	        	if(almQueryVo.getLimit() != null) {
+	        		almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
+	        	}
+	        	list  = alarmMapper.queryAlarm(almQueryVo,imeiList);
+	        	list.forEach(aed -> {
+	        		if("0".equals(aed.getEqptType())) {
+	        			aed.setAlarmMsg(onePhaseAlarm(aed.getAlarmMsg()));
+	        		}else if("1".equals(aed.getEqptType())) {
+	        			aed.setAlarmMsg(threePhaseAlarm(aed.getAlarmMsg()));
+	        		}
+	        	});
+	        	map.put("count", count);
+	        	map.put("data", list);
+	        	return map;
+	        }
+		}
+        
         map.put("count", 0);
     	map.put("data", null);
 		// TODO Auto-generated method stub

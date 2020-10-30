@@ -51,7 +51,7 @@ public interface EquipmentService {
 	 */
 	Response insertOrUpdateBatch(List<EqptInfoDto> userList);
 	/**
-	 * 不查询在线状态
+	 * 	查询角色设备列表(不查询状态)
 	 * @param eqptQueryVo
 	 * @return
 	 */
@@ -63,5 +63,18 @@ public interface EquipmentService {
 	 * @return
 	 */
 	Response updateRoleDevList(Integer roleId, String deptIds);
+	/**
+	 * 修改用户设备列表
+	 * @param userId
+	 * @param deptIds
+	 * @return
+	 */
+	Response updateUserDevList(Integer userId, String deptIds);
+	/**
+	 * 	查询用户设备列表(不查询状态)
+	 * @param eqptQueryVo
+	 * @return
+	 */
+	Map<String, Object> queryUserDevList(EqptQueryVo eqptQueryVo);
 
 }

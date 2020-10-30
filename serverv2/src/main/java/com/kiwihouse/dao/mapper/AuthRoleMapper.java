@@ -1,6 +1,8 @@
 package com.kiwihouse.dao.mapper;
 
 import com.kiwihouse.dao.entity.AuthRole;
+import com.kiwihouse.dao.entity.AuthUser;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
@@ -83,14 +85,16 @@ public interface AuthRoleMapper {
 	 * 	查询角色列表分页
 	 * @param i
 	 * @param limit
+	 * @param roleId 
 	 * @return
 	 */
-	List<AuthRole> getSelectRolesList(Integer page, Integer limit);
+	List<AuthRole> getSelectRolesList(Integer page, Integer limit, Integer roleId);
 	/**
 	 * 	查询角色列表总数
+	 * @param roleId 
 	 * @return
 	 */
-	int getSelectRolesListCount();
+	int getSelectRolesListCount(Integer roleId);
 	/**
 	 *	 初始化角色按钮
 	 * @param id
@@ -102,4 +106,15 @@ public interface AuthRoleMapper {
 	 * @param id
 	 */
 	void initMenu(Integer id);
+	/**
+	 * 	查询是否是管理员
+	 * @return
+	 */
+	AuthRole selectIsAdmin(Integer userId);
+	/**
+	 *	 获取下级用户信息
+	 * @param roleId
+	 * @return
+	 */
+	List<AuthUser> queryAuthUserByUserId(Integer roleId);
 }

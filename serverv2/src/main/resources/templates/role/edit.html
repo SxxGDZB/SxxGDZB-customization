@@ -15,7 +15,6 @@
 </head>
 <body>
 <div class="layui-form layuimini-form _custom_form" id="resourceForm">
-	<input type="hidden" name="id"  class="layui-input">
     <div class="layui-form-item">
         <label class="layui-form-label required">角色名称</label>
         <div class="layui-input-block">
@@ -29,7 +28,12 @@
             <input type="text" name="code"  placeholder="请输入角色编码" value="" class="layui-input">
         </div>
     </div>
-    
+    <div class="layui-form-item">
+        <label class="layui-form-label required">菜单选择</label>
+        <div class="layui-input-inline">
+            <textarea name="menu" placeholder="请点击选择" lay-verify="required" lay-reqtext="资源名称不能为空"  autocomplete="off" id="demo" class="layui-textarea"></textarea>
+        </div>
+    </div>
     <div class="layui-form-item _submitBtn">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
@@ -38,11 +42,18 @@
 </div>
 <div th:include="include::footer"></div>
 <script th:inline="none">
+	var ids = [];
+	var names = [];
+	var addOrUpdateData = function() {
+	    var data = {};
+	    return data;
+	};
     layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer,
             $ = layui.$;
         var dataRow = window.parent.dataRow;
+        console.log(dataRow)
         var resourceForm = $("#resourceForm");
         $.each(dataRow, function(key, val) {
         	if(key == 'status'){
@@ -56,9 +67,96 @@
         	}
         	form.render();
        });
-        
+        function returnNodes(arr){
+            //利用foreach循环遍历
+            arr.forEach((item) => {
+              //判断递归结束条件
+             if(item.children != null) //判断chlidren是否有数据
+              {
+                ids.push(item.id);
+                names.push(item.name);
+                //递归调用
+                returnNodes(item.children);                 
+              }else{
+                  ids.push(item.id);
+                  names.push(item.name);
+              }                   
+            })
+         }
+        curRoleMenu();
+        //当前角色的菜单
+        function curRoleMenu(){
+        	var treeDate = '';
+            var checked = new Array();
+            var checkedName = new Array();
+            $.ajax({
+                url: "/rolemenu/menu",
+                type : "GET",
+		        　　      dataType : "json",
+		        　　      data:{"trigger":2,"roleId":authUser.roleId},
+		        　　      contentType: "application/json;charset=utf-8",
+		        　　      async:false,
+                headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+                success:function(data){
+                    treeDate = JSON.stringify(convert(data.data));
+                }
+            });
+            //获取角色当前的菜单权限
+            $.ajax({
+                url: "/rolemenu/menu",
+                type : "GET",
+		        　　      dataType : "json",
+		        　　      data:{"roleId":dataRow.id,"trigger":3},
+		        　　      contentType: "application/json;charset=utf-8",
+		        　　      async:false,
+                headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+                success:function(data){
+                    $.each(data.data,function(index,xx){
+                        checked.push(xx.id);
+                        checkedName.push(xx.name);
+                    })
+                    callBackData = function() {
+                        var d = {
+                            type : 'UPDATE',
+                            treeDate :treeDate,
+                            checked :checked.setList()
+                        };
+                        return d;
+                    }
+                }
+            });
+            
+            $("#demo").text(checkedName);
+            $("#demo").attr('data-ids',checked);
+        }
+        $("#demo").on('click',function(){
+            var index = layer.open({
+                title: '选择节点',
+                type: 2,
+                shade: 0.2,
+                maxmin:true,
+                area: ['30%', '60%'],
+                content: '/admin/role/menu/tree',
+                btn:['确定','取消'],
+                yes:function(index, layero){
+                    ids = [];
+                    names = [];
+                    var res = window["layui-layer-iframe" + index].callbackdata();
+                    returnNodes(res);
+                    $("#demo").val(names);
+                    $("#demo").attr('data-ids',ids.join(','))
+                    layer.close(index);
+                },btn2:function(){
+                    layer.close(index);
+                }
+            });
+            
+            form.render();
+        })
         //监听提交
         form.on('submit(saveBtn)', function (data) {
+        	data.field.menuIds = $("#demo").attr('data-ids');
+        	data.field.id = dataRow.id;
         	UPDATE("/role",data.field);
             return false;
         });

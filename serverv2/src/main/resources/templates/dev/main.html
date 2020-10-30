@@ -127,6 +127,7 @@ layui.use(['form', 'table','miniTab','upload'], function () {
         miniTab = layui.miniTab;
         _init_buttons_common();
         jsonEntity.roleId = authUser.roleId;
+        jsonEntity.userId = authUser.uid;
      	loadTable(jsonEntity);
      upload = layui.upload;
      var InitUpload = function () {
@@ -155,6 +156,7 @@ layui.use(['form', 'table','miniTab','upload'], function () {
     	 var result = JSON.stringify(data.field);
          var jsonEntity = {};
          jsonEntity.roleId = authUser.roleId;
+         jsonEntity.userId = authUser.uid;
          $.each(data.field, function(key, val) {
          	if(data.field[key] != null && data.field[key].length > 0){
          		jsonEntity[key] = val;

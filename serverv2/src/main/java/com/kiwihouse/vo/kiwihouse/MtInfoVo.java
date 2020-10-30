@@ -47,4 +47,7 @@ public class MtInfoVo{
     
     @ApiModelProperty(value = "角色ID",name = "roleId")
     private String roleId;
+    
+    @ApiModelProperty(value = "用户ID",name = "userId")
+    private Integer userId;
 }

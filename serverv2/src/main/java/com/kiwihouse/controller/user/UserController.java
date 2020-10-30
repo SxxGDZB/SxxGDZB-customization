@@ -1,6 +1,7 @@
 package com.kiwihouse.controller.user;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -145,5 +146,27 @@ public class UserController extends BaseController {
     	}
     	authUser.setPassword(Md5Util.md5(password.getNewPassword() + authUser2.getSalt()));
         return userService.updateByPrimaryKeySelective(authUser);
+    }
+    
+    @ApiOperation(value = "用户列表", notes = "查询", httpMethod = "GET")
+    @GetMapping("/select/list")
+    public Map<String, Object> list(Integer page, Integer limit,Integer roleId,Integer userId) {
+//    	try {
+    		
+    		map = userService.getList(page,limit,roleId,userId);
+    		map.put("code", 0);
+    		map.put("msg",Code.QUERY_SUCCESS);
+//		} catch (Exception e) {
+			// TODO: handle exception
+//			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
+//		}
+        return map;
+    }
+    
+    @ApiOperation(value = "添加用户", httpMethod = "POST")
+    @PostMapping("/add")
+    public Response add(HttpServletRequest request,@RequestBody AuthUser authUser) {
+    	
+        return userService.insert(authUser);
     }
 }

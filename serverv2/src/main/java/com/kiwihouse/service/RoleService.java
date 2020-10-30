@@ -2,6 +2,7 @@ package com.kiwihouse.service;
 
 
 import com.kiwihouse.dao.entity.AuthRole;
+import com.kiwihouse.dao.entity.AuthUser;
 
 import java.util.List;
 import java.util.Map;
@@ -63,14 +64,22 @@ public interface RoleService {
     /**
      * 	根据roleId 获取其之下的所有角色
      * @param roleId
+     * @param userId 
      * @return
      */
-    List<AuthRole> queryAuthRole(Integer roleId);
+    List<AuthRole> queryAuthRole(Integer roleId,String oneself, Integer userId);
 	/**
 	 * 	查询角色列表分页
 	 * @param page
 	 * @param limit
+	 * @param roleId 
 	 * @return
 	 */
-	Map<String, Object> getSelectRolesList(Integer page, Integer limit);
+	Map<String, Object> getSelectRolesList(Integer page, Integer limit, Integer roleId);
+	/**
+	 * 	获取下级用户信息
+	 * @param roleId
+	 * @return
+	 */
+	List<AuthUser> queryAuthUserByUserId(Integer roleId);
 }

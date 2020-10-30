@@ -67,4 +67,17 @@ public class AuthUserRole {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	public AuthUserRole() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public AuthUserRole(Integer userId, Integer roleId) {
+		super();
+		this.userId = userId;
+		this.roleId = roleId;
+	}
+    
+    
 }

@@ -8,15 +8,14 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
-import com.kiwihouse.dao.entity.EquipmentExcel;
 import com.kiwihouse.dao.entity.IMEI;
 import com.kiwihouse.dao.entity.RoleDev;
+import com.kiwihouse.dao.entity.UserDev;
 import com.kiwihouse.dto.AlmIdMsgDto;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
 import com.kiwihouse.dto.EqptInfoDto;
 import com.kiwihouse.dto.KwhAndTimeDto;
 import com.kiwihouse.dto.SiteDto;
-import com.kiwihouse.dto.equipt.Equipt;
 import com.kiwihouse.vo.kiwihouse.EqptAddVo;
 import com.kiwihouse.vo.kiwihouse.EqptQueryVo;
 
@@ -84,16 +83,18 @@ public interface EquipmentMapper {
      * 	根据条件查询  分页
      * @param uid
      * @param eqptQueryVo
+     * @param list 
      * @return
      */
-	List<EqptInfoDto> querInfoByUserIdPage(EqptQueryVo eqptQueryVo);
+	List<EqptInfoDto> querInfoByUserIdPage(@Param("eqptQueryVo") EqptQueryVo eqptQueryVo, @Param("list") List<IMEI> list);
 	/**
 	 *	 根据条件查询记录总数
 	 * @param eqptQueryVo
+	 * @param list 
 	 * @param userId 
 	 * @return
 	 */
-	Integer queryInfoCount(EqptQueryVo eqptQueryVo);
+	Integer queryInfoCount(@Param("eqptQueryVo") EqptQueryVo eqptQueryVo, @Param("list") List<IMEI> list);
 	/**
 	 * 批量删除设备
 	 * @param aqptArr
@@ -143,5 +144,20 @@ public interface EquipmentMapper {
 	 * @param roleId
 	 */
 	void deleteRoleDev(Integer roleId);
-
+	/**
+	 * 	删除用户设备关系
+	 * @param userId
+	 */
+	void deleteUserDev(Integer userId);
+	/**
+	 *	 修改用户设备
+	 * @param roleDevList
+	 */
+	void insertUserDevList(List<UserDev> roleDevList);
+	/**
+	 * 	返回用户 下级用户 设备的IMEI
+	 * @param eqptQueryVo
+	 * @return
+	 */
+	List<IMEI> selectUserImei(Integer roleId);
 }

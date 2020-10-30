@@ -1,18 +1,27 @@
 package com.kiwihouse.service.impl;
 
-import com.kiwihouse.dao.mapper.AuthUserMapper;
-import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
-import com.kiwihouse.domain.vo.Response;
-import com.kiwihouse.common.bean.Code;
-import com.kiwihouse.dao.entity.AuthUser;
-import com.kiwihouse.dao.entity.AuthUserRole;
-import com.kiwihouse.service.UserService;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+
+import com.kiwihouse.common.bean.Code;
+import com.kiwihouse.common.bean.DataType;
+import com.kiwihouse.dao.entity.AuthRole;
+import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.dao.entity.AuthUserRole;
+import com.kiwihouse.dao.mapper.AuthRoleMapper;
+import com.kiwihouse.dao.mapper.AuthUserMapper;
+import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
+import com.kiwihouse.domain.vo.Response;
+import com.kiwihouse.service.UserService;
+import com.kiwihouse.util.CommonUtil;
+import com.kiwihouse.util.Md5Util;
 
 /**
  * @author tomsun28
@@ -22,25 +31,27 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private AuthUserMapper userMapper;
+    private AuthUserMapper authUserMapper;
 
     @Autowired
     private AuthUserRoleMapper authUserRoleMapper;
 
+    @Autowired
+    AuthRoleMapper authRoleMapper;
     @Override
     public String loadAccountRole(Integer appId) throws DataAccessException {
 
-        return userMapper.selectUserRoles(appId);
+        return authUserMapper.selectUserRoles(appId);
     }
 
     @Override
     public List<AuthUser> getUserList() throws DataAccessException {
-        return userMapper.selectUserList();
+        return authUserMapper.selectUserList();
     }
 
     @Override
     public List<AuthUser> getUserListByRoleId(Integer roleId) throws DataAccessException {
-        return userMapper.selectUserListByRoleId(roleId);
+        return authUserMapper.selectUserListByRoleId(roleId);
     }
 
     @Override
@@ -64,29 +75,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public AuthUser getUserByUid(Integer uid) throws DataAccessException {
 
-        return userMapper.selectByPrimaryKey(uid);
+        return authUserMapper.selectByPrimaryKey(uid);
     }
     @Override
     public AuthUser getUserByUsername(String username){
-        return userMapper.selectByUsername(username);
+        return authUserMapper.selectByUsername(username);
     }
     @Override
     public List<AuthUser> getNotAuthorityUserListByRoleId(Integer roleId) throws DataAccessException {
 
-        return userMapper.selectUserListExtendByRoleId(roleId);
+        return authUserMapper.selectUserListExtendByRoleId(roleId);
     }
 
 	@Override
 	public List<Map<String, Integer>> queryAuthUserByRoleUserId(Integer userId, Integer roleId) {
 		// TODO Auto-generated method stub
-		return userMapper.queryAuthUserByRoleUserId(userId,roleId);
+		return authUserMapper.queryAuthUserByRoleUserId(userId,roleId);
 	}
 
 	@Override
 	public Response updateByPrimaryKeySelective(AuthUser authUser) {
 		// TODO Auto-generated method stub
 		try {
-			int count = userMapper.updateByPrimaryKeySelective(authUser);
+			int count = authUserMapper.updateByPrimaryKeySelective(authUser);
 			if(count > 0) {
 				return new Response().Fail(Code.UPDATE_SUCCESS,Code.UPDATE_SUCCESS.getMsg());
 			}
@@ -95,5 +106,42 @@ public class UserServiceImpl implements UserService {
 			// TODO: handle exception
 			return new Response().Fail(Code.UPDATE_FAIL,Code.UPDATE_FAIL.getMsg());
 		}
+	}
+
+	@Override
+	public Map<String, Object> getList(Integer page, Integer limit,Integer roleId,Integer userId) {
+		// TODO Auto-generated method stub
+		 Map<String, Object> map = new HashMap<String, Object>();
+		 List<AuthUser> list = null;
+		 Integer adminId = null;
+		 //AuthRole authRole =  authRoleMapper.selectIsAdmin(userId);
+		 AuthUser auth = authUserMapper.selectByPrimaryKey(userId);
+		 if(auth.getUsername().equals(DataType.admin)) {
+			 adminId = 2;
+		 }
+		 int count = 0;
+		 if(limit != null) {
+			 list = authUserMapper.getList((page - 1 ) * limit,limit,roleId,adminId);
+			 count = authUserMapper.getListCount(roleId,adminId);
+		 }else {
+			 list = new ArrayList<AuthUser>();
+		 }
+		 map.put("data", list);
+		 map.put("count", count);
+		 return map;
+	}
+
+	@Override
+	public Response insert(AuthUser authUser) {
+		authUser.setSalt(CommonUtil.getRandomString(6));
+		authUser.setPassword(Md5Util.md5(authUser.getPassword() + CommonUtil.getRandomString(6)));
+		// TODO Auto-generated method stub
+		authUserMapper.insertSelective(authUser);
+		AuthUserRole authUserRole = new AuthUserRole();
+		authUserRole.setRoleId(authUser.getRoleId());
+		authUserRole.setUserId(authUser.getUid());
+		
+		authUserRoleMapper.insert(authUserRole);
+		return new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg());
 	}
 }

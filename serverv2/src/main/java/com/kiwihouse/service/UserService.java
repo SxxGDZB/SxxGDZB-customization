@@ -90,4 +90,18 @@ public interface UserService {
 	 * @return
 	 */
 	Response updateByPrimaryKeySelective(AuthUser authUser);
+	/**
+	 * 	查询角色下  用户列表
+	 * @param page
+	 * @param limit
+	 * @param roleId
+	 * @return
+	 */
+	Map<String, Object> getList(Integer page, Integer limit, Integer roleId,Integer userId);
+	/**
+	 * 	添加用户
+	 * @param authUser
+	 * @return
+	 */
+	Response insert(AuthUser authUser);
 }

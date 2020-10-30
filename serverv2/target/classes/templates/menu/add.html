@@ -42,6 +42,16 @@
 	       <input type="checkbox" checked="" name="isRoot" id="isRoot" lay-skin="switch" lay-filter="isRoot" lay-text="Yes|No">
 	    </div>
     </div>
+     <div class="layui-form-item">
+        <label class="layui-form-label">菜单类型</label>
+        <div class="layui-input-block">
+          <select name="pageType" id="pageType" lay-search="" lay-filter="pageType" class="form-control m-b" lay-verify="required">
+            <option value="">请选择</option>
+            <option value="0">无按钮管理</option>
+            <option value="1">有按钮管理</option>
+          </select>
+        </div>
+    </div>
     <div class="layui-form-item layui-hide" id="parentTree">
 	    <label class="layui-form-label">父节点选择</label>
 	    <div class="layui-input-block">

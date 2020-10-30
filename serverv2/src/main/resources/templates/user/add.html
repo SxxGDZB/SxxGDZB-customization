@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>角色菜单添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<div class="layui-form layuimini-form _custom_form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">选择角色</label>
+        <div class="layui-input-block">
+            <select name="roleId" lay-verify="required" lay-filter="roleId"  lay-reqtext="角色名称不能为空" placeholder="所属角色" id="roleId">
+                <option value="">所属角色</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">用户名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" lay-verify="required"  placeholder="请输入用户名称" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">用户密码</label>
+        <div class="layui-input-block">
+            <input type="text" name="password" lay-verify="required" placeholder="请输入密码" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户手机</label>
+        <div class="layui-input-block">
+            <input type="text" name="phone" lay-verify="required" lay-filter="phone" placeholder="请输入手机号" value="" class="layui-input">
+        </div>
+    </div>
+   
+
+    <div class="layui-form-item">
+        <div class="layui-input-block _submitBtn" >
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script th:inline="none">
+var authorization = localStorage.getItem('Authorization');
+var authUser = JSON.parse(localStorage.getItem('authUser'));
+var ids = [];
+var names = [];
+    layui.use(['form','tableSelect'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            table = layui.table,
+            tableSelect = layui.tableSelect,
+            $ = layui.$;
+        initSelectRole();
+        //加载角色列表
+        function initSelectRole(){
+            $.ajax({
+                url: "/role/user/"+authUser.roleId,
+                type : "POST",
+        　　      dataType : "json",
+        　　      contentType: "application/json;charset=utf-8",
+                headers: { "Authorization": authorization,"oneself":1 ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+                success:function(data){
+                    if(data.success){
+                        var html = "";
+                        data.data.list.forEach(function(item){
+                            html += "<option value="+item.id+"> "+item.code+" </option>"
+                        });
+                        $("#roleId").append(html);
+                        form.render();
+                    }else{
+                        layer.msg(data.msg,{icon: 5, time: 2000});
+                    }
+                }
+            });
+        }
+        
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            data.field.menuIds = $("#demo").attr('data-ids');
+            console.log(data.field);
+            ADD("/user/add",data.field);
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

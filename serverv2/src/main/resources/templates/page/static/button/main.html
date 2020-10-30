@@ -9,13 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 <body>
+    <!--  <div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
+                <div class="layui-inline" lay-event="edit"><i class="iconfont"  data-toggle="tooltip" title="修改" >&#xe738;</i></div> -->
     <script type="text/html" id="toolbarDemo">
-                <div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
-                <div class="layui-inline" lay-event="edit"><i class="iconfont"  data-toggle="tooltip" title="修改" >&#xe738;</i></div>
      </script>
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <!-- <a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除">&#xeba5;</a> -->
         <script type="text/html" id="currentTableBar">
-            <a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除">&#xeba5;</a>
+            
         </script>
         
         
@@ -28,34 +29,12 @@ layui.use(['form', 'table'], function () {
     var $ = layui.jquery,
         form = layui.form;
         table = layui.table;
+        _init_buttons_common();
         loadTickets();
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'add') {
                 openPopUp('添加','RESOURCE_BUTTON_ADD',60,80);
-            } else if (obj.event === 'delete') {  // 监听删除操作
-                var checkStatus = table.checkStatus('currentTableId')
-                , data = checkStatus.data;
-                if(data.length > 0){
-                    var ids = [];
-                    var nameStr = [];
-                    data.forEach(function(xx){
-                         ids.push(xx.id);
-                         nameStr.push(xx.title);
-                    })
-                    var index = layer.confirm('是否确定删除'  +nameStr.join('、')+ '按钮？', {
-                    btn : [ '放弃', '删除' ],icon: 3, title:'提示'
-                    }, function() {
-                        layer.msg('已放弃', {
-                            icon : 1
-                        });
-                        layer.close(index);
-                    }, function() {
-                        DELETE("/button/"+ids.join('_'),false);
-                    });
-                }else{
-                    layer.msg("请选择要删除的按钮");
-                }
-            }else if(obj.event === 'edit'){
+            } else if(obj.event === 'edit'){
             	openPopUp('修改','RESOURCE_BUTTON_UPDATE',60,80);
             }
         })
@@ -73,7 +52,7 @@ layui.use(['form', 'table'], function () {
                     });
                     layer.close(index);
                 }, function() {
-                    DELETE("/button/"+dataRow.id,false);
+                    DELETE("/button/model/"+dataRow.menuId,false);
                 });
             } 
         });

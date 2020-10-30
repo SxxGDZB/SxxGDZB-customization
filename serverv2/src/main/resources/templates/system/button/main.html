@@ -9,14 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 <body>
+    <!-- <div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
+                <div class="layui-inline" lay-event="delete"><i class="iconfont"  data-toggle="tooltip" title="删除" >&#xeba5;</i></div> -->
     <script type="text/html" id="toolbarDemo">
-                <div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
-                <div class="layui-inline" lay-event="delete"><i class="iconfont"  data-toggle="tooltip" title="删除" >&#xeba5;</i></div>
+                
      </script>
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <!--  <a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改">&#xe738;</a>
+            <a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除">&#xeba5;</a> -->
         <script type="text/html" id="currentTableBar">
-            <a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改">&#xe738;</a>
-            <a class="iconfont" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除">&#xeba5;</a>
+           
         </script>
         
         
@@ -29,8 +31,8 @@ layui.use(['form', 'table'], function () {
     var $ = layui.jquery,
         form = layui.form;
         table = layui.table;
+        _init_buttons_common();
         loadTickets();
-        
         table.on('toolbar(currentTableFilter)', function (obj) {
         	if (obj.event === 'add') {
                 openPopUp('添加','ADD_BUTTON_PAGE',60,80);

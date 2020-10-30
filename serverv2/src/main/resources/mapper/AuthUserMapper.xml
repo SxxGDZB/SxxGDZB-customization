@@ -52,7 +52,8 @@
       #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{createWhere,jdbcType=TINYINT})
   </insert>
-    <insert id="insertSelective" parameterType="com.kiwihouse.dao.entity.AuthUser">
+    <insert id="insertSelective" parameterType="com.kiwihouse.dao.entity.AuthUser" useGeneratedKeys="true"
+            keyProperty="uid">
         insert into auth_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="uid != null">
@@ -244,5 +245,32 @@
    
    <select id="selectMaxId" resultType="Integer">
    		select max(uid) from auth_user 
+   </select>
+   
+   <select id="getList" resultMap="AuthUserResultMap">
+        SELECT au.*,aur.ROLE_ID,ar.`NAME` as roleName FROM auth_user_role aur 
+        INNER JOIN auth_user au on au.uid = aur.user_id 
+        INNER JOIN auth_role ar on ar.ID = aur.ROLE_ID
+        WHERE aur.role_id in (
+        SELECT id FROM auth_role 
+        WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId}))  
+        <if test="adminId == null ">
+            AND id not in (#{roleId})
+        </if>
+        )
+        <if test="limit != null and limit != '' ">
+            limit #{page},#{limit}
+        </if>
+   </select>
+   <select id="getListCount" resultType="Integer">
+         SELECT count(*) FROM auth_user_role aur 
+        INNER JOIN auth_user au on au.uid = aur.user_id 
+        WHERE aur.role_id in (
+        SELECT id FROM auth_role 
+        WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId})) 
+        <if test="adminId == null ">
+            AND id not in (#{roleId})
+        </if>
+        )
    </select>
 </mapper>

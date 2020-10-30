@@ -24,7 +24,29 @@ public class AuthRole {
 
     private Integer parentId;
     
-    public Integer getParentId() {
+    private String menuIds;
+//    
+//    private Integer roleId;
+//    
+//   
+//
+//	public Integer getRoleId() {
+//		return roleId;
+//	}
+//
+//	public void setRoleId(Integer roleId) {
+//		this.roleId = roleId;
+//	}
+
+	public String getMenuIds() {
+		return menuIds;
+	}
+
+	public void setMenuIds(String menuIds) {
+		this.menuIds = menuIds;
+	}
+
+	public Integer getParentId() {
 		return parentId;
 	}
 
