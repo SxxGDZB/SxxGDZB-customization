@@ -114,17 +114,19 @@ public class AesUtil {
     }
 
     public static void main(String[] args) {
-        String[] keys = {
-                "", "123456", "word"
-        };
-        System.out.println("key | AESEncode | AESDecode");
-        for (String key : keys) {
-            System.out.print(key + " | ");
-            String encryptString = aesEncode(key, ENCODE_RULES);
-            System.out.print(encryptString + " | ");
-            String decryptString = aesDecode(encryptString, ENCODE_RULES);
-            System.out.println(decryptString);
-        }
+//        String[] keys = {
+//                "", "123456", "word"
+//        };
+//        System.out.println("key | AESEncode | AESDecode");
+//        for (String key : keys) {
+//            System.out.print(key + " | ");
+//            String encryptString = aesEncode(key, ENCODE_RULES);
+//            System.out.print(encryptString + " | ");
+//            String decryptString = aesDecode(encryptString, ENCODE_RULES);
+//            System.out.println(decryptString);
+//        }
+        
+        aesDecode("L91Fu3ncK+WPsnesKaaBZw==","ihaierForTodoKey");
     }
 
 

@@ -234,6 +234,41 @@
     </set>
     where eqpt_id = #{eqptId,jdbcType=INTEGER}
   </update>
+  
+  <update id="updateByImei" parameterType="com.kiwihouse.dao.entity.vx.dev.WxEquipment">
+        update wx_equipment
+    <set>
+      <if test="eqptName != null">
+        eqpt_name = #{eqptName,jdbcType=VARCHAR},
+      </if>
+      <if test="eqptAddr != null">
+        eqpt_addr = #{eqptAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where imei = #{imei,jdbcType=INTEGER}
+  </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.kiwihouse.dao.entity.vx.dev.WxEquipment">
     update wx_equipment
     set device_id = #{deviceId,jdbcType=INTEGER},

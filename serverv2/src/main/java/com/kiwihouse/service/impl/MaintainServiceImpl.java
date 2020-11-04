@@ -72,7 +72,7 @@ public class MaintainServiceImpl implements MaintainService{
 
 	        }else{
 	        	//获取角色的设备IMEI号
-	        	List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(mtInfoVo.getRoleId()));
+	        	List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(mtInfoVo.getRoleId()),mtInfoVo.getUserId());
 	            //查询用户信息  判断是否是最大管理员
 //	        	AuthRole authRole =  authRoleMapper.selectIsAdmin(mtInfoVo.getUserId());
 	        	AuthUser auth = authUserMapper.selectByPrimaryKey(mtInfoVo.getUserId());
@@ -91,7 +91,6 @@ public class MaintainServiceImpl implements MaintainService{
 	                }else{
 	                    list.forEach(mtInfoDto -> {
 	                        mtInfoDto.setMtType("1");
-	                        System.out.println(mtInfoDto.toString());
 	                        if("0".equals(mtInfoDto.getEqptType())) {
 	                        	mtInfoDto.setAlarmMsg(ReportedInfoServiceImpl.onePhaseAlarm(mtInfoDto.getAlarmMsg()));
 	                        }else if("1".equals(mtInfoDto.getEqptType())) {

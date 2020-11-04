@@ -339,7 +339,7 @@
     	      INNER JOIN equipment  e on aud.eqpt_id = e.eqpt_id 
     	      INNER join `auth_user` as u on e.user_id=u.UID
     	      where 1 = 1
-    	     <if test="list != null  ">
+    	     <if test="list != null  and list.size() > 0">
                 and e.imei in(
                 <foreach collection="list" item="item" index="index" separator=",">
                     #{item.imei}
@@ -422,7 +422,7 @@
               INNER JOIN equipment  e on aud.eqpt_id = e.eqpt_id 
               INNER join `auth_user` as u on e.user_id=u.UID
               where 1 = 1
-              <if test="list != null  ">
+              <if test="list != null  and list.size() > 0">
                 and e.imei in(
                 <foreach collection="list" item="item" index="index" separator=",">
                     #{item.imei}
@@ -601,7 +601,7 @@
     </select>
     
     <select id="selectUserImei" resultMap="IMEIMap" parameterType="Integer">
-       SELECT e.imei FROM auth_user_dev aud 
+      <!--  SELECT e.imei FROM auth_user_dev aud 
        INNER JOIN equipment e on e.eqpt_id = aud.eqpt_id 
        where aud.user_id in(
        SELECT au.uid FROM auth_user_role aur 
@@ -609,7 +609,18 @@
        WHERE aur.role_id in (SELECT id FROM auth_role 
        WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId})))) 
 	   GROUP BY e.imei
-	   ORDER BY e.add_time 
+	   ORDER BY e.add_time -->
+	    SELECT e.imei FROM auth_user_dev aud 
+       INNER JOIN equipment e on e.eqpt_id = aud.eqpt_id 
+       where aud.user_id in(
+             SELECT au.uid FROM auth_user_role aur 
+       INNER JOIN auth_user au on au.uid = aur.user_id 
+       WHERE aur.role_id in (
+             SELECT id FROM auth_role 
+       WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId} )) and id not in (#{roleId}))
+       ) or aud.user_id = #{userId}  
+       GROUP BY e.imei
+       ORDER BY e.add_time 
     </select>
     
     <insert id="insertRoleDevList"  parameterType="com.kiwihouse.dao.entity.RoleDev"  useGeneratedKeys="true">
@@ -649,4 +660,11 @@
             )
         </foreach>
     </insert>
+    <delete id="deleteUserDevBatch">
+         delete from auth_user_dev where user_id in
+        <foreach item="id" collection="array" open="(" separator=","
+            close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

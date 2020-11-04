@@ -46,4 +46,10 @@ public interface WxEquipmentMapper {
 	 * @param userId
 	 */
 	int deleteWxEqAndUser(Integer eqptId, Integer userId);
+	/**
+	 * 	根据IMEI修改设备
+	 * @param wxEquipment
+	 * @return
+	 */
+	int updateByImei(Add wxEquipment);
 }

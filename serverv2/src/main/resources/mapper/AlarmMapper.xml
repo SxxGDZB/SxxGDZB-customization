@@ -152,7 +152,7 @@
             <if test="almQueryVo.district != null and almQueryVo.district != ''">
                 and e.district=#{almQueryVo.district}
             </if>
-            <if test="list != null  ">
+            <if test="list != null  and list.size() > 0">
                 and e.imei in(
                 <foreach collection="list" item="item" index="index" separator=",">
                     #{item.imei}
@@ -198,7 +198,7 @@
 		            <if test="almQueryVo.district != null and almQueryVo.district != ''">
 		                and e.district=#{almQueryVo.district}
 		            </if>
-		             <if test="list != null">
+		             <if test="list != null and list.size() > 0">
 		                and e.imei in(
 		                <foreach collection="list" item="item" index="index" separator=",">
 		                    #{item.imei}
@@ -236,7 +236,7 @@
 			    	<if test="dataStatisticsVo.startTime != null and dataStatisticsVo.startTime != ''">
 			         and DATE_FORMAT(add_time,'%Y-%m-%d') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}
 			        </if>
-			        <if test="list != null">
+			        <if test="list != null and list.size() > 0">
                         and imei in(
                         <foreach collection="list" item="item" index="index" separator=",">
                             #{item.imei}
@@ -260,7 +260,7 @@
 		<if test="alarmType != null and alarmType != ''">
             	and FIND_IN_SET( #{alarmType}, alarm_type) 
         </if>
-        <if test="list != null ">
+        <if test="list != null and list.size() > 0">
                 and imei in(
                 <foreach collection="list" item="item" index="index" separator=",">
                     #{item.imei}

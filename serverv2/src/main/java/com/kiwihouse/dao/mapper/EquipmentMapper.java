@@ -156,8 +156,16 @@ public interface EquipmentMapper {
 	void insertUserDevList(List<UserDev> roleDevList);
 	/**
 	 * 	返回用户 下级用户 设备的IMEI
+	 * @param userId 
 	 * @param eqptQueryVo
 	 * @return
 	 */
-	List<IMEI> selectUserImei(Integer roleId);
+	List<IMEI> selectUserImei(Integer roleId, Integer userId);
+	/**
+	 * 	删除用户设备关联信息
+	 * @param ids
+	 * @return
+	 */
+	int deleteUserDevBatch(String [] ids);
+	
 }

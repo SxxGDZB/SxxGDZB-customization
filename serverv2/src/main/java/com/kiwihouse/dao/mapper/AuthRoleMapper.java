@@ -114,7 +114,8 @@ public interface AuthRoleMapper {
 	/**
 	 *	 获取下级用户信息
 	 * @param roleId
+	 * @param adminid 
 	 * @return
 	 */
-	List<AuthUser> queryAuthUserByUserId(Integer roleId);
+	List<AuthUser> queryAuthUserByUserId(Integer roleId, Integer adminId);
 }

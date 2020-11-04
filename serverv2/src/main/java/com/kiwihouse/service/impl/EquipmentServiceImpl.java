@@ -65,7 +65,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		Integer limit = eqptQueryVo.getLimit();
 		Integer page = eqptQueryVo.getPage();
 //		AuthRole authRole =  authRoleMapper.selectIsAdmin(eqptQueryVo.getUserId());
-		List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(eqptQueryVo.getRoleId()));
+		List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(eqptQueryVo.getRoleId()),Integer.valueOf(eqptQueryVo.getUserId()));
 		AuthUser auth = authUserMapper.selectByPrimaryKey(eqptQueryVo.getUserId());
 		if(auth.getUsername().equals(DataType.admin)) {
 			eqptQueryVo.setAdminId(2);
@@ -234,7 +234,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Integer limit = eqptQueryVo.getLimit();
 		Integer page = eqptQueryVo.getPage();
-		List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(eqptQueryVo.getRoleId()));
+		List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(eqptQueryVo.getRoleId()),Integer.valueOf(eqptQueryVo.getUserId()));
 //		AuthRole authRole =  authRoleMapper.selectIsAdmin(eqptQueryVo.getUserId());
 		AuthUser auth = authUserMapper.selectByPrimaryKey(eqptQueryVo.getUserId());
 		if(auth.getUsername().equals(DataType.admin)) {
@@ -293,7 +293,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		if(eqptQueryVo.getRoleId() == null) {
 			eqptQueryVo.setRoleId(authUserRole.getRoleId().toString());
 		}
-		List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(eqptQueryVo.getRoleId()));
+		List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(eqptQueryVo.getRoleId()),Integer.valueOf(eqptQueryVo.getUserId()));
 		if(auth.getUsername().equals(DataType.admin)) {
 			eqptQueryVo.setAdminId(2);
 		}

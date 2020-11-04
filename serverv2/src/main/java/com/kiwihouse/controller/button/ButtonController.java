@@ -79,7 +79,7 @@ public class ButtonController extends BaseController{
                     "<br>@Date: <b>2020-3-5 16:39:06</b></br>",
             httpMethod = "POST")
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
-    @PostMapping("/info")
+    @PostMapping("/add")
     public Response addInfo(@RequestBody @Validated Buttons resourceButtons, HttpServletRequest request){
         logger.info("添加按钮信息>> {}",new Log().setIp(request.getRemoteAddr()).setMsg("添加按钮信息").setParam(resourceButtons.toString()));
         return buttonService.insert(resourceButtons);
@@ -90,7 +90,7 @@ public class ButtonController extends BaseController{
                     "<br>@Date: <b>2020-3-5 16:39:06</b></br>",
             httpMethod = "POST")
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
-    @PutMapping("/info")
+    @PutMapping("/upd")
     public Response updInfo(@RequestBody @Validated Buttons resourceButtons, HttpServletRequest request){
         logger.info("修改按钮信息>> {}",new Log().setIp(request.getRemoteAddr()).setMsg("修改按钮信息").setParam(resourceButtons.toString()));
         return buttonService.updateByPrimaryKey(resourceButtons);

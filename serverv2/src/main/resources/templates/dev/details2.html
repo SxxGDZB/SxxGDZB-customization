@@ -69,6 +69,7 @@
         jsonEntity.imei =  $.getUrlParam("imei");
         jsonEntity.eqptType = $.getUrlParam("eqptType");
         jsonEntity.roleId = authUser.roleId;
+        jsonEntity.userId = authUser.uid;
         /*时间选择框 修改显示以及 默认选中最近7天----> */
         var value = fun_day(-7).substring(0,10) + " - " +new Date().Format("yyyy-MM-dd");
         var d = laydate.render({
@@ -120,6 +121,7 @@
                 	jsonEntity.startTime = $.trim(arr[0]);
                 	jsonEntity.eqptType = $.getUrlParam("eqptType");
                 	 jsonEntity.roleId = authUser.roleId;
+                	 jsonEntity.userId = authUser.uid;
                 	var d = new Date($.trim(arr[1]));
                 	jsonEntity.endTime = fun_days(1,d).substring(0,10);
                 	loadAlarmTable(jsonEntity);

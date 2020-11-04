@@ -52,8 +52,8 @@ public class DataStatisticsServiceImpl implements DataStatisticsService{
 	public ResultList queryInfo(DataStatisticsVo dataStatisticsVo) {
 		List<Date> list = TimeUtil.getBetweenDates(TimeUtil.strToDate(dataStatisticsVo.getStartTime(),"yyyy-MM-dd"),TimeUtil.strToDate(dataStatisticsVo.getEndTime(),"yyyy-MM-dd"));
 		DateStatisList dateStatisList = new DateStatisList();
-		//获取角色的设备IMEI号
-		List<IMEI> imeiList = equipmentMapper.selectUserImei(dataStatisticsVo.getRoleId());
+		//获取用户的设备IMEI号
+		List<IMEI> imeiList = equipmentMapper.selectUserImei(dataStatisticsVo.getRoleId(),dataStatisticsVo.getUserId());
 //		AuthRole authRole =  authRoleMapper.selectIsAdmin(dataStatisticsVo.getUserId());
 		AuthUser auth = authUserMapper.selectByPrimaryKey(dataStatisticsVo.getUserId());
 		EqptQueryVo eqptQueryVo = new EqptQueryVo();

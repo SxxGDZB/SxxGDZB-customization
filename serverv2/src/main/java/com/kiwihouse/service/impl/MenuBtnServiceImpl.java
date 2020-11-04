@@ -38,7 +38,7 @@ public class MenuBtnServiceImpl implements MenuBtnService{
 		});
 		menuBtnMapper.delete(roleId);
 		menuBtnMapper.insertOrUpdateBatch(resourceButtons);
-		return new Response().Success(Code.QUERY_SUCCESS,Code.QUERY_SUCCESS.getMsg());
+		return new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg());
 	}
 	
 	@Override

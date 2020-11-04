@@ -16,6 +16,7 @@ import com.kiwihouse.dao.entity.AuthRole;
 import com.kiwihouse.dao.entity.AuthRoleMenu;
 import com.kiwihouse.dao.entity.AuthRoleResource;
 import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.dao.entity.AuthUserRole;
 import com.kiwihouse.dao.mapper.AuthRoleMapper;
 import com.kiwihouse.dao.mapper.AuthRoleMenuMapper;
 import com.kiwihouse.dao.mapper.AuthRoleResourceMapper;
@@ -102,18 +103,18 @@ public class RoleServiceImpl implements RoleService {
     }
 
 	@Override
-	public List<AuthRole> queryAuthRole(Integer roleId,String oneself,Integer userId) {
+	public List<AuthRole> queryAuthRole(Integer roleId,Integer userId) {
 		// TODO Auto-generated method stub
 		List<AuthRole> lists = new ArrayList<AuthRole>();
 		List<AuthRole> list = authRoleMapper.queryAuthRole(roleId);
 		AuthUser auth = authUserMapper.selectByPrimaryKey(userId);
 		list.forEach(xx ->{
-			if(oneself == null && !auth.getUsername().equals(DataType.admin)) {
+			if(auth.getUsername().equals(DataType.admin)) {
+				lists.add(xx);
+			}else {
 				if(xx.getId() != roleId) {
 					lists.add(xx);
 				}
-			}else {
-				lists.add(xx);
 			}
 			
 		});
@@ -137,11 +138,15 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public List<AuthUser> queryAuthUserByUserId(Integer roleId) {
+	public List<AuthUser> queryAuthUserByUserId(Integer roleId,Integer userId) {
 		// TODO Auto-generated method stub
-		
-		List<AuthUser> listUser =  authRoleMapper.queryAuthUserByUserId(roleId);
-		
+		AuthUser auth = authUserMapper.selectByPrimaryKey(userId);
+		List<AuthUser> listUser = null;
+		if(auth.getUsername().equals(DataType.admin)) {
+			listUser =  authRoleMapper.queryAuthUserByUserId(roleId,DataType.adminId);
+		}else {
+			listUser =  authRoleMapper.queryAuthUserByUserId(roleId,null);
+		}
 		return listUser;
 	}
 }

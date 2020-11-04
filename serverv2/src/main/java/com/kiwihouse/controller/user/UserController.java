@@ -169,4 +169,10 @@ public class UserController extends BaseController {
     	
         return userService.insert(authUser);
     }
+    @ApiOperation(value = "删除用户", httpMethod = "DELETE")
+    @DeleteMapping("/{userIds}")
+    public Response del(@PathVariable String userIds) {
+    	
+        return userService.deleteBatch(userIds);
+    }
 }

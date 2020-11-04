@@ -329,7 +329,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 	public Map<String, Object> queryAlmInfo(AlmQueryVo almQueryVo) {
     	 Map<String, Object> map = new HashMap<String, Object>();
         //获取角色的设备IMEI号
-    	List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(almQueryVo.getRoleId()));
+    	List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(almQueryVo.getRoleId()),Integer.valueOf(almQueryVo.getUserId()));
         //查询用电设备工单
     	//AuthRole authRole =  authRoleMapper.selectIsAdmin(Integer.valueOf(almQueryVo.getUserId()));
     	AuthUser auth = authUserMapper.selectByPrimaryKey(Integer.valueOf(almQueryVo.getUserId()));

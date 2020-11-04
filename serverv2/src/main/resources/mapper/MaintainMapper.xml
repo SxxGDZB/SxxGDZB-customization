@@ -26,12 +26,15 @@
             <if test="mtInfoVo.mtStatus == 'noCancel'">
                 and mt.mt_status != 2
             </if>
-            <if test="list != null ">
+            <if test="list != null and list.size()>0">
                 and mt.imei in(
                 <foreach collection="list" item="item" index="index" separator=",">
                     #{item.imei}
                 </foreach>
                 ) 
+            </if>
+            <if test="list == null or list.size()==0">
+                and 1 = 2
             </if>
         </where>
         order by mt.update_time desc 
@@ -62,13 +65,16 @@
             <if test="mtInfoVo.mtStatus == 'noCancel'">
                 and mt.mt_status != 2
             </if>
-            <if test="list != null ">
+            <if test="list != null and list.size()>0">
                  and mt.imei in(
                  <foreach collection="list" item="item" index="index" separator=",">
                      #{item.imei}
                  </foreach>
                  ) 
              </if>
+             <if test="list == null or list.size()==0">
+                and 1 = 2
+            </if>
         </where>
     </select>
 

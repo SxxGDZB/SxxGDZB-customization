@@ -144,7 +144,13 @@
         call role_sys_menu_model(#{roleId})
   </select> -->
   <select id="queryAuthUserByUserId" resultType="com.kiwihouse.dao.entity.AuthUser">
-        SELECT au.uid,au.username FROM auth_user_role aur INNER JOIN auth_user au on au.uid = aur.user_id WHERE aur.role_id in (SELECT id FROM auth_role 
-        WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId}))  AND id not in( #{roleId}))
+        <if test="adminId != null">
+            SELECT au.uid,au.username FROM auth_user au WHERE au.USERNAME not in ('admin')
+        </if>
+        <if test="adminId == null">
+             SELECT au.uid,au.username FROM auth_user_role aur INNER JOIN auth_user au on au.uid = aur.user_id WHERE aur.role_id in (SELECT id FROM auth_role 
+                WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId}))  AND id not in( #{roleId}))
+        </if>
+       
   </select>
 </mapper>

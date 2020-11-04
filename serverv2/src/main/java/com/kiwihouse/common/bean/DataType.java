@@ -33,4 +33,7 @@ public class DataType {
     public final static Integer THREE_PHASE = 1;
     
     public final static String admin = "admin";
+    
+    public final static Integer adminId = 1;
+    
 }

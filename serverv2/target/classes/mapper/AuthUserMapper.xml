@@ -273,4 +273,11 @@
         </if>
         )
    </select>
+   <delete id="deleteBatch">
+        delete from auth_user where uid in
+        <foreach item="id" collection="array" open="(" separator=","
+            close=")">
+            #{id}
+        </foreach>
+   </delete>
 </mapper>

@@ -67,7 +67,7 @@ public interface RoleService {
      * @param userId 
      * @return
      */
-    List<AuthRole> queryAuthRole(Integer roleId,String oneself, Integer userId);
+    List<AuthRole> queryAuthRole(Integer roleId, Integer userId);
 	/**
 	 * 	查询角色列表分页
 	 * @param page
@@ -79,7 +79,8 @@ public interface RoleService {
 	/**
 	 * 	获取下级用户信息
 	 * @param roleId
+	 * @param userId 
 	 * @return
 	 */
-	List<AuthUser> queryAuthUserByUserId(Integer roleId);
+	List<AuthUser> queryAuthUserByUserId(Integer roleId, Integer userId);
 }

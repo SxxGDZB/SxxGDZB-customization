@@ -104,11 +104,11 @@
             $("#demo").text(checkedName);
             $("#demo").attr('data-ids',checked);
         });
-        initSelectRole();
+        initSelectUser();
         //加载角色列表
-        function initSelectRole(){
+        function initSelectUser(){
             $.ajax({
-                url: "/role/user/all/"+authUser.roleId,
+                url: "/role/user/all/"+authUser.roleId+"/" + authUser.uid,
                 type : "POST",
                 dataType : "json",
                 contentType: "application/json;charset=utf-8",

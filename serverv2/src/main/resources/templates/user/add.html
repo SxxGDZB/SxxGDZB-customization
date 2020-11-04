@@ -62,9 +62,9 @@ var names = [];
             $.ajax({
                 url: "/role/user/"+authUser.roleId,
                 type : "POST",
-        　　      dataType : "json",
-        　　      contentType: "application/json;charset=utf-8",
-                headers: { "Authorization": authorization,"oneself":1 ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+        　　                                dataType : "json",
+        　　                                contentType: "application/json;charset=utf-8",
+                headers: { "Authorization": authorization,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
                 success:function(data){
                     if(data.success){
                         var html = "";
@@ -83,7 +83,7 @@ var names = [];
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             data.field.menuIds = $("#demo").attr('data-ids');
-            console.log(data.field);
+            data.field.password = hex_md5(data.field.password);
             ADD("/user/add",data.field);
             return false;
         });

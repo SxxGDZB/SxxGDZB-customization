@@ -3,6 +3,9 @@ package com.kiwihouse.controller.account.params;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 
 /**
@@ -11,6 +14,9 @@ import lombok.Data;
  */
 @Data
 @ApiModel(description = "登录注册信息")
+@ToString
+@Setter
+@Getter
 public class UserParams {
     @ApiModelProperty(value = "用户名",name = "username",required =true,position =1)
     private String username;
@@ -18,4 +24,6 @@ public class UserParams {
     private String password;
     @ApiModelProperty(value = "时间戳",name = "timestamp",required =false,position =3)
     private long timestamp;
+    private String phone;
+    
 }

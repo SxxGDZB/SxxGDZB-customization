@@ -125,9 +125,10 @@ public class AccountController extends BaseController {
     @ApiOperation(value = "用户注册", notes = "POST用户注册")
     @ApiResponses({@ApiResponse(code = 0, message = "回调参数", response = UserParams.class)})
     @PostMapping("/register")
-    public Response accountRegister(@Validated UserParams params,HttpServletRequest request, HttpServletResponse response) {
+    public Response accountRegister(@Validated @RequestBody UserParams params,HttpServletRequest request, HttpServletResponse response) {
         AuthUser authUser = new AuthUser();
         Integer uid = authUserMapper.selectMaxId() + 1;//Integer.parseInt(params.get("uid"));
+        System.out.println(params.toString());
         String password = params.getPassword();//params.get("password");
         if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(password)) {
             // 必须信息缺一不可,返回注册账号信息缺失

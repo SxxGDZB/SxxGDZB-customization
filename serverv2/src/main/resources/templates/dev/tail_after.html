@@ -128,6 +128,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
                 endTime = $.trim(arr[1]);
                 e.imei = $("._imei").html();
                 e.type = $("select[name='type']").val();
+                e.userId = authUser.uid;
                 zxt(e);
         	}
           }
@@ -141,12 +142,14 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         endTime = $.trim(arr[1]);
         e.imei = $("._imei").html();
         e.type = data.value;
+        e.userId = authUser.uid;
       	zxt(e);
 	});
     function init(){
     	 var entity = {};
     	 entity.imei = $.getUrlParam('imei');
     	 entity.roleId = authUser.roleId;
+    	 entity.userId = authUser.uid;
     	 $.ajax({
     			url: "/equipment/info",
     		    type: "GET",
@@ -244,6 +247,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         endTime = $.trim(arr[1]);
         e.imei = $("._imei").html();
         e.type = $("select[name='type']").val();
+        e.userId = authUser.uid;
         zxt(e);
     }
      function one_phase_options(v,timeArray,pwrArray,curRidevolArray){

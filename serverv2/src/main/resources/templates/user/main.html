@@ -29,7 +29,7 @@ layui.use(['form', 'table'], function () {
         form = layui.form;
         table = layui.table;
         currentPage = 1;
-    //    _init_buttons_common();
+        _init_buttons_common();
     /*请求参数*/
     jsonEntity = {};
     jsonEntity.roleId = authUser.roleId;
@@ -77,16 +77,27 @@ layui.use(['form', 'table'], function () {
             openPopUp('添加','USER_ADD_PAGE');//
         } else if (obj.event === 'delete') {  // 监听删除操作
             var checkStatus = table.checkStatus('currentTableId')
-                , data = checkStatus.data;
-            if(data.length != 0){
+            , data = checkStatus.data;
+            if(data.length > 0){
                 var ids = [];
-                $.each(data,function(index,xx){
-                    ids.push(xx.id);
+                var nameStr = [];
+                data.forEach(function(xx){
+                     ids.push(xx.uid);
+                     nameStr.push(xx.title);
                 })
-                DELETE("/resourcerole/"+ids.join(','));
+                var index = layer.confirm('是否确定删除用户'  +nameStr.join('、')+ '？', {
+                btn : [ '放弃', '删除' ],icon: 3, title:'提示'
+                }, function() {
+                    layer.msg('已放弃', {
+                        icon : 1
+                    });
+                    layer.close(index);
+                }, function() {
+                    DELETE("/user/"+ids.join(','),false);
+                });
+            }else{
+                layer.msg("请选择要删除的用户");
             }
-        }else if(obj.event === 'edit'){
-            openPopUp('修改','ROLE_API_UPDATE_PAGE');///admin/role/edit
         }
     });
 });

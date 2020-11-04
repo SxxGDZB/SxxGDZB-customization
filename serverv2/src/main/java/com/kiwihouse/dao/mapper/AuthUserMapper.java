@@ -161,4 +161,9 @@ public interface AuthUserMapper {
 	 * @return
 	 */
 	int getListCount(Integer roleId, Integer adminId);
+	/**
+	 * 	删除用户
+	 * @param split
+	 */
+	int deleteBatch(String[] split);
 }

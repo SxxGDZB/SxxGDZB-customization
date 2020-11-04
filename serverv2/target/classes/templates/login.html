@@ -46,6 +46,7 @@
 	</div>
 	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
 	<script th:src="@{/js/common/common.js}"></script>
+	<script th:src="@{/js/common/md5.js}"></script>
 	<script type="text/javascript">
 	
 	$(document).ready(function(){ 
@@ -56,6 +57,7 @@
 			//监听提交
 			  form.on('submit(loginform)', function(data){
 				var date = data.field;
+				data.field.password = hex_md5(data.field.password);
 			    $.ajax({
 	    	　　		url : getRootPath() + "/account/login",
 	    	　　		type : "post",
@@ -77,6 +79,17 @@
 			    
 			    return false;
 			  });
+			  /* function aesMinEncrypt(word){
+		            var _word = CryptoJS.enc.Utf8.parse(word),
+		                _key = CryptoJS.enc.Utf8.parse("ihaierForTodoKey"),
+		                _iv = CryptoJS.enc.Utf8.parse("ihaierForTodo_Iv");
+		            var encrypted = CryptoJS.AES.encrypt(_word, _key, {
+		                        iv: _iv,
+		                        mode: CryptoJS.mode.CBC,
+		                        padding: CryptoJS.pad.Pkcs7
+		                });
+		            return encrypted.toString();
+		        } */
 		});
 	}); 
 	

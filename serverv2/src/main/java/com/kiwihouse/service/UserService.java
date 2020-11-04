@@ -104,4 +104,10 @@ public interface UserService {
 	 * @return
 	 */
 	Response insert(AuthUser authUser);
+	/**
+	 * 	删除用户
+	 * @param userIds
+	 * @return
+	 */
+	Response deleteBatch(String userIds);
 }

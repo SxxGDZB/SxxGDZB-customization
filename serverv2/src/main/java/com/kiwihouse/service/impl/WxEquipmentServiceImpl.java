@@ -66,7 +66,16 @@ public class WxEquipmentServiceImpl implements WxEquipmentService{
 	@Override
 	public Response updateInfo(Add wxEquipment) {
 		// TODO Auto-generated method stub
-		return null;
+		try {
+			wxEquipmentMapper.updateByImei(wxEquipment);
+			return new Response().Success(Code.UPDATE_SUCCESS,Code.UPDATE_SUCCESS.getMsg());
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new Response().Fail(Code.UPDATE_FAIL,Code.UPDATE_FAIL.getMsg());
+		}
+		
+		
+		
 	}
 
 	@Override

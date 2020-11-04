@@ -191,7 +191,7 @@
   			and DATE_FORMAT(add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
   		</if>
   		<if test="limit != null and limit != ''">
-  			order by add_time
+  			order by add_time desc
   			limit ${(page - 1) * limit},#{limit}
   		</if>
   </select>

@@ -18,6 +18,7 @@ import com.kiwihouse.dao.entity.AuthUserRole;
 import com.kiwihouse.dao.mapper.AuthRoleMapper;
 import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
+import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.UserService;
 import com.kiwihouse.util.CommonUtil;
@@ -38,6 +39,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     AuthRoleMapper authRoleMapper;
+    
+    @Autowired
+    EquipmentMapper equipmentMapper;
+    
     @Override
     public String loadAccountRole(Integer appId) throws DataAccessException {
 
@@ -133,8 +138,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Response insert(AuthUser authUser) {
-		authUser.setSalt(CommonUtil.getRandomString(6));
-		authUser.setPassword(Md5Util.md5(authUser.getPassword() + CommonUtil.getRandomString(6)));
+		String salt = CommonUtil.getRandomString(6);
+		authUser.setSalt(salt);
+		authUser.setPassword(Md5Util.md5(authUser.getPassword() + salt));
 		// TODO Auto-generated method stub
 		authUserMapper.insertSelective(authUser);
 		AuthUserRole authUserRole = new AuthUserRole();
@@ -143,5 +149,15 @@ public class UserServiceImpl implements UserService {
 		
 		authUserRoleMapper.insert(authUserRole);
 		return new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg());
+	}
+
+	@Override
+	public Response deleteBatch(String userIds) {
+		// TODO Auto-generated method stub
+		int count = authUserMapper.deleteBatch(userIds.split(","));
+		if(count > 0) {
+			equipmentMapper.deleteUserDevBatch(userIds.split(","));
+		}
+		return new Response().Success(Code.DELETE_SUCCESS,Code.DELETE_SUCCESS.getMsg());
 	}
 }

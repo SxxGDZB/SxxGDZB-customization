@@ -48,6 +48,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
 				    async:false,
 				    headers: { "Authorization": options.authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 				    success:function(data){
+				    	console.log(data)
 				    	 	if(data.success){
 								menuTree = data.data.menuTree;
 								localStorage.setItem('menuTree', JSON.stringify(menuTree.menuInfo));
@@ -84,8 +85,6 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
 				                }
 							}else{
 								if(data.code == 8003){
-									//window.location.href = "/";
-									console.log(indexHome(window));
 									indexHome(window,0).Unclickable();
 									indexHome(window,0).JwtErr();
 								}else{
