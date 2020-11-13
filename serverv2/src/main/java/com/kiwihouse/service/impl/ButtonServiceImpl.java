@@ -5,26 +5,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kiwihouse.common.bean.Code;
+import com.kiwihouse.controller.button.ButtonController;
 import com.kiwihouse.dao.entity.Buttons;
 import com.kiwihouse.dao.entity.MenuBtnModel;
 import com.kiwihouse.dao.mapper.ButtonMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.ButtonService;
+import com.kiwihouse.vo.entire.Log;
 
 @Service
 public class ButtonServiceImpl implements ButtonService{
-
+	private static final Logger logger = LoggerFactory.getLogger(ButtonServiceImpl.class);
+	
 	@Autowired
 	ButtonMapper buttonMapper;
 	@Override
 	public Map<String, Object> queryInfo(Integer page, Integer limit,Integer trigger,Buttons buttons) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
-//		try {
+		try {
 			List<Buttons> resourceButtonsList = null;
 			if(limit != null) {
 				resourceButtonsList =  buttonMapper.queryInfo((page - 1) * limit,  limit,trigger,buttons);
@@ -37,9 +42,9 @@ public class ButtonServiceImpl implements ButtonService{
 				map.put("data", resourceButtonsList);
 				map.put("count", count);
 			}
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return map;
 	}
 	@Override

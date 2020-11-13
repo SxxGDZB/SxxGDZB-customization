@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.kiwihouse.dao.entity.AuthRoleMenu;
 import com.kiwihouse.dao.entity.AuthRoleResource;
 import com.kiwihouse.dao.mapper.AuthRoleResourceMapper;
 import com.kiwihouse.domain.vo.AuthRoleResourceVo;

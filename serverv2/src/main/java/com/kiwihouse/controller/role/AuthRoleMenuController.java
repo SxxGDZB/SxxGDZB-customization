@@ -31,14 +31,14 @@ public class AuthRoleMenuController extends BaseController{
 	
 	@ApiOperation(value = "获取用户对应角色的菜单信息以及用户没有的菜单信息", notes = "菜单权限操作", httpMethod = "GET")
     @GetMapping("menu")
-    public Map<String, Object> list(Integer roleId,
+    public Map<String, Object> list(Integer roleId,Integer curRoleId,
     		  Integer page,
     		  Integer limit,AuthRoleMenuDetails authRoleMenuDetails,Integer trigger) {
     	try {
     		if(authRoleMenuDetails==null) {
     			authRoleMenuDetails = new AuthRoleMenuDetails();
     		}
-    		map = authRoleMenuService.selectPage(page,limit,roleId,authRoleMenuDetails,trigger);
+    		map = authRoleMenuService.selectPage(page,limit,roleId,curRoleId,authRoleMenuDetails,trigger);
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
 		} catch (Exception e) {

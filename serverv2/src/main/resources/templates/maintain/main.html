@@ -236,8 +236,10 @@ function loadTickets(jsonEntity){
         skin: 'line',
         done : function(res, curr, count) {
 			currentPage = curr;
+			console.log(res.data);
+			console.log(jQuery.isEmptyObject(res.data));
 			//自定义实现 bar根据状态变化
-			if(res.data != null){
+			if(!jQuery.isEmptyObject(res.data) && res.data != null){
 				res.data.forEach(function(item,index){
 	                if(item.mtStatus == "1"){
 	                    $.each($("tbody").find("tr").eq(index),function(){

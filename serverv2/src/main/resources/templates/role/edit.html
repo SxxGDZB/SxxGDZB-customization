@@ -23,15 +23,15 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">角色编码</label>
+        <label class="layui-form-label required">角色编码</label>
         <div class="layui-input-block">
-            <input type="text" name="code"  placeholder="请输入角色编码" value="" class="layui-input">
+            <input type="text" name="code" lay-verify="required||isExit"  placeholder="请输入角色编码" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">菜单选择</label>
         <div class="layui-input-inline">
-            <textarea name="menu" placeholder="请点击选择" lay-verify="required" lay-reqtext="资源名称不能为空"  autocomplete="off" id="demo" class="layui-textarea"></textarea>
+            <textarea name="menu" placeholder="请点击选择" lay-verify="required" lay-reqtext="菜单名称不能为空"  autocomplete="off" id="demo" class="layui-textarea"></textarea>
         </div>
     </div>
     <div class="layui-form-item _submitBtn">
@@ -53,7 +53,6 @@
             layer = layui.layer,
             $ = layui.$;
         var dataRow = window.parent.dataRow;
-        console.log(dataRow)
         var resourceForm = $("#resourceForm");
         $.each(dataRow, function(key, val) {
         	if(key == 'status'){
@@ -89,11 +88,16 @@
         	var treeDate = '';
             var checked = new Array();
             var checkedName = new Array();
+            if(authUser.username == 'admin'){
+                v = {"trigger":2};
+            }else{
+                v = {"roleId":authUser.roleId,"trigger":3};
+            }
             $.ajax({
                 url: "/rolemenu/menu",
                 type : "GET",
 		        　　      dataType : "json",
-		        　　      data:{"trigger":2,"roleId":authUser.roleId},
+		        　　      data:v,
 		        　　      contentType: "application/json;charset=utf-8",
 		        　　      async:false,
                 headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
@@ -159,6 +163,33 @@
         	data.field.id = dataRow.id;
         	UPDATE("/role",data.field);
             return false;
+        });
+        
+        /*自定义验证*/
+        form.verify({
+            //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]/^([1-9]||[1-9][0-9])\.[0-9]\.[0-9]$/
+            isExit : function(value) {
+                var falg = false;
+                if(value != dataRow.code){
+                	$.ajax({
+                        url: "/role/queryBy/" + value,
+                        type : "GET",
+                        dataType : "json",
+                        cache:true, 
+                        async:false, 
+                        contentType: "application/json;charset=utf-8",
+                        headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+                        success:function(data){
+                            if(data.code == 12){
+                                falg = true;
+                            }
+                        }
+                     });
+                }
+                if(falg){
+                    return '角色编码'+value+'已存在';
+                }
+            }
         });
     });
 </script>

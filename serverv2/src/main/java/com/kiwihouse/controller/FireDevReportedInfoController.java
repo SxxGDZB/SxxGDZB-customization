@@ -66,9 +66,10 @@ public class FireDevReportedInfoController extends BaseController{
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = ReportedDto.class)})
     @GetMapping(value = "/info")
     public Response queryInfo(@Validated ReportedQueryVo reportedQueryVo, HttpServletRequest request) {
-        //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), reportedQueryVo);
-    	reportedQueryVo.setUserId(request.getHeader("dz-usr"));
         EqptInfoDto eqptInfo = equipmentMapper.queryInfoByImei(reportedQueryVo.getImei());
+        if(eqptInfo == null) {
+        	return new Response().Fail(Code.QUERY_NULL,Code.QUERY_NULL.getMsg());
+        }
         if (eqptInfo.getEqptType().equals(DataType.THREE_PHASE.toString())) {
         	if(reportedQueryVo.getAlarmType().equals(DataType.DEV_PARAMETER)) {
         		//三相设备 ----------->参数数据  
@@ -117,8 +118,8 @@ public class FireDevReportedInfoController extends BaseController{
                     "<br>@Date: <b>2020-3-25 09:44:13</b></br>",
             httpMethod = "GET")
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = AlarmEqptDto.class)})
-    @GetMapping(value = "/latestalarm/info/{roleId}/{second}/{page}/{limit}")
-    public Map<String, Object> queryLatestAlmInfo(@PathVariable int page,@PathVariable Integer roleId, @PathVariable int limit, @PathVariable int second, HttpServletRequest request) {
+    @GetMapping(value = "/latestalarm/info/{userId}/{roleId}/{second}/{page}/{limit}")
+    public Map<String, Object> queryLatestAlmInfo(@PathVariable int page,@PathVariable Integer userId,@PathVariable Integer roleId, @PathVariable int limit, @PathVariable int second, HttpServletRequest request) {
 
         String currentTime = TimeUtil.getCurrentTime();
         String passSecTime = TimeUtil.getPassSecTime(currentTime, -second);
@@ -129,6 +130,7 @@ public class FireDevReportedInfoController extends BaseController{
                 .setEndTime(currentTime)
                 .setAlarmStatus("0")
                 .setRoleId(roleId.toString())
+                .setUserId(userId.toString())
                 .setPage(page)
                 .setLimit(limit);
         return queryAlmInfo(almQueryVo, request);

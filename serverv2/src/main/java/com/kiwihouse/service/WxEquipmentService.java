@@ -1,8 +1,9 @@
 package com.kiwihouse.service;
 
+import java.util.List;
 import java.util.Map;
 
-import com.kiwihouse.common.bean.UserInfo;
+import com.kiwihouse.dao.entity.IMEI;
 import com.kiwihouse.dao.entity.vx.dev.Add;
 import com.kiwihouse.dao.entity.vx.dev.WxEquipment;
 import com.kiwihouse.domain.vo.Response;
@@ -33,5 +34,12 @@ public interface WxEquipmentService {
 	 * @return
 	 */
 	Response deleteInfo(String imeis, Integer userId);
+	/**
+	 * 分享设备列表
+	 * @param listIMEI
+	 * @param listUser 
+	 * @return
+	 */
+	Map<String, Object> queryShareDevList(List<IMEI> listIMEI, List<Integer> listUser);
 
 }

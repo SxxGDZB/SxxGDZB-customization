@@ -138,7 +138,12 @@
                 INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
                 INNER JOIN auth_role arole on arr.ROLE_ID = arole.ID where 1 = 1 AND arole.ID = #{auRoleResourceVo.roleId} and ar.type = #{auRoleResourceVo.type}) as tem
             </when>
-            
+            <when test="auRoleResourceVo.trigger ==4 ">
+                SELECT count(*) FROM (
+                SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName ,arole.`CODE` roleCode,arole.`NAME` as roleName,arole.ID as 'roleId'  FROM auth_resource ar 
+                LEFT JOIN auth_role_resource arr on arr.RESOURCE_ID = ar.ID 
+                LEFT JOIN auth_role arole on arr.ROLE_ID = arole.ID where 1 = 1  and ar.type = #{auRoleResourceVo.type} GROUP BY ar.ID )  as tem
+            </when>
              <otherwise>
                 SELECT count(*)  FROM auth_role_resource arr 
                 INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
@@ -170,11 +175,6 @@
   <select id="selectRoleResourceList" resultMap="AuthRoleResourceVotMap" >
     <choose>
             <when test="auRoleResourceVo.trigger ==1 ">
-                <!-- SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName   
-                FROM auth_role_resource arr 
-                INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
-                WHERE arr.RESOURCE_ID not in(SELECT RESOURCE_ID FROM auth_role_resource WHERE ROLE_ID = #{auRoleResourceVo.roleId})
-                GROUP BY ar.ID -->
                 SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName
                 FROM auth_role_resource arr 
                 RIGHT JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
@@ -205,7 +205,12 @@
                 INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
                 INNER JOIN auth_role arole on arr.ROLE_ID = arole.ID where 1 = 1 AND arole.ID = #{auRoleResourceVo.roleId} and ar.type = #{auRoleResourceVo.type}
             </when>
-            
+            <when test="auRoleResourceVo.trigger ==4 ">
+                SELECT * FROM (
+                SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName ,arole.`CODE` roleCode,arole.`NAME` as roleName,arole.ID as 'roleId'  FROM auth_resource ar 
+                LEFT JOIN auth_role_resource arr on arr.RESOURCE_ID = ar.ID 
+                LEFT JOIN auth_role arole on arr.ROLE_ID = arole.ID where 1 = 1  and ar.type = #{auRoleResourceVo.type} GROUP BY ar.ID  )  as tem
+            </when>
              <otherwise>
                 SELECT arr.ID,ar.`CODE` resCode,ar.`NAME` as resName ,arole.`CODE` roleCode,arole.`NAME` as roleName,arole.ID as 'roleId'  FROM auth_role_resource arr 
                 INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 

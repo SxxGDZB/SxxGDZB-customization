@@ -3,6 +3,7 @@ package com.kiwihouse.service;
 
 import com.kiwihouse.dao.entity.AuthRole;
 import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.domain.vo.Response;
 
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public interface RoleService {
      * @param roleId 1
      * @return boolean
      */
-    boolean deleteRoleByRoleId(Integer roleId);
+    Response deleteRoleByRoleId(Integer roleId);
 
     /**
      * description TODO
@@ -73,9 +74,10 @@ public interface RoleService {
 	 * @param page
 	 * @param limit
 	 * @param roleId 
+	 * @param userId 
 	 * @return
 	 */
-	Map<String, Object> getSelectRolesList(Integer page, Integer limit, Integer roleId);
+	Map<String, Object> getSelectRolesList(Integer page, Integer limit, Integer roleId, Integer userId);
 	/**
 	 * 	获取下级用户信息
 	 * @param roleId
@@ -83,4 +85,10 @@ public interface RoleService {
 	 * @return
 	 */
 	List<AuthUser> queryAuthUserByUserId(Integer roleId, Integer userId);
+	/**
+	 * 根据code查询角色是否存在
+	 * @param code
+	 * @return
+	 */
+	Response queryRoleByCode(String code);
 }

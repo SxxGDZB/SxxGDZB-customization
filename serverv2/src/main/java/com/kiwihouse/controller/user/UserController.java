@@ -118,16 +118,23 @@ public class UserController extends BaseController {
     }
     @ApiOperation(value = "根据用户名称查询", httpMethod = "POST")
     @PostMapping("/queryByName")
-    public Response queryInfo(HttpServletRequest request,String username) {
+    public Response queryByName(HttpServletRequest request,String username) {
     	AuthUser authUser = userService.getUserByUsername(username);
-    	authUser.setPassword(null);
-        authUser.setSalt(null);
-        AuthUserRole authUserRole = authUserRoleMapper.selectByUid(authUser.getUid());
-        authUser.setRoleId(authUserRole.getRoleId());
-        authUser.setRoleName(authUserRole.getRoleName());
+    	if(authUser != null) {
+    		authUser.setPassword(null);
+            authUser.setSalt(null);
+            AuthUserRole authUserRole = authUserRoleMapper.selectByUid(authUser.getUid());
+            authUser.setRoleId(authUserRole.getRoleId());
+            authUser.setRoleName(authUserRole.getRoleName());
+    	}
         return new Response().Success(6666, "查询成功").addData("data", authUser);
     }
-    
+    @ApiOperation(value = "根据用户号码查询", httpMethod = "GET")
+    @GetMapping("/queryByPhone/{phone}")
+    public Response queryByPhone(HttpServletRequest request,@PathVariable String phone) {
+    	 //new Response().Success(6666, "查询成功").addData("data", authUser);
+        return userService.queryByPhone(phone);
+    }
     @ApiOperation(value = "根据用户ID修改用户信息", httpMethod = "PUT")
     @PutMapping("")
     public Response update(HttpServletRequest request,@RequestBody AuthUser authUser) {
@@ -151,15 +158,15 @@ public class UserController extends BaseController {
     @ApiOperation(value = "用户列表", notes = "查询", httpMethod = "GET")
     @GetMapping("/select/list")
     public Map<String, Object> list(Integer page, Integer limit,Integer roleId,Integer userId) {
-//    	try {
+    	try {
     		
     		map = userService.getList(page,limit,roleId,userId);
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
-//		} catch (Exception e) {
-			// TODO: handle exception
-//			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
-//		}
+		} catch (Exception e) {
+//			 TODO: handle exception
+			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
+		}
         return map;
     }
     
@@ -174,5 +181,11 @@ public class UserController extends BaseController {
     public Response del(@PathVariable String userIds) {
     	
         return userService.deleteBatch(userIds);
+    }
+    
+    @ApiOperation(value = "分享的用户列表", notes = "查询", httpMethod = "GET")
+    @GetMapping("/share/list")
+    public Response shareList(Integer roleId,Integer userId) {
+        return userService.shareList(roleId,userId);
     }
 }

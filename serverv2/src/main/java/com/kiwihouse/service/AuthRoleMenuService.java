@@ -11,6 +11,7 @@ public interface AuthRoleMenuService {
 	 * @param currentPage
 	 * @param pageSize
 	 * @param roleId
+	 * @param curRoleId 
 	 * @param authRoleMenuDetails 
 	 * @param trigger 
 	 * @return
@@ -18,6 +19,7 @@ public interface AuthRoleMenuService {
 	Map<String, Object> selectPage(Integer currentPage, 
 			Integer pageSize, 
 			Integer roleId, 
+			Integer curRoleId,
 			AuthRoleMenuDetails authRoleMenuDetails,
 			Integer trigger);
 	/**

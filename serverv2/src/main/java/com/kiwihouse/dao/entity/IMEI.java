@@ -10,4 +10,14 @@ import lombok.ToString;
 public class IMEI {
 	private String imei;
 
+	public IMEI(String imei) {
+		super();
+		this.imei = imei;
+	}
+
+	public IMEI() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 }

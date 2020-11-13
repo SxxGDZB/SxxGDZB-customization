@@ -18,8 +18,8 @@ import com.kiwihouse.vo.kiwihouse.MtUpdateVo;
 @Repository
 public interface MaintainMapper {
     //query
-    List<MtInfoDto> queryInfo(@Param("mtInfoVo") MtInfoVo mtInfoVo, @Param("list") List<IMEI> list);
-    Integer queryInfoRow(@Param("mtInfoVo") MtInfoVo mtInfoVo, @Param("list") List<IMEI> listr);
+    List<MtInfoDto> queryInfo(@Param("mtInfoVo") MtInfoVo mtInfoVo, @Param("list") List<IMEI> list, @Param("admin") Integer admin);
+    Integer queryInfoRow(@Param("mtInfoVo") MtInfoVo mtInfoVo, @Param("list") List<IMEI> listr,@Param("admin") Integer admin);
     List<MtSmokeInfoDto> querySmokeInfo(MtInfoVo mtInfoVo);
     Integer querySmokeInfoRow(MtInfoVo mtInfoVo);
     List<String> queryMtId(String adminId);

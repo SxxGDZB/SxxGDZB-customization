@@ -41,6 +41,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
             options.loadingTime = options.loadingTime || 1;
             options.pageAnim = options.pageAnim || false;
             options.maxTabNum = options.maxTabNum || 20;
+            
 			$.ajax({
 				 url: options.iniUrl ,
 				    method: "post",
@@ -48,7 +49,6 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
 				    async:false,
 				    headers: { "Authorization": options.authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 				    success:function(data){
-				    	console.log(data)
 				    	 	if(data.success){
 								menuTree = data.data.menuTree;
 								localStorage.setItem('menuTree', JSON.stringify(menuTree.menuInfo));
@@ -84,13 +84,12 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
 				                    miniAdmin.deleteLoader(options.loadingTime);
 				                }
 							}else{
-								if(data.code == 8003){
+								if(data.code == 11){
 									indexHome(window,0).Unclickable();
 									indexHome(window,0).JwtErr();
 								}else{
 									miniAdmin.error('无菜单权限,请联系管理员')
 								}
-								
 							}
 				    }
 	  			});

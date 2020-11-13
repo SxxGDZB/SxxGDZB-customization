@@ -9,9 +9,10 @@
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="GROUPS" jdbcType="VARCHAR" property="groups" />
+    <result column="PARENT_ID" jdbcType="INTEGER" property="parentId" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, CODE, NAME, STATUS, CREATE_TIME, UPDATE_TIME
+    ID, CODE, NAME, STATUS, CREATE_TIME, UPDATE_TIME,PARENT_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -124,14 +125,20 @@
   
   <select id="getSelectRolesList" resultMap="BaseResultMap">
     SELECT * FROM auth_role 
-        WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId} )) AND id not in (#{roleId})
+        WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId} ))
+    <if test="admin == null">
+            AND id not in (#{roleId})
+    </if>
     <if test="limit != null">
         limit #{page},#{limit}
     </if>
   </select>
   <select id="getSelectRolesListCount" resultType="Integer">
-    SELECT count(*) FROM auth_role 
-        WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId} )) AND id not in (#{roleId})
+        SELECT count(*) FROM auth_role 
+             WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId} ))
+        <if test="admin == null">
+            AND id not in (#{roleId})
+        </if>
   </select>
   
   <select id="initBtn">
@@ -152,5 +159,8 @@
                 WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId}))  AND id not in( #{roleId}))
         </if>
        
+  </select>
+  <select id="queryRoleByCode" resultType="INTEGER">
+    select count(*) from auth_role where code = #{code}
   </select>
 </mapper>

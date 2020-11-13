@@ -36,4 +36,7 @@ public class DataType {
     
     public final static Integer adminId = 1;
     
+    /*分享设备时间  单位min*/
+    public final static long shareTime = 30;
+    
 }

@@ -39,6 +39,7 @@ import com.kiwihouse.util.CommonUtil;
 import com.kiwihouse.util.IpUtil;
 import com.kiwihouse.util.JsonWebTokenUtil;
 import com.kiwihouse.util.Md5Util;
+import com.kiwihouse.vo.entire.Log;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.Api;
@@ -57,12 +58,7 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = "用户登录注册")
 public class AccountController extends BaseController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
-
-
-    @Autowired
-    private RedisUtil redisUtil;
-
+    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
     @Autowired
     private AccountService accountService;
 
@@ -79,9 +75,6 @@ public class AccountController extends BaseController {
     private boolean isEncryptPassword;
     @Autowired	
     private AuthUserMapper authUserMapper;
-    
-    @Autowired
-    private StringRedisTemplate redisTemplate;
     /**
      * description 登录签发 JWT ,这里已经在 passwordFilter 进行了登录认证
      *
@@ -93,7 +86,7 @@ public class AccountController extends BaseController {
     @PostMapping("/login")
     @ResponseBody
     public Response accountLogin(@RequestBody UserParams params, HttpServletRequest request, HttpServletResponse response) {
-
+    	logger.info("用户登录>> {}",new Log().setIp(request.getRemoteAddr()).setParam(params.toString()));
         AuthUser authUser = userService.getUserByUsername(params.getUsername());
         authUser.setPassword(null);
         authUser.setSalt(null);
@@ -103,15 +96,14 @@ public class AccountController extends BaseController {
         // 根据appId获取其对应所拥有的角色(这里设计为角色对应资源，没有权限对应资源)
         String roles = accountService.loadAccountRoleByUsername(params.getUsername());
         //根据roles 查询 相应的 权限资源
-        String perms = authRoleResourceMapper.selectRoleRulesByRole(roles);
+        //String perms = authRoleResourceMapper.selectRoleRulesByRole(roles);
         // 时间以秒计算,token有效刷新时间是token有效过期时间的2倍
-        Integer refreshPeriodTime = 36000;
+        Integer refreshPeriodTime = 60 * 60;
         String jwt = JsonWebTokenUtil.issueJWT(UUID.randomUUID().toString(), params.getUsername(),
                 "token-server", refreshPeriodTime >> 1, roles, null, SignatureAlgorithm.HS512);
         // 将签发的JWT存储到Redis： {JWT-SESSION-{appID} , jwt}
         //redisUtil.set("JWT-SESSION-" + params.getUsername(), jwt, refreshPeriodTime);
         LogExeManager.getInstance().executeLogTask(LogTaskFactory.loginLog(1, IpUtil.getIpFromRequest(WebUtils.toHttp(request)), (short) 1, "登录成功"));
-        //request.getSession().setAttribute("user", authUser);
         return new Response().Success(Code.LOGIN_SUCC, "issue jwt success").addData("jwt", jwt).addData("user", authUser);
     }
 
@@ -126,19 +118,25 @@ public class AccountController extends BaseController {
     @ApiResponses({@ApiResponse(code = 0, message = "回调参数", response = UserParams.class)})
     @PostMapping("/register")
     public Response accountRegister(@Validated @RequestBody UserParams params,HttpServletRequest request, HttpServletResponse response) {
+    	logger.info("用户注册>> {}",new Log().setIp(request.getRemoteAddr()).setParam(params.toString()));
         AuthUser authUser = new AuthUser();
         Integer uid = authUserMapper.selectMaxId() + 1;//Integer.parseInt(params.get("uid"));
-        System.out.println(params.toString());
         String password = params.getPassword();//params.get("password");
         if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(password)) {
             // 必须信息缺一不可,返回注册账号信息缺失
+        	logger.info("用户注册>> {账户信息缺失}",new Log().setIp(request.getRemoteAddr()).setParam(params.toString()));
             return new Response().Fail(1111, "账户信息缺失");
         }
         if (accountService.isAccountExistByUid(uid)) {
+        	logger.info("用户注册>> {账户已存在}",new Log().setIp(request.getRemoteAddr()).setParam(params.toString()));
             // 账户已存在
             return new Response().Fail(1111, "账户已存在");
         }
-
+        AuthUser au = authUserMapper.selectByUsername(params.getUsername());
+        if(au != null) {
+        	logger.info("用户注册>> {账户已存在}",new Log().setIp(request.getRemoteAddr()).setParam(params.toString()));
+        	return new Response().Fail(1111, "账户已存在");
+        }
         authUser.setUid(uid);
         String salt = CommonUtil.getRandomString(6);
         // 存储到数据库的密码为 MD5(原密码+盐值)
@@ -149,12 +147,13 @@ public class AccountController extends BaseController {
         authUser.setStatus((byte) 1);
         if (accountService.registerAccount(authUser)) {
             LogExeManager.getInstance().executeLogTask(LogTaskFactory.registerLog(uid, IpUtil.getIpFromRequest(WebUtils.toHttp(request)), (short) 1, "注册成功"));
+            logger.info("用户注册>> {注册成功}",new Log().setIp(request.getRemoteAddr()).setParam(authUser.toString()));
             return new Response().Success(2002, "注册成功");
         } else {
             LogExeManager.getInstance().executeLogTask(LogTaskFactory.registerLog(uid, IpUtil.getIpFromRequest(WebUtils.toHttp(request)), (short) 0, "注册失败"));
+            logger.info("用户注册>> {注册失败}",new Log().setIp(request.getRemoteAddr()).setParam(params.toString()));
             return new Response().Success(1111, "注册失败");
         }
-//        return new Response().Success(Code.QUERY_SUCCESS,Code.QUERY_SUCCESS.getMsg());
     }
     
     public void test() {

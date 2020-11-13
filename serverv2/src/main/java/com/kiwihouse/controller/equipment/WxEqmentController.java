@@ -50,6 +50,7 @@ public class WxEqmentController {
     @ApiResponses({@ApiResponse(code = 0, message = "回调参数", response = EqptInfoDto.class)})
     @GetMapping("/info")
     public Map<String, Object> queryInfo(@Validated WxEquipment wxEquipment, HttpServletRequest request) {
+		logger.info("查询用户设备信息>> {}",new Log().setIp(request.getRemoteAddr()).setParam(wxEquipment));
         return equipmentService.queryInfo(wxEquipment);
     }
 	@ApiOperation(value = "updateInfo",
@@ -70,7 +71,7 @@ public class WxEqmentController {
     @ApiResponses(@ApiResponse(code = 0, message = "回调参数：只有code和msg,无具体数据result"))
     @PostMapping("/info")
     public Response addInfo(@RequestBody @Validated Add wxEquipment, HttpServletRequest request) {
-        logger.info("录入设备信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("添加设备信息").setParam(wxEquipment.toString()));
+        logger.info("录入设备信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("录入设备信息").setParam(wxEquipment.toString()));
         return equipmentService.addInfo(wxEquipment);
     }
 

@@ -71,6 +71,7 @@ public enum Code {
     ADD_SUCCESS(5000,"数据录入成功"),
     ADD_REPETITIVE(5003,"添加数据重复"),
     ADD_FAIL(5004,"数据录入失败"),
+    ADD_FAIL_EXIT(5006,"设备IMEI已存在"),
     QUARTZ_REPETITIVE(5005,"添加重复的定时任务"),
 
     VERIFY_SUCCESS(6000,"接口校验成功"),
@@ -107,8 +108,11 @@ public enum Code {
     EXCEL_LEAD_IN_SUCCESS(100003,"导入Excel成功"),
     EXCEL_LEAD_IN_FAIL(100004,"导入Excel失败，请联系网站管理员！"),
     RECOVER_SUCCESS(8090,"恢复成功"),
-    RECOVER_FAIL(8091,"恢复失败");
-	
+    RECOVER_FAIL(8091,"恢复失败"),
+    SHARE_FAIL(1235,"分享失败"),
+	SHARE_SUCCESS(1234,"分享成功"),
+	JWT_FAIL(11,"JWT验证失败"),
+	EXIST(12,"已存在");
 	
     //枚举的属性字段必须是私有且不可变
     private final int code;

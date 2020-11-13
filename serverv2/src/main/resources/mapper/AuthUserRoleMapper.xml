@@ -93,4 +93,8 @@
   		LEFT JOIN auth_role ar on aur.ROLE_ID = ar.ID 
   		WHERE aur.ROLE_ID = (SELECT min(ROLE_ID) FROM auth_user_role WHERE USER_ID = #{uid} ) LIMIT 0,1
   </select>
+  
+  <update id="updateByUniqueKey"  parameterType="INTEGER">
+       update auth_user_role set ROLE_ID =#{roleId,jdbcType=INTEGER} where USER_ID = #{uid}
+  </update>
 </mapper>

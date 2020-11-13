@@ -21,7 +21,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">用户名称</label>
         <div class="layui-input-block">
-            <input type="text" name="username" lay-verify="required"  placeholder="请输入用户名称" value="" class="layui-input">
+            <input type="text" name="username" lay-verify="required||isExist"  placeholder="请输入用户名称" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -33,7 +33,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">用户手机</label>
         <div class="layui-input-block">
-            <input type="text" name="phone" lay-verify="required" lay-filter="phone" placeholder="请输入手机号" value="" class="layui-input">
+            <input type="text" name="phone" lay-verify="required||isExistByPhone" lay-filter="phone" placeholder="请输入手机号" value="" class="layui-input">
         </div>
     </div>
    
@@ -79,13 +79,56 @@ var names = [];
                 }
             });
         }
-        
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             data.field.menuIds = $("#demo").attr('data-ids');
             data.field.password = hex_md5(data.field.password);
             ADD("/user/add",data.field);
             return false;
+        });
+        
+        /*自定义验证*/
+        form.verify({
+            //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]/^([1-9]||[1-9][0-9])\.[0-9]\.[0-9]$/
+            isExist : function(value) {
+                var falg = false;
+                $.ajax({
+                    url: "/user/queryByName?username=" + value,
+                    type : "POST",
+                    dataType : "json",
+                    cache:true, 
+                    async:false, 
+                    contentType: "application/json;charset=utf-8",
+                    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+                    success:function(data){
+                        if(data.data.data != null){
+                            falg = true;
+                        }
+                    }
+                 });
+                if(falg){
+                    return '用户名'+value+'已存在';
+                }
+            },isExistByPhone:function(value){
+            	 var falg = false;
+            	$.ajax({
+                    url: "/user/queryByPhone/" + value,
+                    type : "GET",
+                    dataType : "json",
+                    cache:true, 
+                    async:false, 
+                    contentType: "application/json;charset=utf-8",
+                    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+                    success:function(data){
+                        if(data.data.data != null){
+                            falg = true;
+                        }
+                    }
+                 });
+            	if(falg){
+                    return '号码'+value+'已存在';
+                }
+            }
         });
     });
 </script>

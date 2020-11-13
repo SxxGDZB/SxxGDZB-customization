@@ -79,4 +79,10 @@ public interface AuthUserRoleMapper {
      * @return
      */
     AuthUserRole selectByUid(Integer uid);
+    /**
+     * 修改用户角色关联表
+     * @param uid
+     * @param roleId
+     */
+	void updateByUniqueKey(Integer uid, Integer roleId);
 }

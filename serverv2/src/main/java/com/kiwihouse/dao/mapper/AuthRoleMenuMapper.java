@@ -16,24 +16,26 @@ public interface AuthRoleMenuMapper {
     /**
 	 * 根据角色查询对应的菜单列表记录条数
 	 * @param roleId
+     * @param curRoleId 
      * @param authRoleMenuDetails 
      * @param trigger 
 	 * @return
 	 */
 	int selectRoleMenuCount(@Param("roleId") Integer roleId,
-			@Param("authRoleMenuDetails") AuthRoleMenuDetails authRoleMenuDetails, 
+			 @Param("curRoleId") Integer curRoleId, @Param("authRoleMenuDetails") AuthRoleMenuDetails authRoleMenuDetails, 
 			@Param("trigger") Integer trigger);
 	/**
 	 * 根据角色查询对应的菜单列表
 	 * @param i
 	 * @param pageSize
 	 * @param roleId
+	 * @param curRoleId 
 	 * @return
 	 */
 	List<AuthRoleMenuDetails> selectRoleMenuList(@Param("currentPage") Integer currentPage, 
 			@Param("pageSize") Integer pageSize, 
 			@Param("roleId") Integer roleId,
-			@Param("authRoleMenuDetails") AuthRoleMenuDetails authRoleMenuDetails,
+			@Param("curRoleId") Integer curRoleId, @Param("authRoleMenuDetails") AuthRoleMenuDetails authRoleMenuDetails,
 			@Param("trigger") Integer trigger);
 	/**
 	 * 批量添加角色菜单关联数据

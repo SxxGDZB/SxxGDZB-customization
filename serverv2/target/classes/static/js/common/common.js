@@ -1,3 +1,29 @@
+
+/**
+ * ajax默认设置
+ * 包括默认提交方式为POST，
+ * 判断后台是否是重定向
+ */
+$.ajaxSetup( {    
+    //设置ajax请求结束后的执行动作    
+    complete : function(XHR, TS) {  
+    	console.log(XHR.responseText)
+    	console.log(XHR)
+    	console.log(TS)
+    	if(TS == 'parsererror'){
+    		indexHome(window,0).Unclickable();
+			indexHome(window,0).JwtErr();
+    	}
+    	if(typeof(XHR.responseJSON) != 'undefined'){
+    		console.log(XHR.responseJSON);
+    		if(XHR.responseJSON.code == 11){
+    			indexHome(window,0).Unclickable();
+    			indexHome(window,0).JwtErr();
+    		}
+    	}
+    	
+    }
+}); 
 /**
  * 得到根路径
  * @returns
@@ -194,11 +220,39 @@ function JwtErr(elem){
         ,shadeClose :true
         ,yes: function(){
           layer.closeAll();
-          window.location.href = "/";
+          localStorage.removeItem("Authorization");
+		  localStorage.removeItem("authUser");
+		  window.location.href = "/";
         },cancel: function(){
-        	window.location.href = "/";
+          localStorage.removeItem("Authorization");
+  		  localStorage.removeItem("authUser");
+  		  window.location.href = "/";
+//        	window.location.href = "/";
           }
       });
+}
+/**
+ * 退出登录
+ * @returns
+ */
+function logOut(){
+	$.ajax({
+			url: "/user/exit",
+		    method: "post",
+		    dataType : "json",
+		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+		    success:function(data){
+	    	 	if(data.success){
+	    	 		layer.msg('退出登录成功', function () {
+	    	 			localStorage.removeItem("Authorization");
+	    	 			localStorage.removeItem("authUser");
+	    	 			window.location.href = "/";
+	                });
+				}else{
+					layer.msg(data.msg);
+				}
+	    }
+	}); 
 }
 //禁止页面鼠标事件
 function Unclickable() {
@@ -472,8 +526,14 @@ var _sysDictV = function(type,k){
 	　　		contentType: "application/json;charset=utf-8",
 		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 		    success:function(data){
+		    	console.log(data);
 	    	 	if(data.success){
 	    	 		_data = data.data.data;
+				}else{
+					if(data.code == 11){
+						indexHome(window,0).Unclickable();
+						indexHome(window,0).JwtErr();
+					}
 				}
 		    }
 	})

@@ -43,7 +43,7 @@ public class ButtonController extends BaseController{
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
     @GetMapping("/info/{menuId}/{roleId}")
     public Response buttonListById(@PathVariable Integer menuId,@PathVariable Integer roleId,HttpServletRequest request){
-        logger.info("告警转工单>> {}",new Log().setIp(request.getRemoteAddr()).setParam(menuId).setParam(roleId));
+        logger.info("根据页面ID查询按钮列表>> {}",new Log().setIp(request.getRemoteAddr()).setParam(menuId).setParam(roleId));
         Response resultList = resourceButtonService.buttonListById(menuId,roleId);
         logger.info("返回参数<< {}",resultList);
         return resultList;
@@ -55,23 +55,36 @@ public class ButtonController extends BaseController{
             httpMethod = "GET")
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数",response = GroupDto.class))
     @GetMapping("/info")
-    public Map<String, Object> queryInfo(Integer page,Integer limit,Integer trigger,Buttons buttons){
-//    	try {
+    public Map<String, Object> queryInfo(Integer page,Integer limit,Integer trigger,Buttons buttons,HttpServletRequest request){
+    	try {
+    		logger.info("查询按钮列表>> {}",new Log().setIp(request.getRemoteAddr()).setParam(page).setParam(limit).setParam(trigger).setParam(buttons));
     		map = buttonService.queryInfo(page,limit,trigger, buttons);
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
-//		} catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
-//			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
-//		}
+			logger.info("查询按钮列表>> {查询失败}",new Log().setIp(request.getRemoteAddr()).setParam(page).setParam(limit).setParam(trigger).setParam(buttons));
+			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
+		}
         return map;
     }
 
     @ApiOperation(value = "删除对应的角色的授权资源",httpMethod = "DELETE")
     @DeleteMapping("/{ids}")
-    public Response deleteAuthorityRoleResource(@PathVariable String ids ) {
-    	String [] idsArray = ids.split("_");
-        return buttonService.deleteBatch(idsArray);
+    public Response deleteAuthorityRoleResource(@PathVariable String ids ,HttpServletRequest request) {
+    	logger.info("删除对应的角色的授权资源>> {}",new Log().setIp(request.getRemoteAddr()).setParam(ids));
+    	Response res = null;
+    	try {
+    		String [] idsArray = ids.split("_");
+    		res = buttonService.deleteBatch(idsArray);
+    		logger.info("删除对应的角色的授权资源>> {删除成功}");
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.info("删除对应的角色的授权资源>> {删除失败}");
+			res = new Response().Fail(Code.DELETE_FAIL,Code.DELETE_FAIL.getMsg());
+		}
+    	 return res;
+       
     }
     
     @ApiOperation(value = "addInfo",
@@ -82,7 +95,16 @@ public class ButtonController extends BaseController{
     @PostMapping("/add")
     public Response addInfo(@RequestBody @Validated Buttons resourceButtons, HttpServletRequest request){
         logger.info("添加按钮信息>> {}",new Log().setIp(request.getRemoteAddr()).setMsg("添加按钮信息").setParam(resourceButtons.toString()));
-        return buttonService.insert(resourceButtons);
+        Response res = null;
+        try {
+        	res = buttonService.insert(resourceButtons);
+        	logger.info("添加按钮信息>> {添加成功}");
+		} catch (Exception e) {
+			// TODO: handle exception
+			res = new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg());
+			logger.info("添加按钮信息>> {添加失败}");
+		}
+        return res;
     }
     
     @ApiOperation(value = "update",
@@ -93,7 +115,16 @@ public class ButtonController extends BaseController{
     @PutMapping("/upd")
     public Response updInfo(@RequestBody @Validated Buttons resourceButtons, HttpServletRequest request){
         logger.info("修改按钮信息>> {}",new Log().setIp(request.getRemoteAddr()).setMsg("修改按钮信息").setParam(resourceButtons.toString()));
-        return buttonService.updateByPrimaryKey(resourceButtons);
+        Response res = null;
+        try {
+        	res = buttonService.updateByPrimaryKey(resourceButtons);
+        	logger.info("修改按钮信息>> {修改成功}");
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.info("修改按钮信息>> {修改失败}");
+			res = new Response().Fail(Code.UPDATE_FAIL,Code.UPDATE_FAIL.getMsg());
+		}
+        return res;
     }
     
 }

@@ -7,7 +7,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author tomsun28
@@ -86,15 +85,17 @@ public interface AuthRoleMapper {
 	 * @param i
 	 * @param limit
 	 * @param roleId 
+	 * @param admin 
 	 * @return
 	 */
-	List<AuthRole> getSelectRolesList(Integer page, Integer limit, Integer roleId);
+	List<AuthRole> getSelectRolesList(Integer page, Integer limit, Integer roleId, Integer admin);
 	/**
 	 * 	查询角色列表总数
 	 * @param roleId 
+	 * @param admin 
 	 * @return
 	 */
-	int getSelectRolesListCount(Integer roleId);
+	int getSelectRolesListCount(Integer roleId, Integer admin);
 	/**
 	 *	 初始化角色按钮
 	 * @param id
@@ -118,4 +119,10 @@ public interface AuthRoleMapper {
 	 * @return
 	 */
 	List<AuthUser> queryAuthUserByUserId(Integer roleId, Integer adminId);
+	/**
+	 * 根据code查询角色记录条数
+	 * @param code
+	 * @return
+	 */
+	int queryRoleByCode(String code);
 }

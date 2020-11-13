@@ -183,23 +183,7 @@
 		}
 		/*退出登录*/
         $('.login-out').on("click", function () {
-            $.ajax({
-     			url: "/user/exit",
-			    method: "post",
-			    dataType : "json",
-			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-			    success:function(data){
-			    	 	if(data.success){
-			    	 		layer.msg('退出登录成功', function () {
-			    	 			localStorage.removeItem("Authorization");
-			    	 			localStorage.removeItem("authUser");
-			    	 			window.location.href = "/";
-			                });
-						}else{
-							layer.msg(data.msg);
-						}
-			    }
-			}); 
+        	logOut();
         });
 		
 		
@@ -220,12 +204,12 @@
     		})
     	}
         //报警监听receive/latestalarm/info/30/1/1000
-    	/* var time = _sysDictV(0,"Interval");
+    	var time = _sysDictV(0,"Interval");
     	var	t;
     	clearInterval(t);
    	    t = setInterval(function(){
    		 $.ajax({
-   	  			url: "/receive/latestalarm/info/"+authUser.roleId+"/" +time.value+ "/1/1000",
+   	  			url: "/receive/latestalarm/info/"+authUser.uid+ "/" +authUser.roleId+"/" +time.value+ "/1/1000",
    			    method: "GET",
    			    dataType : "json",
    			    headers: { "Authorization": authorization},//通过请求头来发送token，放弃了通过cookie的发送方式
@@ -243,7 +227,7 @@
    		    	}
    			 }
    		  });
-   		} , 1000 * time.value); */
+   		} , 1000 * time.value); 
     });
 	//重新加载
 	function init(){
@@ -269,6 +253,7 @@
 		     miniAdmin.render(options);
 		});
 	}
+
 </script>
 </body>
 </html>

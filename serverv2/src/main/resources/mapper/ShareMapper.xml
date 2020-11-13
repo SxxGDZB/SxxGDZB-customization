@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.dao.mapper.ShareMapper">
+
+    <insert id="insert"  parameterType="com.kiwihouse.dao.entity.Share" useGeneratedKeys="true" keyProperty="id">
+    insert into share (SHARER_ID, SHARER_USER_ID,IMEI)
+    values (#{sharerId,jdbcType=INTEGER},#{shareUserId,jdbcType=INTEGER},#{imei,jdbcType=VARCHAR})
+    </insert>
+    
+    <delete id="delete">
+        delete from share where imei =#{imei} and SHARER_USER_ID =#{userId}
+    </delete>
+    
+    <select id="queryShareDev" resultType="com.kiwihouse.dao.entity.Share">
+        select * from share where 1 = 1
+        <if test="shareUserId != null ">
+            AND SHARER_USER_ID = #{shareUserId}
+        </if>
+        <if test="imei != null and imei != ''">
+            AND imei = #{imei}
+        </if>
+    </select>
+</mapper>

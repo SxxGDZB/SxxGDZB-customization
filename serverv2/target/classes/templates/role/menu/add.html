@@ -21,7 +21,6 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">菜单名称</label>
         <div class="layui-input-inline">
-            <!-- <input type="text" name="name" placeholder="请输入" lay-verify="required" lay-reqtext="资源名称不能为空" autocomplete="off" class="layui-input" id="demo"> -->
             <textarea name="name" placeholder="请点击选择" lay-verify="required" lay-reqtext="资源名称不能为空"  autocomplete="off" id="demo" class="layui-textarea"></textarea>
         </div>
     </div>
@@ -49,12 +48,18 @@ var names = [];
         form.on('select(roleId)', function(data) {
             $("#demo").attr("ts-selected","");
             $("#demo").val("");
+            var v = null;
+            if(authUser.username == 'admin'){
+            	v = {"roleId":data.value,"trigger":4,"curRoleId":authUser.roleId};
+            }else{
+            	v = {"roleId":data.value,"trigger":1,"curRoleId":authUser.roleId};
+            }
             $.ajax({
                 url: "/rolemenu/menu",
                 type : "GET",
-        　　      dataType : "json",
-        　　      data:{"roleId":data.value,"trigger":1},
-        　　      contentType: "application/json;charset=utf-8",
+		        　　      dataType : "json",
+		        　　      data:v,
+        　　                              contentType: "application/json;charset=utf-8",
                 headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
                 success:function(data){
                     callBackData = function() {

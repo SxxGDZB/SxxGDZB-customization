@@ -110,4 +110,17 @@ public interface UserService {
 	 * @return
 	 */
 	Response deleteBatch(String userIds);
+	/**
+	 * 分享的用户列表
+	 * @param roleId
+	 * @param userId
+	 * @return
+	 */
+	Response shareList(Integer roleId, Integer userId);
+	/**
+	 * 根据用户号码查询
+	 * @param phone
+	 * @return
+	 */
+	Response queryByPhone(String phone);
 }

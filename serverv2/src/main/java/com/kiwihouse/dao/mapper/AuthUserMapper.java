@@ -166,4 +166,17 @@ public interface AuthUserMapper {
 	 * @param split
 	 */
 	int deleteBatch(String[] split);
+	/**
+	 * 分享的用户列表
+	 * @param roleId
+	 * @param adminId
+	 * @return
+	 */
+	List<AuthUser> shareList(Integer roleId, Integer adminId);
+	/**
+	 * 根据用户号码查询
+	 * @param phone
+	 * @return
+	 */
+	AuthUser queryByPhone(String phone);
 }

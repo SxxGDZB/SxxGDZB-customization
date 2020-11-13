@@ -140,4 +140,27 @@ public class EqptInfoDto {
     
     private String iccid;
 
+	public EqptInfoDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public EqptInfoDto(Integer eqptId, String eqptSn, String imei, String eqptName, String province, String city,
+			String district, String eqptAddr, String longitude, String latitude, Integer userId) {
+		super();
+		this.eqptId = eqptId;
+		this.eqptSn = eqptSn;
+		this.imei = imei;
+		this.eqptName = eqptName;
+		this.province = province;
+		this.city = city;
+		this.district = district;
+		this.eqptAddr = eqptAddr;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.userId = userId;
+	}
+
+    
+    
 }

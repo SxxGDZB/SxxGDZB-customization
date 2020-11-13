@@ -18,15 +18,15 @@ public class AuthRoleMenuServiceImpl implements AuthRoleMenuService{
 	AuthRoleMenuMapper authRoleMenuMapper;
 
 	@Override
-	public Map<String, Object> selectPage(Integer currentPage, Integer pageSize, Integer roleId,AuthRoleMenuDetails authRoleMenuDetails,Integer trigger) {
+	public Map<String, Object> selectPage(Integer currentPage, Integer pageSize, Integer roleId,Integer curRoleId,AuthRoleMenuDetails authRoleMenuDetails,Integer trigger) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("count", authRoleMenuMapper.selectRoleMenuCount(roleId,authRoleMenuDetails, trigger));
+		map.put("count", authRoleMenuMapper.selectRoleMenuCount(roleId,curRoleId,authRoleMenuDetails, trigger));
 		List<AuthRoleMenuDetails> list = null;
 		if (currentPage != null) {
-			list = authRoleMenuMapper.selectRoleMenuList((currentPage - 1) * pageSize,pageSize,roleId,authRoleMenuDetails,trigger);
+			list = authRoleMenuMapper.selectRoleMenuList((currentPage - 1) * pageSize,pageSize,roleId,curRoleId,authRoleMenuDetails,trigger);
 		} else {
-			list = authRoleMenuMapper.selectRoleMenuList(null,null,roleId,authRoleMenuDetails,trigger);
+			list = authRoleMenuMapper.selectRoleMenuList(null,null,roleId,curRoleId,authRoleMenuDetails,trigger);
 		}
 		map.put("data", list);
 		return map;

@@ -18,7 +18,6 @@ import com.kiwihouse.common.bean.UserInfo;
 import com.kiwihouse.common.utils.CodeTransferUtil;
 import com.kiwihouse.common.utils.GroupList;
 import com.kiwihouse.common.utils.RedisUtil;
-import com.kiwihouse.dao.entity.AuthRole;
 import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.dao.entity.AuthUserRole;
 import com.kiwihouse.dao.entity.IMEI;
@@ -69,8 +68,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		AuthUser auth = authUserMapper.selectByPrimaryKey(eqptQueryVo.getUserId());
 		if(auth.getUsername().equals(DataType.admin)) {
 			eqptQueryVo.setAdminId(2);
+			eqptQueryVo.setUserId(null);
 		}
-		eqptQueryVo.setUserId(null);
 		if (StringUtils.isNotBlank(eqptQueryVo.getOnline())) {// 如果查询设备状态
 			eqptQueryVo.setLimit(null);
 			list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo,imeiList);

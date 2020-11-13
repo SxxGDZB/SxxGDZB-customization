@@ -90,12 +90,12 @@ public class JwtFilter extends AbstractPathMatchingFilter {
 //
 //
 //                }
-                Response response = new Response().Fail(Code.LOGIN_FAIL, e.getMessage() + ":"+ username);
+                Response response = new Response().Fail(Code.JWT_FAIL, e.getMessage() + ":"+ username);
                 RespUtils.responseWrite(JSON.toJSONString(response), servletResponse);
                 return false;
             } catch (AuthenticationException e) {
                 // 其他的判断为JWT错误无效
-                Response response = new Response().Fail(Code.LOGIN_FAIL, e.getMessage());
+                Response response = new Response().Fail(Code.JWT_FAIL, e.getMessage());
                 RespUtils.responseWrite(JSON.toJSONString(response), servletResponse);
                 return false;
 
@@ -103,7 +103,7 @@ public class JwtFilter extends AbstractPathMatchingFilter {
                 // 其他错误
                 LOGGER.error(IpUtil.getIpFromRequest(WebUtils.toHttp(servletRequest)) + "--JWT认证失败" + e.getMessage(), e);
                 // 告知客户端JWT错误1005,需重新登录申请jwt
-                Response response = new Response().Fail(Code.LOGIN_FAIL, "error jwt");
+                Response response = new Response().Fail(Code.JWT_FAIL, "error jwt");
                 RespUtils.responseWrite(JSON.toJSONString(response), servletResponse);
                 return false;
             }

@@ -53,7 +53,7 @@ public class FireThresholdService {
      * @param eqptSn
      * @return
      */
-    public Response queryInfo(String imei,String adminId) {
+    public Response queryInfo(String imei) {
         HashMap<String,Object> map = new HashMap<>();
         map.put("imei",imei);
         List<ThresholdDto> list = fireThresholdMapper.query(map);

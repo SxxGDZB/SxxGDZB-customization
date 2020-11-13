@@ -75,7 +75,7 @@ function loadTickets(){
         elem: '#currentTableId',
         url: getRootPath() + '/role/all',
         headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-        where:{"roleId":authUser.roleId},
+        where:{"roleId":authUser.roleId,"userId":authUser.uid},
         async : false,
         toolbar: '#toolbarDemo',
         defaultToolbar: ['filter', 'exports', 'print', {

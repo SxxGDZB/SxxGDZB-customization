@@ -18,6 +18,9 @@
         <script type="text/html" id="toolbarDemo">
             
         </script>
+        <script type="text/html" id="currentTableBar">
+            
+        </script>
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
     </div>
 </div>
@@ -55,7 +58,8 @@ layui.use(['form', 'table'], function () {
                 {field: 'uid',title: 'ID'},
                 {field: 'username',title: '用户名称'},
                 {field: 'createTime',title: '创建时间'},
-                {field: 'roleName',title: '所属角色'}
+                {field: 'roleName',title: '所属角色'},
+                {title: '操作', toolbar: '#currentTableBar', align: "center",width:'15%'}
                 
             ]],
             limits: [5, 10, 20, 25, 50, 100],
@@ -100,6 +104,13 @@ layui.use(['form', 'table'], function () {
             }
         }
     });
+    table.on('tool(currentTableFilter)', function (obj) {
+        dataRow = obj.data;
+        if (obj.event === 'edit') {
+        	openPopUp('修改','USER_UPDATE_PAGE');
+            return false;
+        }
+    })
 });
 //刷新表格
 function flush(currentPage, jsonEntity) {
@@ -110,6 +121,7 @@ function flush(currentPage, jsonEntity) {
         where : jsonEntity
     });
 }
+
 </script>
 
 </body>

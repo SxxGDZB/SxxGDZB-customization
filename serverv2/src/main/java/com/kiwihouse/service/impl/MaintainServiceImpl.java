@@ -77,15 +77,17 @@ public class MaintainServiceImpl implements MaintainService{
 //	        	AuthRole authRole =  authRoleMapper.selectIsAdmin(mtInfoVo.getUserId());
 	        	AuthUser auth = authUserMapper.selectByPrimaryKey(mtInfoVo.getUserId());
 	        	List<MtInfoDto> list = null;
+	        	Integer admin = null;
 	        	if(auth.getUsername().equals(DataType.admin)) {
-	        		list = maintainMapper.queryInfo(mtInfoVo,null);
+	        		admin = 2;
+	        		list = maintainMapper.queryInfo(mtInfoVo,null,admin);
 	    		}else {
-	    			list = maintainMapper.queryInfo(mtInfoVo,imeiList);
+	    			list = maintainMapper.queryInfo(mtInfoVo,imeiList,admin);
 	    		}
 	            if(list.isEmpty()){
 	                return new ResultList(Code.QUERY_NULL.getCode(),Code.QUERY_NULL.getMsg(),null);
 	            }else{
-	                Integer row = maintainMapper.queryInfoRow(mtInfoVo,imeiList);
+	                Integer row = maintainMapper.queryInfoRow(mtInfoVo,imeiList,admin);
 	                if(row==0){
 	                    return new ResultList(Code.EXECUTION_ERROR.getCode(),Code.EXECUTION_ERROR.getMsg(),null);
 	                }else{

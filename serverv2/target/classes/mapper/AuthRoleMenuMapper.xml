@@ -34,13 +34,11 @@
   <select id="selectRoleMenuCount" parameterType="java.lang.Integer" resultType="Integer" >
   		<choose>
   			<when test="trigger ==1 ">
-  				<!-- SELECT count(*) FROM `auth_role_menu` arm 
-  				LEFT JOIN sys_menu sys on arm.menu_id = sys.id 
-  				INNER JOIN auth_role ar on ar.id = arm.role_id WHERE 1=1 
-  				AND role_id != #{roleId} -->
+  				
   				SELECT count(*) FROM sys_menu sys INNER JOIN auth_role_menu arm on sys.id = arm.menu_id 
 				INNER JOIN auth_role ar on  ar.id = arm.role_id
-				WHERE sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId})
+				WHERE sys.ID in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{curRoleId} ) 
+				and sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId})
   			</when>
   			<when test="trigger ==2 ">
 				SELECT count(*) FROM sys_menu  
@@ -83,7 +81,8 @@
     	<choose>
   			<when test="trigger ==1 ">
 				SELECT sys.id ,sys.parent_id,sys.name ,sys.url FROM sys_menu sys 
-				WHERE sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId})
+				WHERE sys.ID in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{curRoleId} ) 
+				AND sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId})
   			</when>
   			<when test="trigger ==2 ">
 				SELECT id ,parent_id,name ,url FROM sys_menu  
@@ -103,6 +102,11 @@
 		   			AND sys.name like  CONCAT('%', #{authRoleMenuDetails.name}, '%') 
 		   		</if>
   			</when>
+  			<when test="trigger ==4 ">
+                SELECT sys.id ,sys.parent_id,sys.name ,sys.url FROM sys_menu sys 
+                WHERE sys.ID in (SELECT id FROM sys_menu ) 
+                AND sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId})
+            </when>
   			 <otherwise>
   			 	SELECT arm.role_id ,sys.id,sys.parent_id,sys.name ,sys.url,ar.`CODE` FROM `auth_role_menu` arm 
 		    	INNER JOIN sys_menu sys on arm.menu_id = sys.id 

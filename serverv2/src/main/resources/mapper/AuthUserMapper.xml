@@ -280,4 +280,16 @@
             #{id}
         </foreach>
    </delete>
+   <select id="shareList" resultMap="AuthUserResultMap">
+        SELECT au.*,aur.ROLE_ID,ar.`NAME` as roleName FROM auth_user_role aur 
+        INNER JOIN auth_user au on au.uid = aur.user_id 
+        INNER JOIN auth_role ar on ar.ID = aur.ROLE_ID
+        WHERE aur.role_id in (
+        SELECT id FROM auth_role 
+        WHERE FIND_IN_SET(id, queryChildrenAreaInfo( #{roleId})))
+   </select>
+   
+   <select id="queryByPhone" resultMap="AuthUserResultMap">
+        select * from auth_user where phone = #{phone}
+   </select>
 </mapper>

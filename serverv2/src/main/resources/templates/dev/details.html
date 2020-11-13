@@ -269,7 +269,8 @@ var counts = 0 ;
         jsonEntity.imei = dataRow.imei;
         jsonEntity.startTime = fun_day(-7).substring(0,10);
         jsonEntity.endTime = fun_day(1).substring(0,10);
-        
+        jsonEntity.roleId = authUser.roleId;
+        jsonEntity.userId = authUser.uid;
         var $ = layui.jquery,
             layer = layui.layer,
             echarts = layui.echarts,
@@ -325,6 +326,8 @@ var counts = 0 ;
                     jsonEntity.startTime = $.trim(arr[0]);
                     var d = new Date($.trim(arr[1]));
                     jsonEntity.endTime = fun_days(1,d).substring(0,10);
+                    jsonEntity.roleId = authUser.roleId;
+                    jsonEntity.userId = authUser.uid;
                     loadTable(jsonEntity);
                     initAlarm(jsonEntity);
                 }

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.dao.entity.IMEI;
 import com.kiwihouse.dao.entity.RoleDev;
 import com.kiwihouse.dao.entity.UserDev;
@@ -167,5 +168,12 @@ public interface EquipmentMapper {
 	 * @return
 	 */
 	int deleteUserDevBatch(String [] ids);
+	/**
+	 * 分享的用户列表
+	 * @param roleId
+	 * @param userId
+	 * @return
+	 */
+	List<AuthUser> shareList(Integer roleId, Integer userId);
 	
 }

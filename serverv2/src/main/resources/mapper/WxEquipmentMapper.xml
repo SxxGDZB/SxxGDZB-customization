@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kiwihouse.dao.mapper.WxEquipmentMapper">
   <resultMap id="BaseResultMap" type="com.kiwihouse.dao.entity.vx.dev.WxEquipment">
-    <id column="eqpt_id" jdbcType="INTEGER" property="eqptId" />
+   <!--  <id column="eqpt_id" jdbcType="INTEGER" property="eqptId" />
     <result column="device_id" jdbcType="INTEGER" property="deviceId" />
     <result column="eqpt_name" jdbcType="VARCHAR" property="eqptName" />
     <result column="imei" jdbcType="VARCHAR" property="imei" />
@@ -26,7 +26,7 @@
     <result column="imgs" jdbcType="VARCHAR" property="imgs" />
     <result column="province" jdbcType="VARCHAR" property="province" />
     <result column="city" jdbcType="VARCHAR" property="city" />
-    <result column="district" jdbcType="VARCHAR" property="district" />
+    <result column="district" jdbcType="VARCHAR" property="district" /> -->
   </resultMap>
   <sql id="Base_Column_List">
     eqpt_id, device_id, eqpt_name, imei, imsi, eqpt_sn, eqpt_type, power, voltage, electricity, 
@@ -299,14 +299,37 @@
   </update>
   
   <select id="querInfoByUserIdPage" resultMap="BaseResultMap">
-    SELECT we.* FROM wx_user_equipment wue INNER JOIN wx_equipment we on wue.eqpt_id = we.eqpt_id 
-    WHERE 1 = 1
-    <if test="userId != null and userId != ''">
-       AND wue.user_id = #{userId}
-    </if>
-    <if test="imei != null and imei != ''">
-       AND we.imei = #{imei}
-    </if>
+    <choose>
+        <when test="wxEquipment.userId != null and wxEquipment.userId != ''">
+             SELECT wxe.eqpt_id,wxe.eqpt_name,wxe.imei,wxe.eqpt_sn,
+                wxe.eqpt_addr,wxe.latitude,wxe.longitude, wxe.user_id,
+                wxe.province,wxe.city,wxe.district,e.eqpt_type FROM wx_user_equipment wue 
+                RIGHT JOIN wx_equipment wxe on wue.eqpt_id = wxe.eqpt_id 
+                INNER JOIN equipment e on wxe.imei = e.imei
+            WHERE  wue.user_id = #{wxEquipment.userId}
+            <if test="wxEquipment.imei != null and wxEquipment.imei != ''">
+		       AND wxe.imei = #{wxEquipment.imei}
+		    </if>
+		     <!-- <if test="list != null  and list.size() > 0">
+		       OR we.imei in(
+		       <foreach collection="list" item="item" index="index" separator=",">
+		           #{item.imei}
+		       </foreach>
+		       ) 
+		    </if> -->
+        </when>
+        <otherwise>
+              SELECT wxe.eqpt_id,wxe.eqpt_name,wxe.imei,wxe.eqpt_sn,
+                wxe.eqpt_addr,wxe.latitude,wxe.longitude, wxe.user_id,
+                wxe.province,wxe.city,wxe.district,e.eqpt_type FROM wx_user_equipment wue 
+                RIGHT JOIN wx_equipment wxe on wue.eqpt_id = wxe.eqpt_id 
+                INNER JOIN equipment e on wxe.imei = e.imei 
+                WHERE 1 = 1
+               <if test="wxEquipment.imei != null and wxEquipment.imei != ''">
+                AND wxe.imei = #{wxEquipment.imei}
+               </if>
+        </otherwise>
+    </choose>
   </select>
   
   <insert id="inertWxEqAndUser">
@@ -321,10 +344,56 @@
     delete from wx_user_equipment
     where eqpt_id = #{eqptId} and user_id = #{userId}
   </delete>
+  
+   <delete id="deleteWxEq" parameterType="Integer">
+    delete from wx_user_equipment
+    where eqpt_id = #{eqptId}
+  </delete>
+  
   <select id="selectByImei" parameterType="String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from wx_equipment
-    where imei = #{imei,jdbcType=INTEGER}
+    where imei = #{imei,jdbcType=VARCHAR}
   </select>
+  <!-- SELECT we.eqpt,wue.user_id FROM wx_user_equipment wue INNER JOIN wx_equipment we on wue.eqpt_id = we.eqpt_id 
+    where we.imei = #{imei} and wue.user_id = #{userId} -->
+    
+    <select id="selectByImeiAndUserId" resultMap="BaseResultMap">
+        SELECT we.eqpt_id,wue.user_id FROM wx_user_equipment wue INNER JOIN wx_equipment we on wue.eqpt_id = we.eqpt_id 
+        where we.imei = #{imei,jdbcType=VARCHAR} and wue.user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    
+    <select id="queryShareDevList" resultMap="BaseResultMap">
+        <choose>
+            <when test="list != null  and list.size() > 0">
+                SELECT wxe.eqpt_id,wxe.eqpt_name,wxe.imei,wxe.eqpt_sn,
+                wxe.eqpt_addr,wxe.latitude,wxe.longitude, wxe.user_id,
+                wxe.province,wxe.city,wxe.district,e.eqpt_type as eqptType FROM wx_user_equipment wue 
+                RIGHT JOIN wx_equipment wxe on wue.eqpt_id = wxe.eqpt_id 
+                INNER JOIN equipment e on wxe.imei = e.imei 
+	            WHERE 1 = 1
+	            AND wxe.imei in(
+		           <foreach collection="list" item="item" index="index" separator=",">
+		               #{item.imei}
+		           </foreach>
+	            )
+            </when>
+            <otherwise>
+                SELECT * FROM wx_equipment
+                WHERE 1 = 2
+            </otherwise>
+        </choose>
+        
+    </select>
+    
+    <select id="queryUserShareDevList" resultMap="BaseResultMap">
+        SELECT wxe.eqpt_id,wxe.eqpt_name,wxe.imei,wxe.eqpt_sn,
+                wxe.eqpt_addr,wxe.latitude,wxe.longitude, wxe.user_id,
+                wxe.province,wxe.city,wxe.district,e.eqpt_type as eqptType,s.SHARER_USER_ID as sharerId FROM `share` s 
+        inner JOIN wx_equipment wxe on s.IMEI = wxe.imei 
+        INNER JOIN equipment e on wxe.imei = e.imei 
+        WHERE s.IMEI in ( 
+        SELECT s.IMEI FROM share s WHERE s.SHARER_USER_ID = #{userId} )
+    </select>
 </mapper>

@@ -10,6 +10,7 @@ import com.kiwihouse.dao.entity.IMEI;
 import com.kiwihouse.dto.AlarmEqptDto;
 import com.kiwihouse.vo.kiwihouse.AlmQueryVo;
 import com.kiwihouse.vo.kiwihouse.DataStatisticsVo;
+import com.kiwihouse.web.ReturnCode;
 
 public interface AlarmMapper {
     int deleteByPrimaryKey(Integer alarmId);
@@ -68,4 +69,6 @@ public interface AlarmMapper {
 	 * @return
 	 */
 	int clearDevAlarms(String imei);
+
+	List<ReturnCode> selectCode();
 }

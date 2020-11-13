@@ -47,6 +47,11 @@
             ids = [];
             $("#demo").attr("ts-selected","");
             $("#demo").text("");
+            if(authUser.username == 'admin'){
+                v = {"roleId":authUser.roleId,"trigger":4,"type":2};
+            }else{
+                v = {"roleId":authUser.roleId,"trigger":3,"type":2};
+            }
             tableSelect.render({
                 elem: '#demo',
                 searchKey: 'resName',
@@ -55,7 +60,7 @@
                 table: {
                     url: getRootPath() + '/resourcerole/list',
                     headers: { "Authorization": authorization,"dz-usr":authUser.uid },
-                    where:{"roleId":data.value,"trigger":2,"type":2},
+                    where:v ,
                     cols: [[
                         { type: 'checkbox' },
                         { field: 'resCode', title: '资源CODE', width: '50%' },
@@ -77,10 +82,10 @@
             $.ajax({
                 url: '/resourcerole/list',
                 type : "GET",
-        　　      dataType : "json",
+                dataType : "json",
                 data:{"roleId":data.value,"trigger":3,"type":2},
-        　　      contentType: "application/json;charset=utf-8",
-        　　      async:false,
+                contentType: "application/json;charset=utf-8",
+                async:false,
                 headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
                 success:function(data){
                     var vals = [];

@@ -62,7 +62,6 @@ public class FireThresholdController {
     @GetMapping("/info")
     public Response queryInfo(@RequestParam(required = false) String imei, HttpServletRequest request){
         logger.info("查询预警阀值>> {}",new Log().setIp(request.getRemoteAddr()).setParam(imei));
-        String adminId = request.getHeader("dz-roleId");
-        return fireThresholdService.queryInfo(imei, adminId);
+        return fireThresholdService.queryInfo(imei);
     }
 }

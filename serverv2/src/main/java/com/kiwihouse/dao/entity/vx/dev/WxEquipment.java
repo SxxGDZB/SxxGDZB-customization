@@ -123,8 +123,14 @@ public class WxEquipment {
 	/**
 	 * 在线状态
 	 */
-	private Integer online;
+	private boolean online;
 	
 	private String eqptStatus;
+	
+	private int shareBy;
+	
+	private int sharerId;
+	
+
 
 }

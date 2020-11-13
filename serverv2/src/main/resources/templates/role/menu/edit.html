@@ -53,11 +53,18 @@
         	var treeDate = '';
         	var checked = new Array();
         	var checkedName = new Array();
+        	
+        	if(authUser.username == 'admin'){
+                v = {"roleId":data.value,"trigger":2};
+            }else{
+                v = {"roleId":authUser.roleId,"trigger":3};
+            }
+        	
         	$.ajax({
      			url: "/rolemenu/menu",
      			type : "GET",
      	　　		dataType : "json",
-     	　　		data:{"trigger":2},
+     	　　		data:v,
      	　　		contentType: "application/json;charset=utf-8",
      	　　		async:false,
      		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
@@ -160,7 +167,7 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             data.field.ids = $("#demo").attr('data-ids');
-            data.field.roleId = authUser.roleId;
+            //data.field.roleId = authUser.roleId;
             UPDATE("/rolemenu",data.field);
             return false;
         });

@@ -81,7 +81,8 @@
 </div>
 <div th:include="include::footer"></div>
 <script>
-$(document).ready(function(){
+
+	console.log("进入数据总览页面")
 	var echartsRecords;
 	var value = fun_day(-1).substring(0,10) + " - " +new Date().Format("yyyy-MM-dd");
 	var addTimeArr = new Array();
@@ -167,7 +168,7 @@ $(document).ready(function(){
 	        	        trigger: 'axis'
 	        	    },
 	        	    legend: {
-	        	        data: ['过压告警', '过流告警', '过载告警', '欠压告警', '漏电告警','温升告警','烟雾告警','掉电告警','用电告警总故障']
+	        	        data: ['过压告警', '过流告警', '过载告警', '欠压告警', '漏电告警','温升告警','烟雾告警','掉电告警']//,'用电告警总故障'
 	        	    },
 	        	    grid: {
 	        	        left: '3%',
@@ -236,13 +237,14 @@ $(document).ready(function(){
                             type: 'line',
                             //stack: '总量',
                             data: useingTheAlarmArray
-                        },
+                        }
+	        	       /*  ,
 	        	        {
 	        	            name: '用电告警总故障',
 	        	            type: 'line',
 	        	            //stack: '总量',
 	        	            data: electricAlarmTotalFailureArray
-	        	        }
+	        	        } */
 	        	    ]
 	        	};
 			return optionRecords;
@@ -396,7 +398,7 @@ $(document).ready(function(){
         	echartsRecords.resize();
         }
     });
-});
+
     
 </script>
 </body>

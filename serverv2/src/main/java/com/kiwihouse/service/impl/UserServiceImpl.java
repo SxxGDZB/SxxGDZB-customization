@@ -102,11 +102,23 @@ public class UserServiceImpl implements UserService {
 	public Response updateByPrimaryKeySelective(AuthUser authUser) {
 		// TODO Auto-generated method stub
 		try {
-			int count = authUserMapper.updateByPrimaryKeySelective(authUser);
-			if(count > 0) {
-				return new Response().Fail(Code.UPDATE_SUCCESS,Code.UPDATE_SUCCESS.getMsg());
+			if(authUser.getPassword()!=null) {
+				String salt = CommonUtil.getRandomString(6);
+		        // 存储到数据库的密码为 MD5(原密码+盐值)
+		        authUser.setPassword(Md5Util.md5(authUser.getPassword() + salt));
+		        authUser.setSalt(salt);
 			}
-			return new Response().Fail(Code.UPDATE_NULL,Code.UPDATE_NULL.getMsg());
+			if(authUser.getRoleId() != null) {
+				//修改用户角色关联表
+				authUserRoleMapper.updateByUniqueKey(authUser.getUid(),authUser.getRoleId());
+			}
+			if(authUser.getUsername() != null || authUser.getPhone() != null) {
+				int count = authUserMapper.updateByPrimaryKeySelective(authUser);
+				if(count > 0) {
+					return new Response().Fail(Code.UPDATE_SUCCESS,Code.UPDATE_SUCCESS.getMsg());
+				}
+			}
+			return new Response().Fail(Code.UPDATE_SUCCESS,Code.UPDATE_SUCCESS.getMsg());
 		}catch (Exception e) {
 			// TODO: handle exception
 			return new Response().Fail(Code.UPDATE_FAIL,Code.UPDATE_FAIL.getMsg());
@@ -127,10 +139,10 @@ public class UserServiceImpl implements UserService {
 		 int count = 0;
 		 if(limit != null) {
 			 list = authUserMapper.getList((page - 1 ) * limit,limit,roleId,adminId);
-			 count = authUserMapper.getListCount(roleId,adminId);
 		 }else {
-			 list = new ArrayList<AuthUser>();
+			 list = authUserMapper.getList(null,null,roleId,adminId);
 		 }
+		 count = authUserMapper.getListCount(roleId,adminId);
 		 map.put("data", list);
 		 map.put("count", count);
 		 return map;
@@ -159,5 +171,25 @@ public class UserServiceImpl implements UserService {
 			equipmentMapper.deleteUserDevBatch(userIds.split(","));
 		}
 		return new Response().Success(Code.DELETE_SUCCESS,Code.DELETE_SUCCESS.getMsg());
+	}
+
+	@Override
+	public Response shareList(Integer roleId, Integer userId) {
+		// TODO Auto-generated method stub
+		 Integer adminId = null;
+		 //AuthRole authRole =  authRoleMapper.selectIsAdmin(userId);
+		 AuthUser auth = authUserMapper.selectByPrimaryKey(userId);
+		 if(auth.getUsername().equals(DataType.admin)) {
+			 adminId = 2;
+		 }
+		 List<AuthUser> list  = authUserMapper.shareList(roleId,adminId);
+		return new Response().Success(Code.QUERY_SUCCESS,Code.QUERY_SUCCESS.getMsg()).addData("data", list);
+	}
+
+	@Override
+	public Response queryByPhone(String phone) {
+		// TODO Auto-generated method stub
+		AuthUser authUser = authUserMapper.queryByPhone(phone);
+		return new Response().Success(6666, "查询成功").addData("data", authUser);
 	}
 }

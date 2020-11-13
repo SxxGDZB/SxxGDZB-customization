@@ -182,12 +182,7 @@ public class RoleController extends BaseController {
     @DeleteMapping("{roleId}")
     public Response deleteRoleByRoleId(@PathVariable Integer roleId) {
 
-        boolean flag = roleService.deleteRoleByRoleId(roleId);
-        if (flag) {
-            return new Response().Success(6666, "delete success");
-        } else {
-            return new Response().Fail(1111, "delete fail");
-        }
+    	return roleService.deleteRoleByRoleId(roleId);
     }
 
     @ApiOperation(value = "获取用户对应所有角色信息",httpMethod = "POST")
@@ -207,10 +202,10 @@ public class RoleController extends BaseController {
     
 	@ApiOperation(value = "角色列表", notes = "查询", httpMethod = "GET")
     @GetMapping("/all")
-    public Map<String, Object> list(Integer page, Integer limit,Integer roleId) {
+    public Map<String, Object> list(Integer page, Integer limit,Integer roleId,Integer userId) {
 //    	try {
     		
-    		map = roleService.getSelectRolesList(page,limit,roleId);
+    		map = roleService.getSelectRolesList(page,limit,roleId,userId);
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
 //		} catch (Exception e) {
@@ -218,5 +213,13 @@ public class RoleController extends BaseController {
 //			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
 //		}
         return map;
+    }
+	
+	@SuppressWarnings("unchecked")
+    @ApiOperation(value = "根据code查询角色是否存在", httpMethod = "GET")
+    @GetMapping("/queryBy/{code}")
+    public Response queryRoleByCode(@PathVariable String code) {
+       
+        return roleService.queryRoleByCode(code);
     }
 }

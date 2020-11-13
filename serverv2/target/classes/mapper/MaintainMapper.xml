@@ -4,7 +4,7 @@
 
     <!--query-->
     <select id="queryInfo" resultType="com.kiwihouse.dto.MtInfoDto" parameterType="com.kiwihouse.vo.kiwihouse.MtInfoVo">
-       select mt_id,mt_msg,mt_name,mt_phone,mt_status,mt.update_time,mt.imei,
+        select mt_id,mt_msg,mt_name,mt_phone,mt_status,mt.update_time,mt.imei,
             e.eqpt_name,e.eqpt_type,e.site_id,e.role_id,
             ai.alarm_id,ai.alarm_msg,ai.alarm_type,ai.add_time,
             s.province,s.city,s.district,s.address
@@ -12,31 +12,40 @@
             left join alarm as ai on ai.alarm_id=mt.alarm_id
             left join equipment as e on e.imei=mt.imei
             left join site as s on e.site_id=s.site_id
-        <where>
-        	
-            <if test="mtInfoVo.imei != null and mtInfoVo.imei != ''">
-                and mt.imei=#{mtInfoVo.imei}
-            </if>
-            <if test="mtInfoVo.mtName != null and mtInfoVo.mtName != ''">
-                and mt_name=#{mtInfoVo.mtName}
-            </if>
-            <if test="mtInfoVo.mtStatus != null and mtInfoVo.mtStatus != '' and mtInfoVo.mtStatus != 'noCancel'">
-                and mt.mt_status=#{mtInfoVo.mtStatus}
-            </if>
-            <if test="mtInfoVo.mtStatus == 'noCancel'">
-                and mt.mt_status != 2
-            </if>
-            <if test="list != null and list.size()>0">
-                and mt.imei in(
-                <foreach collection="list" item="item" index="index" separator=",">
-                    #{item.imei}
-                </foreach>
-                ) 
-            </if>
-            <if test="list == null or list.size()==0">
-                and 1 = 2
-            </if>
-        </where>
+            <where>
+                <if test="mtInfoVo.imei != null and mtInfoVo.imei != ''">
+                        and mt.imei=#{mtInfoVo.imei}
+                    </if>
+                    <if test="mtInfoVo.mtName != null and mtInfoVo.mtName != ''">
+                        and mt_name=#{mtInfoVo.mtName}
+                    </if>
+                    <if test="mtInfoVo.mtStatus != null and mtInfoVo.mtStatus != '' and mtInfoVo.mtStatus != 'noCancel'">
+                        and mt.mt_status=#{mtInfoVo.mtStatus}
+                    </if>
+                    <if test="mtInfoVo.mtStatus == 'noCancel'">
+                        and mt.mt_status != 2
+                    </if>
+            </where>
+       <choose>
+            <when test="admin == null ">
+		            <if test="list != null and list.size()>0">
+		                and mt.imei in(
+		                <foreach collection="list" item="item" index="index" separator=",">
+		                    #{item.imei}
+		                </foreach>
+		                ) 
+		            </if>
+		            <if test="list == null or list.size()==0">
+		                and 1 = 2
+		            </if>
+		        
+            </when>
+            <otherwise>
+                
+            </otherwise>
+       </choose>
+      
+        
         order by mt.update_time desc 
         <if test="mtInfoVo.limit != null and mtInfoVo.limit != '' ">
         limit #{mtInfoVo.page},#{mtInfoVo.limit}
@@ -45,37 +54,42 @@
     </select>
     <select id="queryInfoRow" resultType="java.lang.Integer" parameterType="com.kiwihouse.vo.kiwihouse.EqptQueryVo">
         select count(*)
-        from maintain_info as mt
-        left join alarm as ai on ai.alarm_id=mt.alarm_id
-        left join equipment as e on e.imei=ai.imei
-        left join site as s on e.site_id=s.site_id
-        <where>
-            <!-- <if test="roleId != null and roleId != ''">
-                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId})
-            </if> -->
-            <if test="mtInfoVo.imei != null and mtInfoVo.imei != ''">
-                and mt.imei=#{mtInfoVo.imei}
-            </if>
-            <if test="mtInfoVo.mtName != null and mtInfoVo.mtName != ''">
-                and mt_name=#{mtInfoVo.mtName}
-            </if>
-            <if test="mtInfoVo.mtStatus != null and mtInfoVo.mtStatus != '' and mtInfoVo.mtStatus != 'noCancel'">
-                and mt.mt_status=#{mtInfoVo.mtStatus}
-            </if>
-            <if test="mtInfoVo.mtStatus == 'noCancel'">
-                and mt.mt_status != 2
-            </if>
-            <if test="list != null and list.size()>0">
-                 and mt.imei in(
-                 <foreach collection="list" item="item" index="index" separator=",">
-                     #{item.imei}
-                 </foreach>
-                 ) 
-             </if>
-             <if test="list == null or list.size()==0">
-                and 1 = 2
-            </if>
-        </where>
+            from maintain_info as mt
+            left join alarm as ai on ai.alarm_id=mt.alarm_id
+            left join equipment as e on e.imei=mt.imei
+            left join site as s on e.site_id=s.site_id
+            <where>
+                <if test="mtInfoVo.imei != null and mtInfoVo.imei != ''">
+                        and mt.imei=#{mtInfoVo.imei}
+                    </if>
+                    <if test="mtInfoVo.mtName != null and mtInfoVo.mtName != ''">
+                        and mt_name=#{mtInfoVo.mtName}
+                    </if>
+                    <if test="mtInfoVo.mtStatus != null and mtInfoVo.mtStatus != '' and mtInfoVo.mtStatus != 'noCancel'">
+                        and mt.mt_status=#{mtInfoVo.mtStatus}
+                    </if>
+                    <if test="mtInfoVo.mtStatus == 'noCancel'">
+                        and mt.mt_status != 2
+                    </if>
+            </where>
+       <choose>
+            <when test="admin == null ">
+                    <if test="list != null and list.size()>0">
+                        and mt.imei in(
+                        <foreach collection="list" item="item" index="index" separator=",">
+                            #{item.imei}
+                        </foreach>
+                        ) 
+                    </if>
+                    <if test="list == null or list.size()==0">
+                        and 1 = 2
+                    </if>
+            </when>
+            <otherwise>
+                
+            </otherwise>
+       </choose>
+        order by mt.update_time desc 
     </select>
 
     <select id="querySmokeInfo" resultType="com.kiwihouse.dto.MtSmokeInfoDto" parameterType="com.kiwihouse.vo.kiwihouse.MtInfoVo">

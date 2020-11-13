@@ -329,4 +329,8 @@
     <update id="clearDevAlarms" parameterType="String">
     	update alarm set if_delete = 1 where imei=#{imei}
     </update>
+    
+    <select id="selectCode" resultType="com.kiwihouse.web.ReturnCode">
+        select * from return_code
+    </select>
 </mapper>

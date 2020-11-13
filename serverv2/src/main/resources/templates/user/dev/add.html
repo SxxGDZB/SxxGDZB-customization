@@ -22,7 +22,7 @@
         <label class="layui-form-label required">选择设备</label>
         <div class="layui-input-inline">
             <!-- <input type="text" name="name" placeholder="请输入" lay-verify="required" lay-reqtext="资源名称不能为空" autocomplete="off" class="layui-input" id="demo"> -->
-            <textarea name="name" placeholder="请点击选择" lay-verify="required" lay-reqtext="资源名称不能为空"  autocomplete="off" id="demo" class="layui-textarea"></textarea>
+            <textarea name="name" placeholder="请点击选择" lay-verify="required" lay-reqtext="资源名称不能为空" autocomplete="off" id="demo" class="layui-textarea"></textarea>
         </div>
     </div>
 
@@ -44,21 +44,17 @@
         
         //监听角色
         form.on('select(userId)', function(data) {
-        	var treeDate = '';
-            var checked = new Array();
-            var checkedName = new Array();
-        	
-            ids = [];
             $("#demo").attr("ts-selected","");
             $("#demo").text("");
+            ids = [];
             tableSelect.render({
                 elem: '#demo',
                 searchKey: 'eqptName',
                 checkedKey: 'eqptId',
-                searchPlaceholder: '根据设备名称搜索',
+                searchPlaceholder: '根据资源名称搜索',
                 table: {
                     url: getRootPath() + '/equipment/all',
-                    headers: { "Authorization": authorization },
+                    headers: { "Authorization": authorization},
                     where:{"roleId":authUser.roleId,"userId":authUser.uid},
                     cols: [[
                         { type: 'checkbox' },
@@ -77,32 +73,28 @@
                     elem.attr("data-ids",NEWJSONIDS.join(","));
                 }
             })
+            
             /*查询用户的资源*/
             $.ajax({
                 url: '/equipment/user/all',
                 type : "GET",
-			    dataType : "json",
-			    data:{"userId":data.value},
-			    contentType: "application/json;charset=utf-8",
-			    async:false,
+                dataType : "json",
+                data:{"userId":data.value},
+                contentType: "application/json;charset=utf-8",
+                async:false,
                 headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
                 success:function(data){
-                	$.each(data.data,function(index,xx){
-                        checked.push(xx.eqptName);
-                        checkedName.push(xx.eqptName);
+                	var vals = [];
+                    $.each(data.data,function(index,xx){
+                    	ids.push(xx.eqptId);
+                        vals.push(xx.eqptName);
                     })
-                    callBackData = function() {
-                        var d = {
-                            type : 'UPDATE',
-                            treeDate :treeDate,
-                            checked :checked.setList()
-                        };
-                        return d;
-                    }
+                    $("#demo").attr("ts-selected",ids.join(","));
+                    $("#demo").attr("data-ids",ids.join(","));
+                    $("#demo").text(vals.join(","));
                 }
             });
-            $("#demo").text(checkedName);
-            $("#demo").attr('data-ids',checked);
+            
         });
         initSelectUser();
         //加载角色列表
