@@ -9,6 +9,14 @@
     <result column="TYPE" jdbcType="VARCHAR" property="type" />
     <result column="EQPT_TYPE" jdbcType="INTEGER" property="eqptType" />
   </resultMap>
+  <resultMap id="BaseResultMapThree" type="com.kiwihouse.dao.entity.DevHistoryThree">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="DATA_JSON" jdbcType="VARCHAR" property="dataJson" />
+    <result column="IMEI" jdbcType="VARCHAR" property="imei" />
+    <result column="ADD_TIME" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="EQPT_TYPE" jdbcType="INTEGER" property="eqptType" />
+  </resultMap>
   <sql id="Base_Column_List">
     ID, DATA_JSON, IMEI, ADD_TIME, TYPE, EQPT_TYPE
   </sql>
@@ -194,5 +202,19 @@
   			order by add_time desc
   			limit ${(page - 1) * limit},#{limit}
   		</if>
+  </select>
+  <select id="historyDevInfoThree" parameterType="com.kiwihouse.vo.kiwihouse.ReportedQueryVo" resultMap="BaseResultMapThree">
+        select data_json,add_time from dev_history_data where 1 = 1
+        <if test="imei != null and imei != ''">
+            and imei = #{imei}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and DATE_FORMAT(add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+        </if>
+        <if test="limit != null and limit != ''">
+            order by add_time desc
+            limit ${(page - 1) * limit},#{limit}
+        </if>
+        
   </select>
 </mapper>

@@ -30,7 +30,7 @@ public class SysDictionaryController {
 	@ApiOperation(value = "selectByType",
             notes = "<br>@description: 根据类型查找字典<b></b></br>" +
                     "<br>@Date: <b>2020-3-10 14:40:56</b></br>",
-            httpMethod = "POST")
+            httpMethod = "GET")
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
     @GetMapping("/selectByType/{type}")
 	public Response selectByType(@PathVariable(required = true) String type) {
@@ -50,7 +50,7 @@ public class SysDictionaryController {
 	@ApiOperation(value = "selectByType",
             notes = "<br>@description: 根据类型和Key查找字典<b></b></br>" +
                     "<br>@Date: <b>2020-3-10 14:40:56</b></br>",
-            httpMethod = "POST")
+            httpMethod = "GET")
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
     @GetMapping("/selectByTypeAndKey/{type}/{key}")
 	public Response selectByTypeAndKey(@PathVariable(required = true) String type,@PathVariable(required = true) String key) {

@@ -111,7 +111,7 @@ public class EquipmentController extends BaseController {
 	}
 
 	@ApiOperation(value = "export", notes = "<br>@description: <b>Excel导出</b></br>"
-			+ "<br>@Date: <b>2020-1-4 17:15:40</b></br>", httpMethod = "Post")
+			+ "<br>@Date: <b>2020-1-4 17:15:40</b></br>", httpMethod = "POST")
 	@ApiResponses(@ApiResponse(code = 0, message = "回调参数：只有code和msg,无具体数据result"))
 	@PostMapping("/export")
 	public Response export(@RequestBody EqptQueryVo eqptQueryVo, HttpServletRequest request) {
@@ -124,7 +124,7 @@ public class EquipmentController extends BaseController {
 	}
 
 	@ApiOperation(value = "importData", notes = "<br>@description: <b>Excel导入</b></br>"
-			+ "<br>@Date: <b>2020-1-4 17:15:40</b></br>", httpMethod = "Post")
+			+ "<br>@Date: <b>2020-1-4 17:15:40</b></br>", httpMethod = "POST")
 	@ApiResponses(@ApiResponse(code = 0, message = "回调参数：只有code和msg,无具体数据result"))
 	@PostMapping("/importData")
 	@ResponseBody

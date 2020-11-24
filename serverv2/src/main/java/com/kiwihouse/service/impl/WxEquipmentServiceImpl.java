@@ -44,43 +44,46 @@ public class WxEquipmentServiceImpl implements WxEquipmentService{
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		AuthUser auth = authUserMapper.selectByPrimaryKey(wxEquipment.getUserId());
+		if(auth == null) {
+			return map;
+		}
 		if(auth.getUsername().equals(DataType.admin)) {
 			wxEquipment.setUserId(null);
 		}
-		//用户本身的设备列表
+			//用户本身的设备列表
 			List<WxEquipment> list = wxEquipmentMapper.querInfoByUserIdPage(wxEquipment);
-			List<WxEquipment> shareDevList = wxEquipmentMapper.queryUserShareDevList(wxEquipment.getUserId());
-			
-			shareDevList.forEach(eqpt -> {
-				System.out.println("===============>" + eqpt.getEqptType());
-  				eqpt.setShareBy(1);
-  				eqpt.setEqptStatus(String.valueOf(Code.NOTONLINE.getCode()));
-                    if (redisUtil.hasKey(eqpt.getImei())) {
-                  	  eqpt.setEqptStatus(String.valueOf(Code.ONLINE.getCode()));
-                  	  eqpt.setOnline(true);
-                    }
-  			});
+			//分享的设备
+			List<WxEquipment> shareDevList = wxEquipmentMapper.queryUserShareDevList(wxEquipment);
+			System.out.println(redisUtil.hasKey("867808043290616"));
+			//分享的设备
 			list.forEach(eqpt -> {
-				System.out.println("===============>" + eqpt.getEqptType());
 				eqpt.setShareBy(0);
 				eqpt.setEqptStatus(String.valueOf(Code.NOTONLINE.getCode()));
                   if (redisUtil.hasKey(eqpt.getImei())) {
                 	  eqpt.setEqptStatus(String.valueOf(Code.ONLINE.getCode()));
                 	  eqpt.setOnline(true);
                   }
-                  shareDevList.forEach(xx ->{
-                	  
-                	  if(xx.getImei().equals(eqpt.getImei())) {
-                		  shareDevList.remove(xx);
-                	  }
-                  }); 
+                  for(int i=0;i<shareDevList.size();i++) {
+                	  shareDevList.get(i).setShareBy(1);
+                	  shareDevList.get(i).setEqptStatus(String.valueOf(Code.NOTONLINE.getCode()));
+                      if (redisUtil.hasKey(shareDevList.get(i).getImei())) {
+                    	  shareDevList.get(i).setEqptStatus(String.valueOf(Code.ONLINE.getCode()));
+                    	  shareDevList.get(i).setOnline(true);
+                      }
+              	  	if(shareDevList.get(i).getImei().equals(eqpt.getImei())) {
+              	  		shareDevList.remove(i);
+              	  	}
+                  }
+			});
+			shareDevList.forEach(eqpt ->{
+				eqpt.setShareBy(1);
+				eqpt.setEqptStatus(String.valueOf(Code.NOTONLINE.getCode()));
+				if (redisUtil.hasKey(eqpt.getImei())) {
+              	  eqpt.setEqptStatus(String.valueOf(Code.ONLINE.getCode()));
+              	  eqpt.setOnline(true);
+                }
 			});
 			list.addAll(shareDevList);
-			
-			
-			
-			
-			
 			map.put("data", list);
 			map.put("msg", Code.QUERY_SUCCESS.getMsg());
 			map.put("count", list.size());
@@ -122,6 +125,7 @@ public class WxEquipmentServiceImpl implements WxEquipmentService{
 						wxEquipment.getEqptAddr(),wxEquipment.getLongitude(),
 						wxEquipment.getLatitude(),wxEquipment.getUserId());
 				List<EqptInfoDto> list = new ArrayList<EqptInfoDto>();
+				eqptInfoDto.setEqptType("0");
 				list.add(eqptInfoDto);
 				equipmentMapper.insertOrUpdateBatch(list);
 			}
@@ -180,6 +184,19 @@ public class WxEquipmentServiceImpl implements WxEquipmentService{
 		map.put("count", list.size());
 		map.put("code", 0);
 		return map;
+	}
+
+	@Override
+	public Response queryOneDev(WxEquipment wxEquipment) {
+		// TODO Auto-generated method stub
+		List<WxEquipment> list = wxEquipmentMapper.querInfoByUserIdPage(wxEquipment);
+		WxEquipment e = null;
+		if(list == null || list.size() == 0) {
+			e = wxEquipmentMapper.selectShareDev(wxEquipment);
+		}else {
+			e = list.get(0);
+		}
+		return new Response().Success(Code.QUERY_SUCCESS,Code.QUERY_SUCCESS.getMsg()).addData("data", e);
 	}
 
 }

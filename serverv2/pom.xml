@@ -324,6 +324,17 @@
            <artifactId>spring-boot-starter-websocket</artifactId>  
        </dependency> 
         
+        <!-- https://mvnrepository.com/artifact/org.codehaus.xfire/xfire-core -->
+		<dependency>
+		    <groupId>org.codehaus.xfire</groupId>
+		    <artifactId>xfire-core</artifactId>
+		    <version>1.2.6</version>
+		</dependency>
+        <dependency>  
+            <groupId>org.bouncycastle</groupId>  
+            <artifactId>bcprov-jdk16</artifactId>  
+            <version>1.46</version>  
+     </dependency>  
     </dependencies>
 
 
@@ -332,6 +343,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+			      <configuration>
+			        <source>1.8</source>
+			        <target>1.8</target>
+			        <compilerArguments>
+			          <verbose />
+			          <bootclasspath>${JAVA_HOME}/jre/lib/rt.jar:${JAVA_HOME}/jre/lib/jce.jar</bootclasspath>
+			        </compilerArguments>
+			        <encoding>utf-8</encoding>
+			      </configuration>
             </plugin>
         </plugins>
     </build>

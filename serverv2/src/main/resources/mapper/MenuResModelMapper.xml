@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.dao.mapper.MenuResModelMapper">
+  <resultMap id="BaseResultMap" type="com.kiwihouse.dao.entity.MenuResModel">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="menu_id" jdbcType="INTEGER" property="menuId" />
+    <result column="resource_id" jdbcType="INTEGER" property="resourceId" />
+  </resultMap>
+   <resultMap id="MenuModelMap" type="com.kiwihouse.dao.entity.AuthResource">
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="CODE" jdbcType="VARCHAR" property="code"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="PARENT_ID" jdbcType="INTEGER" property="parentId"/>
+        <result column="URI" jdbcType="VARCHAR" property="uri"/>
+        <result column="TYPE" jdbcType="SMALLINT" property="type"/>
+        <result column="METHOD" jdbcType="VARCHAR" property="method"/>
+        <result column="ICON" jdbcType="VARCHAR" property="icon"/>
+        <result column="STATUS" jdbcType="SMALLINT" property="status"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+  <sql id="Base_Column_List">
+    ID, menu_id, resource_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu_resource_model
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from menu_resource_model
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kiwihouse.dao.entity.MenuResModel">
+    insert into menu_resource_model (ID, menu_id, resource_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}, #{resourceId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kiwihouse.dao.entity.MenuResModel">
+    insert into menu_resource_model
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="menuId != null">
+        menu_id,
+      </if>
+      <if test="resourceId != null">
+        resource_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="menuId != null">
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="resourceId != null">
+        #{resourceId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kiwihouse.dao.entity.MenuResModel">
+    update menu_resource_model
+    <set>
+      <if test="menuId != null">
+        menu_id = #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="resourceId != null">
+        resource_id = #{resourceId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kiwihouse.dao.entity.MenuResModel">
+    update menu_resource_model
+    set menu_id = #{menuId,jdbcType=INTEGER},
+      resource_id = #{resourceId,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectMenuResModelList" resultMap="MenuModelMap">
+    SELECT ar.`NAME`,ar.URI,ar.METHOD,ar.ID,ar.`CODE` FROM `menu_resource_model` mrm  
+        INNER JOIN auth_resource ar on ar.ID = mrm.resource_id
+        WHERE 1 = 1
+        <if test="menuResModel.menuId != null and menuResModel.menuId!= '' ">
+           AND mrm.menu_id = #{menuResModel.menuId}
+        </if>
+        <if test="limit != null and limit != '' ">
+            limit #{page},#{limit}
+        </if>
+  </select>
+  <select id="selectMenuResModelCount" resultType="Integer">
+    SELECT count(*) FROM `menu_resource_model` mrm  
+        INNER JOIN auth_resource ar on ar.ID = mrm.resource_id
+        WHERE 1 = 1
+        <if test="menuId != null and menuId!= '' ">
+           AND mrm.menu_id = #{menuId}
+        </if>
+  </select>
+</mapper>

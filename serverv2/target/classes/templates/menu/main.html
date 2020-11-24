@@ -15,25 +15,14 @@
 <div class="layuimini-container layuimini-page-anim">
     <div class="layuimini-main">
         <div>
-           <!--  <div class="layui-btn-container">
-                <div class="layui-inline" id="btn-expand" lay-event="btn-expand"> <i class="iconfont"  data-toggle="tooltip" title="全部展开" >&#xe700;</i></div>
-                <div class="layui-inline" id="btn-fold" lay-event="btn-fold">  <i class="iconfont"  data-toggle="tooltip" title="全部折叠" >&#xe701;</i></div>
-                <div class="layui-inline" id="add" lay-event="add">  <i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
-            </div>  -->
              <script type="text/html" id="toolbarDemo">
-            
         	</script>
-            
             <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
         </div>
     </div>
 </div>
 <div th:include="include::footer"></div>
-<!-- 操作列 -->
-<!-- <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
 <script type="text/html" id="currentTableBar">
-		
 </script>
 <script th:inline="none">
 	var dataRow;
@@ -107,6 +96,8 @@
 					});
             	}
             	
+            } else if(layEvent === 'menu_model_manager'){
+            	openPopUp('菜单资源模板管理','MENU_MODEL_MANAGER_PAGE',70,75);
             }
         });
     });
@@ -176,7 +167,7 @@
                 {field: 'orderNum', align: 'center', title: '排序号'},
                 {field: 'icon',  align: 'center', title: '图标'},
                 {field: 'createBy',  align: 'center', title: '创建者'},
-                {templet: '#currentTableBar', width: 180, align: 'center', title: '操作'}
+                {field: 'comp',templet: '#currentTableBar', width: 180, align: 'center', title: '操作'}
             ]],
             done: function (res, curr, count) {
             	objArr = res.data;
@@ -191,6 +182,23 @@
                 $("#add").on('click',function(){
                 	openPopUp('添加','MENU_ADD_PAGE');
                 })
+                console.log(res);
+                res.data.forEach(function(item,index){
+                	if(item.pageType != 1){
+                		 $.each($("tbody").find("tr").eq(index),function(){
+                             $.each($(this).find("td"),function(){
+                                 if($(this).attr("data-field") == "comp"){
+                                     $.each($(this).find("a"),function(){
+                                         var v = $(this);
+                                         if(v.attr("lay-event") == "menu_model_manager"){
+                                             v.empty();
+                                         }
+                                     })
+                                 }
+                             })
+                         })
+                	}
+                });
                 
             }
         });

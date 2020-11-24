@@ -1,6 +1,7 @@
 package com.kiwihouse.service;
 
 
+import com.kiwihouse.controller.account.params.UserParams;
 import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.domain.vo.Response;
 
@@ -123,4 +124,9 @@ public interface UserService {
 	 * @return
 	 */
 	Response queryByPhone(String phone);
+	/**
+	 * 	修改用户的openId、和unionId
+	 * @param params
+	 */
+	void updateByVxId(UserParams params);
 }

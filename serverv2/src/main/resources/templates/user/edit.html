@@ -33,10 +33,16 @@
     <div class="layui-form-item">
         <label class="layui-form-label">用户手机</label>
         <div class="layui-input-block">
-            <input type="text" name="phone" lay-verify="required" lay-filter="phone" placeholder="请输入手机号" value="" class="layui-input">
+            <input type="text" name="phone" lay-filter="phone" placeholder="请输入手机号" value="" class="layui-input">
         </div>
     </div>
-   
+    <div class="layui-form-item ">
+        <label class="layui-form-label">选择设备</label>
+        <div class="layui-input-inline">
+            <!-- <input type="text" name="name" placeholder="请输入" lay-verify="required" lay-reqtext="资源名称不能为空" autocomplete="off" class="layui-input" id="demo"> -->
+            <textarea name="name" placeholder="请点击选择"   autocomplete="off" id="demo" class="layui-textarea"></textarea>
+        </div>
+    </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block _submitBtn" >
@@ -94,15 +100,71 @@ var names = [];
         	$("input[name='username']").removeClass("layui-disabled");
         }
         form.render();
+        
+        $("#demo").attr("ts-selected","");
+        $("#demo").text("");
+        var ids = [];
+        tableSelect.render({
+            elem: '#demo',
+            searchKey: 'eqptName',
+            checkedKey: 'eqptId',
+            searchPlaceholder: '根据资源名称搜索',
+            table: {
+                url: getRootPath() + '/equipment/all',
+                headers: { "Authorization": authorization},
+                where:{"roleId":authUser.roleId,"userId":authUser.uid},
+                cols: [[
+                    { type: 'checkbox' },
+                    { field: 'eqptName', title: '设备名称', width: '50%' },
+                    { field: 'imei', title: 'imei', width: '50%' }
+                ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                var NEWJSONIDS = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.eqptName)
+                    NEWJSONIDS.push(item.eqptId);
+                })
+                elem.val(NEWJSON.join(","))
+                elem.attr("data-ids",NEWJSONIDS.join(","));
+               
+            }
+        })
+        
+        /*查询用户的资源*/
+        $.ajax({
+            url: '/equipment/user/all',
+            type : "GET",
+            dataType : "json",
+            data:{"userId":dataRow.uid},
+            contentType: "application/json;charset=utf-8",
+            async:false,
+            headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+            success:function(data){
+                var vals = [];
+                $.each(data.data,function(index,xx){
+                    ids.push(xx.eqptId);
+                    vals.push(xx.eqptName);
+                })
+                $("#demo").attr("ts-selected",ids.join(","));
+                $("#demo").attr("data-ids",ids.join(","));
+                $("#demo").text(vals.join(","));
+                dataRow.name = vals.join(",");
+            }
+        });
+        
+        
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-        	var name = data.field.username;
+        	//var name = data.field.username;
         	$.each(data.field,function(index,xx){
-        		if(dataRow[index] == xx){
+        		if($.trim(dataRow[index]) == $.trim(xx)){
+        			console.log(dataRow[index] + "-----" + xx)
         			delete data.field[index];
         		}
         	})
-        	console.log()
+        	console.log(data.field)
         	if(jQuery.isEmptyObject(data.field)){
         		layer.msg("没有修改任何参数",{icon: 3, time: 2000});
         	}else{
@@ -110,7 +172,11 @@ var names = [];
         		if(typeof(data.field.password) != 'undefined' ){
         			data.field.password = hex_md5(data.field.password);
         		}
-        		UPDATE("/user",data.field);
+        		if(typeof(data.field.name) != 'undefined'){
+        			data.field.eqptIds = $("#demo").attr('data-ids');
+        		}
+        		console.log(data.field)
+        		//UPDATE("/user",data.field);
         	}
             return false;
         });

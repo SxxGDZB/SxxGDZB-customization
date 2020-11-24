@@ -46,7 +46,7 @@ public class MenuBtnController extends BaseController{
 	@ApiOperation(value = "info",
 	            notes = "<br>@description: <b>根据角色ID查询所有按钮权限</b></br>" +
 	                    "<br>@Date: <b>2020-3-5 16:39:06</b></br>",
-	            httpMethod = "POST")
+	            httpMethod = "GET")
    @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
    @GetMapping("/all/power/{roleId}")
    public Response queryButtonsPower(@PathVariable Integer roleId,HttpServletRequest request){

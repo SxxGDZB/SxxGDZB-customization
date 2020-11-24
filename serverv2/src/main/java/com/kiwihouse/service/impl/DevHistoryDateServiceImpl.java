@@ -15,6 +15,7 @@ import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.DataType;
 import com.kiwihouse.dao.entity.DevHistoryDate;
 import com.kiwihouse.dao.entity.DevHistoryDateStatistics;
+import com.kiwihouse.dao.entity.DevHistoryThree;
 import com.kiwihouse.dao.mapper.DevHistoryDateMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.DevHistoryDateService;
@@ -149,12 +150,14 @@ public class DevHistoryDateServiceImpl implements DevHistoryDateService{
 	@Override
 	public Map<String, Object> selectAll(ReportedQueryVo reportedQueryVo) {
 		List<DevHistoryDate> list = null;
+		List<DevHistoryThree> lists = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		// TODO Auto-generated method stub
 		try {
+			Integer count =  devHistoryDateMapper.historyDevInfoCount(reportedQueryVo);
 			
-			list = devHistoryDateMapper.historyDevInfo(reportedQueryVo);
 			if("0".equals(reportedQueryVo.getEqptType())) {
+				list = devHistoryDateMapper.historyDevInfo(reportedQueryVo);
 				list.forEach(x ->{
 					JSONObject jo = JSON.parseObject(x.getDataJson());
 					Float c = jo.getFloat("cur");
@@ -174,8 +177,12 @@ public class DevHistoryDateServiceImpl implements DevHistoryDateService{
 					Float pf = jo.getFloat("pwr_fct");
 					x.setPwrFct(pf);
 				});
+				map.put("count", count);
+				map.put("data", list);
 			}else if("1".equals(reportedQueryVo.getEqptType())) {
-				list.forEach(x ->{
+				lists = devHistoryDateMapper.historyDevInfoThree(reportedQueryVo);
+				
+				lists.forEach(x ->{
 					JSONObject jo = JSON.parseObject(x.getDataJson());
 					JSONArray curs = JSON.parseArray(jo.getString("cur"));
 					JSONArray vols = JSON.parseArray(jo.getString("vol"));
@@ -208,11 +215,9 @@ public class DevHistoryDateServiceImpl implements DevHistoryDateService{
 					Integer cs = jo.getInteger("csq");
 					x.setCsq(cs);
 				});
+				map.put("count", count);
+				map.put("data", lists);
 			}
-			
-			Integer count =  devHistoryDateMapper.historyDevInfoCount(reportedQueryVo);
-			map.put("count", count);
-			map.put("data", list);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

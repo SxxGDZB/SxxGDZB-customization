@@ -28,6 +28,7 @@
     <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="district" jdbcType="VARCHAR" property="district" /> -->
   </resultMap>
+  <resultMap type="com.kiwihouse.dao.entity.IMEI" id="IMEIMap"></resultMap>
   <sql id="Base_Column_List">
     eqpt_id, device_id, eqpt_name, imei, imsi, eqpt_sn, eqpt_type, power, voltage, electricity, 
     register, eqpt_addr, latitude, longitude, user_id, site_id, role_id, group_id, last_report_time, 
@@ -310,6 +311,7 @@
             <if test="wxEquipment.imei != null and wxEquipment.imei != ''">
 		       AND wxe.imei = #{wxEquipment.imei}
 		    </if>
+		    
 		     <!-- <if test="list != null  and list.size() > 0">
 		       OR we.imei in(
 		       <foreach collection="list" item="item" index="index" separator=",">
@@ -317,6 +319,9 @@
 		       </foreach>
 		       ) 
 		    </if> -->
+		    <if test="wxEquipment.eqptName != null and wxEquipment.eqptName != ''">
+                and wxe.eqpt_name like CONCAT('%',#{wxEquipment.eqptName},'%')
+            </if>
         </when>
         <otherwise>
               SELECT wxe.eqpt_id,wxe.eqpt_name,wxe.imei,wxe.eqpt_sn,
@@ -328,6 +333,9 @@
                <if test="wxEquipment.imei != null and wxEquipment.imei != ''">
                 AND wxe.imei = #{wxEquipment.imei}
                </if>
+               <if test="wxEquipment.eqptName != null and wxEquipment.eqptName != ''">
+		            and wxe.eqpt_name like CONCAT('%',#{wxEquipment.eqptName},'%')
+		       </if>
         </otherwise>
     </choose>
   </select>
@@ -394,6 +402,25 @@
         inner JOIN wx_equipment wxe on s.IMEI = wxe.imei 
         INNER JOIN equipment e on wxe.imei = e.imei 
         WHERE s.IMEI in ( 
-        SELECT s.IMEI FROM share s WHERE s.SHARER_USER_ID = #{userId} )
+        SELECT s.IMEI FROM share s WHERE s.SHARER_USER_ID = #{wxEquipment.userId} )
+        <if test="wxEquipment.eqptName != null and wxEquipment.eqptName != ''">
+            and wxe.eqpt_name like CONCAT('%',#{wxEquipment.eqptName},'%')
+        </if>
+        GROUP BY IMEI
+    </select>
+    
+    <select id="selectUserImei"  resultMap="IMEIMap" parameterType="Integer">
+         SELECT e.IMEI FROM equipment e
+         WHERE e.IMEI in(SELECT we.IMEI FROM wx_user_equipment wue INNER JOIN wx_equipment we on wue.eqpt_id = we.eqpt_id
+         where wue.user_id = #{userId} GROUP BY we.IMEI) or IMEI in(SELECT s.IMEI FROM `share` s WHERE s.SHARER_USER_ID = #{userId}) 
+    </select>
+    
+    <select id="selectShareDev" resultType="com.kiwihouse.dao.entity.vx.dev.WxEquipment">
+        SELECT wxe.eqpt_id,wxe.eqpt_name,wxe.imei,wxe.eqpt_sn,
+                wxe.eqpt_addr,wxe.latitude,wxe.longitude, wxe.user_id,
+                wxe.province,wxe.city,wxe.district,s.SHARER_USER_ID as sharerId
+            FROM share s INNER JOIN wx_equipment wxe on s.IMEI = wxe.imei 
+			WHERE wxe.imei = #{imei}
+			GROUP BY wxe.IMEI 
     </select>
 </mapper>

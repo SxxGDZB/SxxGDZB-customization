@@ -113,6 +113,8 @@ layui.use(['form', 'table','upload'], function () {
    				v[f[index].name] = f[index].value;
    			}
 	   	} 
+	   	v.userId = authUser.uid;
+        v.roleId = authUser.roleId;
         if (obj.event === 'lead_excel_out') {  // 监听添加操作
         	$.ajax({
      			url: "/maintain/export",

@@ -86,4 +86,16 @@ public class WxEqmentController {
         logger.info("删除设备信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("删除设备信息").setParam(imeis));
         return equipmentService.deleteInfo(imeis, userId);
     }
+    
+    @ApiOperation(value = "queryInfo",
+            notes = "<br>@description: <b>查询单个设备/b></br>" +
+                    "<br>@Return: <b>以区为单位进行区分</b></br>" +
+                    "<br>@Date: <b>2019-12-30 10:33:36</b></br>",
+            httpMethod = "GET")
+    @ApiResponses({@ApiResponse(code = 0, message = "回调参数", response = EqptInfoDto.class)})
+    @GetMapping("/queryOneDev")
+    public Response queryOneDev(@Validated WxEquipment wxEquipment, HttpServletRequest request) {
+		logger.info("查询用户设备信息>> {}",new Log().setIp(request.getRemoteAddr()).setParam(wxEquipment));
+        return equipmentService.queryOneDev(wxEquipment);
+    }
 }

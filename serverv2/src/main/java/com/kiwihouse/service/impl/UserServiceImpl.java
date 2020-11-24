@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.DataType;
+import com.kiwihouse.controller.account.params.UserParams;
 import com.kiwihouse.dao.entity.AuthRole;
 import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.dao.entity.AuthUserRole;
+import com.kiwihouse.dao.entity.UserDev;
 import com.kiwihouse.dao.mapper.AuthRoleMapper;
 import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
@@ -118,6 +120,16 @@ public class UserServiceImpl implements UserService {
 					return new Response().Fail(Code.UPDATE_SUCCESS,Code.UPDATE_SUCCESS.getMsg());
 				}
 			}
+			if(authUser.getEqptIds() != null ) {
+				String [] deptArr = authUser.getEqptIds().split(",");
+				List<UserDev> roleDevList = new ArrayList<UserDev>();
+		        for(int i = 0;i<deptArr.length;i++) {
+		        	UserDev userDev = new UserDev(authUser.getUid(),Integer.valueOf(deptArr[i]));
+		        	roleDevList.add(userDev);
+		        }
+		        equipmentMapper.deleteUserDev(authUser.getUid());
+		        equipmentMapper.insertUserDevList(roleDevList);
+			}
 			return new Response().Fail(Code.UPDATE_SUCCESS,Code.UPDATE_SUCCESS.getMsg());
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -154,12 +166,22 @@ public class UserServiceImpl implements UserService {
 		authUser.setSalt(salt);
 		authUser.setPassword(Md5Util.md5(authUser.getPassword() + salt));
 		// TODO Auto-generated method stub
-		authUserMapper.insertSelective(authUser);
-		AuthUserRole authUserRole = new AuthUserRole();
-		authUserRole.setRoleId(authUser.getRoleId());
-		authUserRole.setUserId(authUser.getUid());
-		
-		authUserRoleMapper.insert(authUserRole);
+		int count = authUserMapper.insertSelective(authUser);
+		if(count>0) {
+			//用户角色
+			AuthUserRole authUserRole = new AuthUserRole();
+			authUserRole.setRoleId(authUser.getRoleId());
+			authUserRole.setUserId(authUser.getUid());
+			authUserRoleMapper.insert(authUserRole);
+			//用户设备
+			String [] deptArr = authUser.getEqptIds().split(",");
+			List<UserDev> roleDevList = new ArrayList<UserDev>();
+	        for(int i = 0;i<deptArr.length;i++) {
+	        	UserDev userDev = new UserDev(authUser.getUid(),Integer.valueOf(deptArr[i]));
+	        	roleDevList.add(userDev);
+	        }
+	        equipmentMapper.insertUserDevList(roleDevList);
+		}
 		return new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg());
 	}
 
@@ -191,5 +213,13 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		AuthUser authUser = authUserMapper.queryByPhone(phone);
 		return new Response().Success(6666, "查询成功").addData("data", authUser);
+	}
+	/**
+	 * 修改用户的openId、和unionId
+	 */
+	@Override
+	public void updateByVxId(UserParams params) {
+		// TODO Auto-generated method stub
+		authUserMapper.updateByVxId(params);
 	}
 }

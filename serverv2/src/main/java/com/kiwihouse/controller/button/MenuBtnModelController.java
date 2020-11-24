@@ -71,7 +71,7 @@ public class MenuBtnModelController extends BaseController {
 	}
 
 	@ApiOperation(value = "info", notes = "<br>@description: <b>删除模板一个菜单所有按钮</b></br>"
-			+ "<br>@Date: <b>2020-3-5 16:39:06</b></br>", httpMethod = "POST")
+			+ "<br>@Date: <b>2020-3-5 16:39:06</b></br>", httpMethod = "DELETE")
 	@ApiResponses(@ApiResponse(code = 0, message = "回调参数：只有code和msg,无具体数据result"))
 	@DeleteMapping("/{menuId}")
 	public Response deleteModelBtn(@PathVariable Integer menuId) {

@@ -35,7 +35,7 @@ public class SysMenuController {
 	@Autowired
 	SysDictionaryMapper sysDictionaryMapper;
 	
-	@ApiOperation(value = "根据UID获取用户所属菜单显示在左侧导航栏", httpMethod = "GET",notes = "根据UID")
+	@ApiOperation(value = "根据UID获取用户所属菜单显示在左侧导航栏", httpMethod = "POST",notes = "根据UID")
 	@PostMapping("/authMenuList")
 	@ResponseBody
 	public Response getAuthMenuList(Integer roleId) {
@@ -64,7 +64,7 @@ public class SysMenuController {
 		return new Response().Success(6666,"return menu list success").addData("menuTree",jo);
 	}
 	
-	@ApiOperation(value = "根据UID获取用户所属菜单 --->包括已删除的菜单", httpMethod = "GET",notes = "根据UID")
+	@ApiOperation(value = "根据UID获取用户所属菜单 --->包括已删除的菜单", httpMethod = "POST",notes = "根据UID")
 	@PostMapping("/authMenuLists")
 	@ResponseBody
 	public Response getAuthMenuLists(Integer roleId) {
@@ -128,7 +128,7 @@ public class SysMenuController {
 //        }
 //    }
 	
-	@ApiOperation(value = "根据RoleID获取静态按钮页面", httpMethod = "GET",notes = "根据RoleID")
+	@ApiOperation(value = "根据RoleID获取静态按钮页面", httpMethod = "POST",notes = "根据RoleID")
 	@PostMapping("/authMenuButtonLists")
 	@ResponseBody
 	public Response authMenuButtonLists(Integer roleId) {

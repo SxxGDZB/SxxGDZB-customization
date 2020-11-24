@@ -196,6 +196,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 		// TODO Auto-generated method stub
 		try {
 			EqptInfoDto eqpt = equipmentMapper.selectOneInfo(eqptQueryVo);
+			if (redisUtil.hasKey(eqpt.getImei())) {
+          	  eqpt.setEqptStatus(String.valueOf(Code.ONLINE.getCode()));
+            }else {
+            	eqpt.setEqptStatus(String.valueOf(Code.NOTONLINE.getCode()));
+            }
 			if(eqpt != null) {
 				return new Response().Success(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg()).addData("data", eqpt);
 			}

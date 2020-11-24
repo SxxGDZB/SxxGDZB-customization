@@ -1,5 +1,6 @@
 package com.kiwihouse.dao.mapper;
 
+import com.kiwihouse.controller.account.params.UserParams;
 import com.kiwihouse.dao.entity.AuthUser;
 
 import org.springframework.dao.DataAccessException;
@@ -179,4 +180,9 @@ public interface AuthUserMapper {
 	 * @return
 	 */
 	AuthUser queryByPhone(String phone);
+	/**
+	 * 	修改用户的openId、和unionId
+	 * @param params
+	 */
+	void updateByVxId(UserParams params);
 }

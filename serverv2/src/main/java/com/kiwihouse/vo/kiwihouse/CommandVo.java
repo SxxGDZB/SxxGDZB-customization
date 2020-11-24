@@ -19,7 +19,7 @@ import lombok.ToString;
 @Setter
 public class CommandVo{
 
-    @Imei
+//    @Imei
     @NotBlank(message = "imei is not null")
     private String imei;
 

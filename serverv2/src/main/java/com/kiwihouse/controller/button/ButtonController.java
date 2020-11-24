@@ -108,9 +108,9 @@ public class ButtonController extends BaseController{
     }
     
     @ApiOperation(value = "update",
-            notes = "<br>@description: <b>添加按钮信息</b></br>" +
+            notes = "<br>@description: <b>修改按钮信息</b></br>" +
                     "<br>@Date: <b>2020-3-5 16:39:06</b></br>",
-            httpMethod = "POST")
+            httpMethod = "PUT")
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
     @PutMapping("/upd")
     public Response updInfo(@RequestBody @Validated Buttons resourceButtons, HttpServletRequest request){

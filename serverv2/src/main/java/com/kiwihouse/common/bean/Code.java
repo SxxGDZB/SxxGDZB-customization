@@ -98,7 +98,7 @@ public enum Code {
     LOGIN_DUE(8006,"登录失效"),
     LOGIN_NO(8007,"用户未登录"),
     EXIT_SUCC(8008,"用户退出系统成功"),
-
+    WX_LOGIN_NULL(8009,"登录凭证不能为空"),
     ONLINE(9000,"设备在线"),
     NOTONLINE(9001,"设备不在线"),
     DEVICEID_INEXISTENCE(9002,"deviceId不存在"),

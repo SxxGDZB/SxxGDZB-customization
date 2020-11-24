@@ -643,6 +643,7 @@ var _alarmIcons = function (v,e){
  */
 function tabMenuId(){
 	var elm = $(".layui-tab-item.layui-show", parent.document).find("iframe");
+	console.log("==============>" + elm[0].getAttribute("lay-menuid"));
 	return elm[0].getAttribute("lay-menuid");
 }
 

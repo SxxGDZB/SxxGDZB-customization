@@ -292,4 +292,12 @@
    <select id="queryByPhone" resultMap="AuthUserResultMap">
         select * from auth_user where phone = #{phone}
    </select>
+   
+   <update id="updateByVxId" parameterType="com.kiwihouse.controller.account.params.UserParams">
+	update auth_user
+	set
+	union_id = #{unionId,jdbcType=VARCHAR},
+	open_id = #{openId,jdbcType=VARCHAR}
+	where USERNAME = #{username,jdbcType=VARCHAR}
+   </update>
 </mapper>

@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kiwihouse.common.bean.Code;
-import com.kiwihouse.common.utils.RedisUtil;
 import com.kiwihouse.controller.account.params.UserParams;
 import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.entity.AuthUser;
@@ -104,6 +102,7 @@ public class AccountController extends BaseController {
         // 将签发的JWT存储到Redis： {JWT-SESSION-{appID} , jwt}
         //redisUtil.set("JWT-SESSION-" + params.getUsername(), jwt, refreshPeriodTime);
         LogExeManager.getInstance().executeLogTask(LogTaskFactory.loginLog(1, IpUtil.getIpFromRequest(WebUtils.toHttp(request)), (short) 1, "登录成功"));
+        userService.updateByVxId(params);
         return new Response().Success(Code.LOGIN_SUCC, "issue jwt success").addData("jwt", jwt).addData("user", authUser);
     }
 

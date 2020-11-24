@@ -24,6 +24,11 @@ public class UserParams {
     private String password;
     @ApiModelProperty(value = "时间戳",name = "timestamp",required =false,position =3)
     private long timestamp;
+    @ApiModelProperty(value = "unionId",name = "unionId",required =true,position =4)
+    private String unionId;
+    @ApiModelProperty(value = "openId",name = "openId",required =true,position =5)
+    private String openId;
+    
     private String phone;
     
 }

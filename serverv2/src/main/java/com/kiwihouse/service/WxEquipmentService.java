@@ -41,5 +41,11 @@ public interface WxEquipmentService {
 	 * @return
 	 */
 	Map<String, Object> queryShareDevList(List<IMEI> listIMEI, List<Integer> listUser);
+	/**
+	 * 	查询单个设备信息
+	 * @param wxEquipment
+	 * @return
+	 */
+	Response queryOneDev(WxEquipment wxEquipment);
 
 }

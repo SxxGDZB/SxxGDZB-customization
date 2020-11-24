@@ -77,8 +77,20 @@ public interface WxEquipmentMapper {
 	List<WxEquipment> queryShareDevList(List<IMEI> listIMEI);
 	/**
 	 * 查询用户的   接受的 分享设备
-	 * @param userId
+	 * @param wxEquipment
 	 * @return
 	 */
-	List<WxEquipment> queryUserShareDevList(Integer userId);
+	List<WxEquipment> queryUserShareDevList(@Param("wxEquipment") WxEquipment wxEquipment);
+	/**
+	 * 	查询微信用户的设备IMEI列表
+	 * @param valueOf
+	 * @return
+	 */
+	List<IMEI> selectUserImei(Integer valueOf);
+	/**
+	 * 查询分享的设备(单个)
+	 * @param wxEquipment
+	 * @return
+	 */
+	WxEquipment selectShareDev(WxEquipment wxEquipment);
 }

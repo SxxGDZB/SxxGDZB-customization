@@ -36,7 +36,13 @@
             <input type="text" name="phone" lay-verify="required||isExistByPhone" lay-filter="phone" placeholder="请输入手机号" value="" class="layui-input">
         </div>
     </div>
-   
+   <div class="layui-form-item ">
+        <label class="layui-form-label">选择设备</label>
+        <div class="layui-input-inline">
+            <!-- <input type="text" name="name" placeholder="请输入" lay-verify="required" lay-reqtext="资源名称不能为空" autocomplete="off" class="layui-input" id="demo"> -->
+            <textarea name="name" placeholder="请点击选择"  lay-reqtext="资源名称不能为空" autocomplete="off" id="demo" class="layui-textarea"></textarea>
+        </div>
+    </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block _submitBtn" >
@@ -81,12 +87,40 @@ var names = [];
         }
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            data.field.menuIds = $("#demo").attr('data-ids');
             data.field.password = hex_md5(data.field.password);
+            data.field.eqptIds = $("#demo").attr('data-ids');
+            console.log(data.field)
             ADD("/user/add",data.field);
             return false;
         });
-        
+        $("#demo").attr("ts-selected","");
+        $("#demo").text("");
+        tableSelect.render({
+            elem: '#demo',
+            searchKey: 'eqptName',
+            checkedKey: 'eqptId',
+            searchPlaceholder: '根据资源名称搜索',
+            table: {
+                url: getRootPath() + '/equipment/all',
+                headers: { "Authorization": authorization},
+                where:{"roleId":authUser.roleId,"userId":authUser.uid},
+                cols: [[
+                    { type: 'checkbox' },
+                    { field: 'eqptName', title: '设备名称', width: '50%' },
+                    { field: 'imei', title: 'imei', width: '50%' }
+                ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                var NEWJSONIDS = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.eqptName)
+                    NEWJSONIDS.push(item.eqptId);
+                })
+                elem.val(NEWJSON.join(","))
+                elem.attr("data-ids",NEWJSONIDS.join(","));
+            }
+        })
         /*自定义验证*/
         form.verify({
             //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]/^([1-9]||[1-9][0-9])\.[0-9]\.[0-9]$/

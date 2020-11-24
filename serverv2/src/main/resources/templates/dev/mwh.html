@@ -16,6 +16,12 @@
     		height: 350px;
     		width: 33.3333;
     	}
+    	._gre{
+    	   color: green;
+    	}
+    	._red{
+    	   color: red;
+    	}
     </style>
 </head>
 <body>
@@ -29,6 +35,8 @@
 		      	<span class="_imei"></span>
 		      	<span>设备类型：</span>
 		      	<span class="_eqptType"></span>
+		      	<span>设备状态：</span>
+                <span class="_eqptStatus"></span>
 		      	<span>最新读数</span>
 		      	<span><i class="layui-icon layui-icon-refresh"></i></span>
 		      	<br>
@@ -160,6 +168,8 @@
 	    		eqptType = data.data[0].eqptType;
 		    	$("._imei").text(data.data[0].imei);
 		    	$("._address").text(data.data[0].province + data.data[0].city +  data.data[0].district + data.data[0].address);
+		    	$("._eqptStatus").text(data.data[0].eqptStatus == "9000" ? '在线':'离线')
+		    	$("._eqptStatus").addClass(data.data[0].eqptStatus == "9000" ? '_gre':'_red')
 		    	if(data.data[0].eqptType == 0){
 		    		$("._eqptType").attr('data-type',data.data[0].eqptType);
 		    		$("._eqptType").text('单相设备');
@@ -588,7 +598,8 @@
 		    	if(eqptType != 1){
 		    		$("._single").show();
 		    		$("._triple").hide();
-		    		$("._time").text(vData.addTime);
+		    		console.log(vData);
+		    		$("._time").text(typeof(vData) == 'undefined' ? '':vData.addTime);
 		    		$.each($("._single").children().children(".grid-demo"),function(){
 		    			/*根据ID 设置不同仪表盘参数*/
 		    			_chart($(this).attr('id')).setOption(_singleOption($(this)));
@@ -611,10 +622,20 @@
 	}
 	/*点击刷新按钮--->上报*/
 	$(".layui-icon-refresh").on('click',function(){
-		oneNet(onenetVariable($("._imei").text(),$("._eqptType").attr('data-type'),2),true,window);
-		setTimeout(function(){
-			initPanel();
-			},1000 * 2 );
+		if($("._eqptStatus").text() == '在线'){
+			oneNet(onenetVariable($("._imei").text(),$("._eqptType").attr('data-type'),2),true,window);
+	        setTimeout(function(){
+	            initPanel();
+	            },1000 * 2 );
+		}else{
+			layer.msg('设备当前不在线', {
+                icon: 2,
+                offset:'rt',
+                anim: 2,
+                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+	        });
+		}
+		
 	})
 	//监听浏览器大小变化重新渲染
 	window.onresize = function () {

@@ -3,6 +3,7 @@ package com.kiwihouse.dao.mapper;
 import java.util.List;
 
 import com.kiwihouse.dao.entity.DevHistoryDate;
+import com.kiwihouse.dao.entity.DevHistoryThree;
 import com.kiwihouse.vo.kiwihouse.ReportedQueryVo;
 
 public interface DevHistoryDateMapper {
@@ -35,4 +36,10 @@ public interface DevHistoryDateMapper {
 	 * @return
 	 */
 	List<DevHistoryDate> queryPwr(ReportedQueryVo reportedQueryVo);
+	/**
+	 * 查询历史记录
+	 * @param reportedQueryVo
+	 * @return
+	 */
+	List<DevHistoryThree> historyDevInfoThree(ReportedQueryVo reportedQueryVo);
 }

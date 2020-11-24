@@ -210,6 +210,8 @@ layui.use(['form', 'table','miniTab','upload'], function () {
        				v[f[index].name] = f[index].value;
        			}
     	   	}
+    	   	v.userId = authUser.uid;
+    	   	v.roleId = authUser.roleId;
         	$.ajax({
      			url: "/equipment/export",
      			type : "POST",

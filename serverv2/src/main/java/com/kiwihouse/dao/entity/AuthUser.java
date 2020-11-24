@@ -39,7 +39,17 @@ public class AuthUser {
     
     private String menuIds;
     
-    public String getMenuIds() {
+    private String eqptIds;
+    
+    public String getEqptIds() {
+		return eqptIds;
+	}
+
+	public void setEqptIds(String eqptIds) {
+		this.eqptIds = eqptIds;
+	}
+
+	public String getMenuIds() {
 		return menuIds;
 	}
 

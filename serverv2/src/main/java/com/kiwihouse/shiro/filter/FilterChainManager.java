@@ -86,6 +86,7 @@ public class FilterChainManager {
         filterChain.put("/favicon.ico","anon");
         filterChain.put("/*/common/download","anon");
         filterChain.put("/webSocket/**","anon");
+        filterChain.put("/decrypt/decodeUserInfo", "anon");
         // -------------auth 默认需要认证过滤器的URL 走auth--PasswordFilter
         List<String> defalutAuth = Arrays.asList("/account/**");
         defalutAuth.forEach(auth -> filterChain.put(auth, "auth"));

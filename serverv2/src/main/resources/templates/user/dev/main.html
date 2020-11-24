@@ -12,6 +12,24 @@
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
+         <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane _dev_form" action="">
+                        <div class="layui-form-item">
+					        <label class="layui-form-label required">选择用户</label>
+					        <div class="layui-input-inline">
+					            <select name="userId" lay-verify="required" lay-filter="userId" lay-reqtext="角色不能为空"  placeholder="所属角色" id="userId">
+					                <option value="">所属用户</option>
+					            </select>
+					        </div>
+					        <div class="layui-inline">
+                                <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            </div>
+					    </div>
+                </form>
+            </div>
+        </fieldset>
         <!-- <div class="layui-btn-container">
                 <div class="layui-inline" lay-event="add"><i class="iconfont"  data-toggle="tooltip" title="添加" >&#xeb8f;</i></div>
             </div> -->
@@ -44,6 +62,29 @@ layui.use(['form', 'table','miniTab'], function () {
         jsonEntity.userId = authUser.uid;
         _init_buttons_common();
         loadTable(jsonEntity);
+        initSelectUser();
+        //加载用户列表
+        function initSelectUser(){
+            $.ajax({
+                url: "/role/user/all/"+authUser.roleId+"/" + authUser.uid,
+                type : "POST",
+                dataType : "json",
+                contentType: "application/json;charset=utf-8",
+                headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+                success:function(data){
+                    if(data.success){
+                        var html = "";
+                        data.data.list.forEach(function(item){
+                            html += "<option value="+item.uid+"> "+item.username+" </option>"
+                        });
+                        $("#userId").append(html);
+                        form.render();
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+        }
      //监听搜索操作
      form.on('submit(data-search-btn)', function (data) {
          var result = JSON.stringify(data.field);

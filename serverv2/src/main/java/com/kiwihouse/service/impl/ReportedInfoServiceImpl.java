@@ -29,6 +29,7 @@ import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.dao.mapper.DevInfoMapper;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.dao.mapper.ReportedInfoMapper;
+import com.kiwihouse.dao.mapper.WxEquipmentMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.AlarmEqptDto;
 import com.kiwihouse.dto.FirePwrDto;
@@ -62,6 +63,8 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 	AuthRoleMapper authRoleMapper;
 	@Autowired
 	AuthUserMapper authUserMapper;
+	@Autowired
+	WxEquipmentMapper wxEquipmentMapper;
 	static final Object room = new Object();
 	static List<FirePwrDto>  lists = new ArrayList<FirePwrDto>();
     /**
@@ -329,7 +332,14 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 	public Map<String, Object> queryAlmInfo(AlmQueryVo almQueryVo) {
     	 Map<String, Object> map = new HashMap<String, Object>();
         //获取角色的设备IMEI号
-    	List<IMEI> imeiList = equipmentMapper.selectUserImei(Integer.valueOf(almQueryVo.getRoleId()),Integer.valueOf(almQueryVo.getUserId()));
+    	 List<IMEI> imeiList = new ArrayList<IMEI>();
+    	if(almQueryVo.getRoleId().equals("103")) {
+    		IMEI imei = new IMEI(almQueryVo.getImei());
+    		imeiList.add(imei);
+    	}else {
+    		imeiList = equipmentMapper.selectUserImei(Integer.valueOf(almQueryVo.getRoleId()),Integer.valueOf(almQueryVo.getUserId()));
+    	}
+    	
         //查询用电设备工单
     	//AuthRole authRole =  authRoleMapper.selectIsAdmin(Integer.valueOf(almQueryVo.getUserId()));
     	AuthUser auth = authUserMapper.selectByPrimaryKey(Integer.valueOf(almQueryVo.getUserId()));

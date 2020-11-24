@@ -73,7 +73,7 @@
                 table: {
                     url: getRootPath() + '/button/info',
                     headers: { "Authorization": authorization},
-                    where:{"roleId":$("#roleId").val(),"menuId":data.value},
+                    where:{"roleId":authUser.roleId,"menuId":data.value},
                     cols: [[
                         { type: 'checkbox' },
                         { field: 'title', title: '按钮名称', width: '50%' },
@@ -97,7 +97,7 @@
                 }
             })
             $.ajax({
-                url: "/button/info?roleId=" + $("#roleId").val() + "&menuId=" + data.value +"&trigger=2",
+                url: "/button/info?roleId=" + authUser.roleId + "&menuId=" + data.value +"&trigger=2",
                 type : "GET",
         　　                                  dataType : "json",
                 async : false,

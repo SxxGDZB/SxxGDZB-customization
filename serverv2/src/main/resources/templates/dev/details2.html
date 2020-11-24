@@ -35,10 +35,13 @@
 		           
 		            <label class="layui-form-label">设备地址</label>
 		           <div class="layui-form-mid layui-word-aux _address"></div>
+		           <div>
+		               <button type="button" class="layui-btn layui-btn-primary lead_excel_out" style="float: right;margin-right: 8%">导出实时数据</button>
+		           </div>
 		    </div>
 		</div>
 		<div class="layui-row layui-col-space5">
-			<div class="layui-inline" style="width: 320px;">
+			<div class="layui-inline" style="width: 320px;margin-left: 3.5%">
 			        <input type="text" class="layui-input" id="times" width="300px;">
 			</div>
 	        <div class="layui-col-xs24 layui-col-md12">
@@ -113,6 +116,7 @@
 		        	$(".laydate-btns-confirm").trigger('click');
         		})
             },done: function(value, date, endDate){
+            	console.log("============>" + value)
             	//监听时间选择框
             	if(value.length != 0){
                     var jsonEntity = {};
@@ -120,17 +124,20 @@
                 	jsonEntity.imei =  $.getUrlParam("imei");
                 	jsonEntity.startTime = $.trim(arr[0]);
                 	jsonEntity.eqptType = $.getUrlParam("eqptType");
-                	 jsonEntity.roleId = authUser.roleId;
-                	 jsonEntity.userId = authUser.uid;
+                	jsonEntity.roleId = authUser.roleId;
+                	jsonEntity.userId = authUser.uid;
                 	var d = new Date($.trim(arr[1]));
                 	jsonEntity.endTime = fun_days(1,d).substring(0,10);
+                	console.log(jsonEntity);
                 	loadAlarmTable(jsonEntity);
                 	if(jsonEntity.eqptType == 0){
+                		console.log(jsonEntity);
                 		alarmHistoryOnePhaseLoad(jsonEntity);
                 	}else if(jsonEntity.eqptType == 1){
+                		console.log(jsonEntity);
                 		alarmHistoryThreePhaseLoad(jsonEntity);
                 	}
-                	
+                	initEchartsDate(jsonEntity);
             	}
               }
          });
@@ -154,16 +161,17 @@
     		    	}
     		   });
     	}
+    	var arr = value.split(" - ");
+        var e = {};
+        e.startTime = $.trim(arr[0]);
+        e.imei = $.getUrlParam("imei");
+        e.eqptType = $.getUrlParam("eqptType");
+        var d = new Date($.trim(arr[1]));
+        e.endTime = fun_days(1,d).substring(0,10);
         /*初始化加载设备读数*/
-    	initEchartsDate();
-    	function initEchartsDate(){
-    		var arr = value.split(" - ");
-	        var e = {};
-	        e.startTime = $.trim(arr[0]);
-	        e.imei = $.getUrlParam("imei");
-	        e.eqptType = $.getUrlParam("eqptType");
-	        var d = new Date($.trim(arr[1]));
-        	e.endTime = fun_days(1,d).substring(0,10);
+    	initEchartsDate(e);
+    	function initEchartsDate(e){
+    		
     		$.ajax({
         		url: "/history/info",
         	    type: "GET",
@@ -175,15 +183,15 @@
         	    	if(e.eqptType == 0){
         	    		echartsRecords.setOption(_optionOnePhaseRecords(data.data.data));
         	    		//初始化加载历史数据列表-----> 单相
-        	            alarmHistoryOnePhaseLoad(jsonEntity);
+        	            alarmHistoryOnePhaseLoad(e);
         	          //初始化加载告警列表
-        	            loadAlarmTable(jsonEntity);
+        	            loadAlarmTable(e);
         	    	}else if(e.eqptType == 1){
         	    		echartsRecords.setOption(_optionThreePhaseRecords(data.data.data));
         	    		//初始化加载历史数据列表 --->三相
-        	    		alarmHistoryThreePhaseLoad();
+        	    		alarmHistoryThreePhaseLoad(e);
         	    		//初始化加载告警列表
-        	            loadAlarmTable(jsonEntity);
+        	            loadAlarmTable(e);
         	    	}
         	    	}
         	 });
@@ -235,7 +243,7 @@
     	    });
     	}
     	/*三相设备*/
-    	function alarmHistoryThreePhaseLoad(){
+    	function alarmHistoryThreePhaseLoad(jsonEntity){
     		table.render({
     	        elem: '#alarmHistory',
     	        url: getRootPath() + '/history/selectAll',
@@ -275,7 +283,7 @@
     	    });
     	}
     	
-    	function alarmHistoryOnePhaseLoad(){
+    	function alarmHistoryOnePhaseLoad(jsonEntity){
     		table.render({
     	        elem: '#alarmHistory',
     	        url: getRootPath() + '/history/selectAll',
@@ -497,6 +505,34 @@
 	window.onresize = function () {
     	echartsRecords.resize();
     }
+	
+	$(".lead_excel_out").on('click',function(){
+        var v = {};
+		v.userId = authUser.uid;
+        v.roleId = authUser.roleId;
+        v.imei =  $.getUrlParam("imei");
+        v.eqptType = $.getUrlParam("eqptType");
+        var arr = $("#times").val().split(" - ");
+        var d = new Date($.trim(arr[1]));
+        v.endTime = fun_days(1,d).substring(0,10);
+        v.startTime = $.trim(arr[0]);
+        console.log(v)
+        $.ajax({
+            url: "/history/export",
+            type : "POST",
+		    　　      dataType : "json",
+		    　　      data:JSON.stringify(v),
+		    　　      contentType: "application/json;charset=utf-8",
+		            headers: { "authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+		            success:function(data){
+		                if(data.success){
+		                    window.location.href = "/maintain/common/download?fileName=" + data.data.filename + "&delete=" + true;
+		                }else{
+		                    layer.msg(data.msg,{icon: 5, time: 2000});
+		                }
+		            }
+		        });
+	})
 </script>
 </body>
 </html>
