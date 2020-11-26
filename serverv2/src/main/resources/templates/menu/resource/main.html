@@ -28,12 +28,36 @@
 var dataRow,table;
 var currentPage = 1;
 var jsonEntity = {};
+var currCount = 10;
 layui.use(['form', 'table'], function () {
     var $ = layui.jquery,
         form = layui.form;
         table = layui.table;
     jsonEntity.menuId = window.parent.dataRow.id;
-    //_init_buttons_common();
+    
+    indexHome(window).backPage = {
+    	pageMenuId:window.parent.dataRow.id,
+    	pageWindows:window,
+    	jsonEntity:jsonEntity,
+    	currentPage:currentPage
+    }
+    $.ajax({
+        url: "/menu/queryOneMenuByUrl?url=" + indexHome(window).staticResource.get("MENU_MODEL_MANAGER_PAGE"),
+        type: "POST",
+        dataType : "json",
+        cache:true, 
+        async:false, 
+　　                 contentType: "application/json;charset=utf-8",
+        headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+        success:function(data){
+              if(data.data.data != null){
+            	  _init_buttons_common(data.data.data.id);
+              }
+        }
+     })
+    
+    
+    
     loadTickets(jsonEntity);
     // 监听搜索操作
     form.on('submit(data-search-btn)', function (data) {
@@ -52,15 +76,25 @@ layui.use(['form', 'table'], function () {
      */
     table.on('toolbar(currentTableFilter)', function (obj) {
         if (obj.event === 'add') {  // 监听添加操作
-            openPopUp('添加','RESOURCE_ADD_PAGE');
+        	homeOpen('添加','MENU_RES_MODEL_ADD_PAGE');
         } else if (obj.event === 'delete') {  // 监听删除操作
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
-            var idArr = [];
-            $.each(data,function(index,xx){
-                idArr.push(xx.id);
-                DELETE("/resource/menu/"+idArr.join(','));
-            })
+            if(currCount == data.length){
+            	if(currentPage != 1){
+            		currentPage = currentPage - 1;
+            	}
+            }
+            if(data.length > 0){
+            	 var idArr = [];
+            	 $.each(data,function(index,xx){
+                     idArr.push(xx.id);
+                 })
+                 DELETE("/menuresmodel/"+idArr.join(','));
+            }else{
+            	layer.msg("请选择要删除的资源");
+            }
+           
         }
     });
 });
@@ -68,7 +102,7 @@ layui.use(['form', 'table'], function () {
 function loadTickets(jsonEntity){
     table.render({
         elem: '#currentTableId',
-        url: getRootPath() + '/menures/info/',
+        url: getRootPath() + '/menuresmodel/info/',
         headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
         where : jsonEntity,
         async : false,
@@ -93,6 +127,8 @@ function loadTickets(jsonEntity){
         skin: 'line',
         done : function(res, curr, count) {
             currentPage = curr;
+        	currCount = res.data.length;
+            indexHome(window).backPage.currentPage = curr
         }
     });
 }

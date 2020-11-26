@@ -282,4 +282,8 @@
 			LEFT JOIN button b on b.id = mbm.button_id 
 			WHERE sm.id in(SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId} AND sm.page_type = 1 ) 
 	</select>
+	
+	<select id="queryOneMenuByUrl" resultType="com.kiwihouse.dao.entity.SysMenu">
+	   SELECT * FROM sys_menu WHERE URL = #{url}
+	</select>
 </mapper>

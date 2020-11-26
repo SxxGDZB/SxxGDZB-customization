@@ -184,7 +184,7 @@
                 })
                 console.log(res);
                 res.data.forEach(function(item,index){
-                	if(item.pageType != 1){
+                	if(item.pageType < 1){
                 		 $.each($("tbody").find("tr").eq(index),function(){
                              $.each($(this).find("td"),function(){
                                  if($(this).attr("data-field") == "comp"){

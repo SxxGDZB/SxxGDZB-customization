@@ -185,7 +185,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
     	    	var xx = data.data.data;
     	    	var timeArray = new Array();
     	    	if(data.code == 2000){
-        	    	timeArray = xx.addTime;
+        	    	timeArray = xx.addTime == null ? new Array():xx.addTime;
         	    	var v = {};
         	    	var dataZoom = {};
         	    	var title = {};

@@ -41,13 +41,13 @@
 				and sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId})
   			</when>
   			<when test="trigger ==2 ">
-				SELECT count(*) FROM sys_menu  
+				SELECT count(*) FROM sys_menu  WHERE visible > 0
   			</when>
   			<when test="trigger ==3 ">
   				SELECT count(*) FROM `auth_role_menu` arm 
 		    	INNER JOIN sys_menu sys on arm.menu_id = sys.id 
 		    	INNER JOIN auth_role ar on  ar.id = arm.role_id
-		    	WHERE 1=1
+		    	WHERE visible > 0
 	    		<if test="roleId != null and roleId !=''">
 	    			AND arm.ROLE_ID = #{roleId}
 	    		</if>
@@ -85,13 +85,13 @@
 				AND sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId})
   			</when>
   			<when test="trigger ==2 ">
-				SELECT id ,parent_id,name ,url FROM sys_menu  
+				SELECT id ,parent_id,name ,url FROM sys_menu  WHERE visible > 0
   			</when>
   			<when test="trigger ==3 ">
   				SELECT arm.role_id ,sys.id,sys.parent_id,sys.name ,sys.url,ar.`CODE` FROM `auth_role_menu` arm 
 		    	INNER JOIN sys_menu sys on arm.menu_id = sys.id 
 		    	INNER JOIN auth_role ar on  ar.id = arm.role_id
-		    	WHERE 1=1
+		    	WHERE visible > 0
 	    		<if test="roleId != null and roleId !=''">
 	    			AND arm.ROLE_ID = #{roleId}
 	    		</if>

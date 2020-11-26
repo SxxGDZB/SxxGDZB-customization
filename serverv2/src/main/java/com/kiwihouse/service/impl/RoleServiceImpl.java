@@ -18,11 +18,14 @@ import com.kiwihouse.dao.entity.AuthRoleMenu;
 import com.kiwihouse.dao.entity.AuthRoleResource;
 import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.dao.entity.AuthUserRole;
+import com.kiwihouse.dao.entity.MenuRes;
 import com.kiwihouse.dao.mapper.AuthRoleMapper;
 import com.kiwihouse.dao.mapper.AuthRoleMenuMapper;
 import com.kiwihouse.dao.mapper.AuthRoleResourceMapper;
 import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
+import com.kiwihouse.dao.mapper.MenuResMapper;
+import com.kiwihouse.dao.mapper.MenuResModelMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.RoleService;
 
@@ -46,6 +49,10 @@ public class RoleServiceImpl implements RoleService {
     
     @Autowired
 	AuthUserRoleMapper authUserRoleMapper;
+    @Autowired
+    MenuResMapper menuResMapper;
+    @Autowired
+    MenuResModelMapper menuResModelMapper;
     @Override
     public boolean authorityRoleResource(int roleId, int resourceId) throws DataAccessException {
         AuthRoleResource authRoleResource = new AuthRoleResource();
@@ -69,6 +76,15 @@ public class RoleServiceImpl implements RoleService {
         		AuthRoleMenu authRoleMenu = new AuthRoleMenu(role.getId(), Integer.valueOf(menuIds[i]));
         		list.add(authRoleMenu);
         	}
+        	//菜单资源初始化
+        	List<MenuRes> menuResList = role.getMenuResList();
+        	if(menuResList == null) {
+        		menuResList = menuResModelMapper.queryMenuResByMenuIds(menuIds);
+        	}
+        	menuResList.forEach(xx ->{
+        		xx.setRoleId(role.getId());
+        	});
+        	menuResMapper.insertBatch(menuResList);
         	authRoleMenuMapper.insertBatch(list);
         }
         return num == 1? Boolean.TRUE : Boolean.FALSE;
@@ -85,6 +101,16 @@ public class RoleServiceImpl implements RoleService {
         		AuthRoleMenu authRoleMenu = new AuthRoleMenu(role.getId(), Integer.valueOf(menuIds[i]));
         		list.add(authRoleMenu);
         	}
+        	menuResMapper.delMenuResByRoleId(role.getId());
+        	List<MenuRes> menuResList = role.getMenuResList();
+        	if(menuResList == null) {
+        		menuResList = menuResModelMapper.queryMenuResByMenuIds(menuIds);
+        	}
+        	menuResList.forEach(xx ->{
+        		xx.setRoleId(role.getId());
+        	});
+        	menuResMapper.insertBatch(menuResList);
+        	
         	authRoleMenuMapper.insertBatch(list);
         }
         return num == 1? Boolean.TRUE : Boolean.FALSE;
@@ -98,8 +124,9 @@ public class RoleServiceImpl implements RoleService {
     		return new Response().Fail(Code.DELETE_FAIL,Code.DELETE_FAIL.getMsg());
     	}
         int num = authRoleMapper.deleteByPrimaryKey(roleId);
-        authRoleMenuMapper.deleteByRole(roleId);
         if(num > 0) {
+        	authRoleMenuMapper.deleteByRole(roleId);
+            menuResMapper.delMenuResByRoleId(roleId);
         	return new Response().Success(Code.DELETE_SUCCESS,Code.DELETE_SUCCESS.getMsg());
         }else {
         	return new Response().Fail(Code.DELETE_FAIL,Code.DELETE_FAIL.getMsg());

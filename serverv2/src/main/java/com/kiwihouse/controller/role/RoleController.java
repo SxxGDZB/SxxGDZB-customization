@@ -157,7 +157,7 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "添加角色", httpMethod = "POST")
     @PostMapping("")
     public Response addRole(@RequestBody AuthRole role) {
-
+    	System.out.println(role.toString());
         boolean flag = roleService.addRole(role);
         if (flag) {
             return new Response().Success(6666, "add role success");

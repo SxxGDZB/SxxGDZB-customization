@@ -1,6 +1,7 @@
 package com.kiwihouse.dao.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *   角色
@@ -25,6 +26,9 @@ public class AuthRole {
     private Integer parentId;
     
     private String menuIds;
+    
+    private List<MenuRes> menuResList;
+    
 //    
 //    private Integer roleId;
 //    
@@ -37,6 +41,14 @@ public class AuthRole {
 //	public void setRoleId(Integer roleId) {
 //		this.roleId = roleId;
 //	}
+
+	public List<MenuRes> getMenuResList() {
+		return menuResList;
+	}
+
+	public void setMenuResList(List<MenuRes> menuResList) {
+		this.menuResList = menuResList;
+	}
 
 	public String getMenuIds() {
 		return menuIds;
@@ -109,4 +121,13 @@ public class AuthRole {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	@Override
+	public String toString() {
+		return "AuthRole [id=" + id + ", code=" + code + ", name=" + name + ", status=" + status + ", createTime="
+				+ createTime + ", updateTime=" + updateTime + ", groups=" + groups + ", parentId=" + parentId
+				+ ", menuIds=" + menuIds + ", menuResList=" + menuResList + "]";
+	}
+    
+    
 }

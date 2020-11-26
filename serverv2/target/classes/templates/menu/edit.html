@@ -24,7 +24,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">菜单路径</label>
         <div class="layui-input-block">
-            <input type="text" name="url" autocomplete="off"  class="layui-input" placeholder="URL地址">
+            <input type="text" name="url" lay-verify="only" autocomplete="off"  class="layui-input" placeholder="URL地址">
         </div>
     </div>
     <div class="layui-form-item">
@@ -44,8 +44,9 @@
         <div class="layui-input-block">
           <select name="pageType" id="pageType" lay-search="" lay-filter="pageType" class="form-control m-b" lay-verify="required">
             <option value="">请选择</option>
-            <option value="0">无按钮管理</option>
-            <option value="1">有按钮管理</option>
+            <option value="0">非页面菜单</option>
+            <option value="1">页面菜单(有权限按钮)</option>
+            <option value="2">页面菜单(无权限按钮)</option>
           </select>
         </div>
     </div>
@@ -119,6 +120,40 @@
                 
             }
         });
+        
+        form.verify({
+            //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]/^([1-9]||[1-9][0-9])\.[0-9]\.[0-9]$/
+            parentVerify : function(value) {
+                if(!$("#parentTree").hasClass("layui-hide")){
+                    if($("#parentTree").text() == "" || $("#parentTree").text().NoSpace() == ""){
+                        return  "不能为空";
+                    }
+                }
+            },
+            only : function(value){
+                var falg = false;
+                if(value.length > 0 && dataRow.url != value){
+                     $.ajax({
+                            url: "/menu/queryOneMenuByUrl?url=" + value,
+                            type: "POST",
+                            dataType : "json",
+                            cache:true, 
+                            async:false, 
+                    　　                                                  contentType: "application/json;charset=utf-8",
+                            headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+                            success:function(data){
+                                  if(data.data.data != null){
+                                      falg = true;
+                                  }
+                            }
+                    })
+                }
+                if(falg){
+                    return "该URL已存在";
+                }
+            }
+        });
+        
         form.on('switch(isRoot)', function(data){
         	if (this.checked) {
         		$("#parentTree").addClass('layui-hide');
@@ -158,7 +193,7 @@
         	 if(data.field.icon == ""){
         		 data.field.icon = 'fa-adjust';
         	 }
-        	 UPDATE("/menu",data.field,true);
+        	UPDATE("/menu",data.field,true);
             return false;
         });
     });

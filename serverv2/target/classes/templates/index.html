@@ -125,7 +125,11 @@
 	var layer;
 	var miniTab;
 	var staticResource = new Map;
-	
+	//用来获取隐藏菜单的menuID(因为这个是菜单资源模板添加的父页面)
+	var pageMenuId;
+	var pageWindows;
+	/*子菜单*/
+	var childNode = [];
 	layui.use(['jquery', 'layer', 'miniAdmin','miniTongji','miniTab'], function () {
     	var authorization = localStorage.getItem('Authorization');
     	var authUser = JSON.parse(localStorage.getItem('authUser'));

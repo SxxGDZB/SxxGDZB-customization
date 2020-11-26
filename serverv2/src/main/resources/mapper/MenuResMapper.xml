@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.dao.mapper.MenuResMapper">
+     <resultMap id="MenuResMap" type="com.kiwihouse.dao.entity.MenuRes">
+        <result column="menu_id" jdbcType="INTEGER" property="menuId"/>
+        <result column="resource_id" jdbcType="INTEGER" property="resourceId"/>
+    </resultMap>
+   <select id="resPageByRoleId" resultMap="MenuResMap">
+        SELECT rb.resource_id,sm.id as 'menu_id',sm.name as 'menuName',b.`NAME` as 'resName' FROM menu_resource rb 
+       INNER JOIN sys_menu sm on rb.menu_id = sm.id
+        INNER JOIN auth_resource b on b.id = rb.resource_id WHERE  sm.id in(
+        SELECT menu_id FROM auth_role_menu 
+            WHERE 1 = 1
+            AND role_id = #{roleId}
+            AND sm.page_type in (1,2) ) AND rb.role_id = #{roleId}  AND sm.visible != 0
+   </select>
+   <delete id="delMenuResByRoleId">
+       delete from menu_resource where role_id =#{roleId}
+   </delete>
+   <insert id="insertBatch"
+            parameterType="com.kiwihouse.dao.entity.MenuRes"   keyProperty="id" useGeneratedKeys="true" >
+        INSERT INTO menu_resource
+        (
+         menu_id,
+         resource_id,
+         role_id)
+         VALUES
+        <foreach item="t" collection="list" index="index"  separator="," >
+            (
+            #{t.menuId},
+            #{t.resourceId},
+            #{t.roleId}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE 
+        role_id = VALUES(role_id)
+    </insert>
+</mapper>

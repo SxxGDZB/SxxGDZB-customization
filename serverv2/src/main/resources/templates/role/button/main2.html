@@ -115,35 +115,39 @@ layui.use(['form'], function () {
         });
     }
     form.on('select(code)', function(data) {
-    	_init_model();
-    	 $.ajax({
-            url: "/res/button/all/power/"+ data.value,
-            type : "GET",
-    　　                        dataType : "json",
-    　　                        contentType: "application/json;charset=utf-8",
-            headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-            success:function(data){
-                if(data.success){
-                    for(let key  in data.data.data){
-                        var checkBoxEd = new Array();
-                        var text = "";
-                        var fl = $("div[name = "+key+"]");
-                        console.log(fl);
-                        $.each(data.data.data[key],function(index,val){
-                             $.each(fl.find("input[type='checkbox']"),function(){
-                            	 if($(this).attr("name") == val.buttonId){
-                            		 $(this).prop('checked', true);
-                            	 }
-                             })
-                        })
-                        
+    	if(data.value.length != 0){
+    		_init_model();
+    		$.ajax({
+                url: "/res/button/all/power/"+ data.value,
+                type : "GET",
+        　　                        dataType : "json",
+        　　                        contentType: "application/json;charset=utf-8",
+                headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+                success:function(data){
+                    if(data.success){
+                        for(let key  in data.data.data){
+                            var checkBoxEd = new Array();
+                            var text = "";
+                            var fl = $("div[name = "+key+"]");
+                            console.log(fl);
+                            $.each(data.data.data[key],function(index,val){
+                                 $.each(fl.find("input[type='checkbox']"),function(){
+                                     if($(this).attr("name") == val.buttonId){
+                                         $(this).prop('checked', true);
+                                     }
+                                 })
+                            })
+                            
+                        }
+                        form.render();
+                    }else{
+                        layer.msg(data.msg);
                     }
-                    form.render();
-                }else{
-                    layer.msg(data.msg);
                 }
-            }
-        });
+            });
+    	}else{
+    		$("#_check_empyt").empty();
+    	}
     })
     })
     $("._submit").on('click',function(){

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -134,4 +135,12 @@ public class SysMenuController {
 	public Response authMenuButtonLists(Integer roleId) {
 		return new Response().Success(6666,"return menu list success").addData("data",sysMenuService.getAuthMenuButtonLists(roleId));
 	}
+	
+	@ApiOperation(value = "根据菜单URL查询", httpMethod = "GET",notes = "根据RoleID")
+	@PostMapping("/queryOneMenuByUrl")
+	@ResponseBody
+	public Response queryOneMenuByUrl(String url) {
+		return sysMenuService.queryOneMenuByUrl(url);
+	}
+	
 }

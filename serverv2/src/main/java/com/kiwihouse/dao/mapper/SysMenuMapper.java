@@ -53,5 +53,11 @@ public interface SysMenuMapper {
 	 * @return
 	 */
 	List<MenuBtnModel> getAuthMenuButtonLists(Integer roleId);
+	/**
+	 * 	根据路径获取菜单
+	 * @param url
+	 * @return
+	 */
+	SysMenu queryOneMenuByUrl(String url);
 	
 }

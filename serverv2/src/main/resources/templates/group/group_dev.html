@@ -37,6 +37,8 @@ layui.use(['form', 'table'], function () {
         form = layui.form;
         table = layui.table;
     jsonEntity.groupId = dataRow.groupId;
+    jsonEntity.roleId = authUser.roleId;
+    jsonEntity.userId = authUser.uid;
     loadTickets(jsonEntity);
     
     

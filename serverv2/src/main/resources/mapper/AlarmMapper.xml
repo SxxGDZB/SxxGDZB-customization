@@ -280,7 +280,7 @@
 		SELECT imei,alarm_id,SUBSTRING(add_time FROM 1 FOR 10) add_time FROM alarm  
 		WHERE 1=1 and if_delete = 0
 		<if test="dataStatisticsVo.startTime !=null and dataStatisticsVo.startTime!=''">
-                and DATE_FORMAT(add_time,'%Y-%m-%d') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}
+                and DATE_FORMAT(add_time,'%Y-%m-%d %H:%i:%S') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}
          </if>
 		<if test="alarmType != null and alarmType != ''">
             	and FIND_IN_SET( #{alarmType}, alarm_type) 

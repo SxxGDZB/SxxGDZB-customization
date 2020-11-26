@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>修改角色</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<div class="layui-form layuimini-form _custom_form">
+    <div class="layui-form-item ">
+        <label class="layui-form-label required">选择资源</label>
+        <div class="layui-input-inline">
+            <textarea name="name" placeholder="请点击选择" lay-verify="required" lay-reqtext="资源名称不能为空"  autocomplete="off" id="demo" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item _submitBtn">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script th:inline="none">
+    var ids = [];
+    console.log(window.parent)
+    layui.use(['form','tableSelect'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            table = layui.table,
+            tableSelect = layui.tableSelect,
+            $ = layui.$;
+        $("#demo").attr("ts-selected","");
+        $("#demo").text("");
+        tableSelect.render({
+            elem: '#demo',
+            searchKey: 'name',
+            checkedKey: 'id',
+            searchPlaceholder: '根据资源名称搜索',
+            table: {
+                url: getRootPath() + '/menuresmodel/selectMenuNotResList',
+                headers: { "Authorization": authorization,"dz-usr":authUser.uid },
+                where:{"menuId":window.parent.backPage.pageMenuId},
+                cols: [[
+                    { type: 'checkbox' },
+                    { field: 'code', title: 'code码', width: '25%' },
+                    { field: 'name', title: '资源名称', width: '25%' },
+                    { field: 'method', title: '请求方式', width: '25%' },
+                    { field: 'uri', title: '路径', width: '25%' }
+                ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                var NEWJSONIDS = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.name)
+                    NEWJSONIDS.push(item.id);
+                })
+                elem.val(NEWJSON.join(","))
+                elem.attr("data-ids",NEWJSONIDS.join(","));
+            }
+        })
+        
+        
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+        	var entityArray = new Array();
+            var arr = $("#demo").attr('data-ids').split(",");
+            arr.forEach(function(xx,index){
+                var entity = {};
+                entity.resourceId = xx;
+                entity.menuId = window.parent.backPage.pageMenuId;
+                entityArray.push(entity);
+            })
+            console.log(entityArray)
+            $.ajax({
+                url: "/menuresmodel/add",
+                type: "POST",
+                data:JSON.stringify(entityArray),
+                dataType : "json",
+                cache:true, 
+                async:false, 
+                traditional:true,
+        　　                                 contentType: "application/json;charset=utf-8",
+                headers: { "Authorization": authorization},//通过请求头来发送token，放弃了通过cookie的发送方式
+                success:function(data){
+                    if(data.success){
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                          }, function(){
+                              var iframeIndex = parent.layer.getFrameIndex(window.name);
+                              parent.layer.close(iframeIndex);
+                              window.parent.backPage.pageWindows.flush(window.parent.backPage.currentPage,window.parent.backPage.jsonEntity);
+                          }); 
+                    }else{
+                        layer.msg(data.msg,{icon: 5, time: 2000});
+                    }
+                }
+               })
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

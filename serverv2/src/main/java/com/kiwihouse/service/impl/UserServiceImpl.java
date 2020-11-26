@@ -174,13 +174,15 @@ public class UserServiceImpl implements UserService {
 			authUserRole.setUserId(authUser.getUid());
 			authUserRoleMapper.insert(authUserRole);
 			//用户设备
-			String [] deptArr = authUser.getEqptIds().split(",");
-			List<UserDev> roleDevList = new ArrayList<UserDev>();
-	        for(int i = 0;i<deptArr.length;i++) {
-	        	UserDev userDev = new UserDev(authUser.getUid(),Integer.valueOf(deptArr[i]));
-	        	roleDevList.add(userDev);
-	        }
-	        equipmentMapper.insertUserDevList(roleDevList);
+			if(authUser.getEqptIds() != null) {
+				String [] deptArr = authUser.getEqptIds().split(",");
+				List<UserDev> roleDevList = new ArrayList<UserDev>();
+		        for(int i = 0;i<deptArr.length;i++) {
+		        	UserDev userDev = new UserDev(authUser.getUid(),Integer.valueOf(deptArr[i]));
+		        	roleDevList.add(userDev);
+		        }
+		        equipmentMapper.insertUserDevList(roleDevList);
+			}
 		}
 		return new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg());
 	}

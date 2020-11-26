@@ -63,7 +63,7 @@ public class MenuBtnController extends BaseController{
         return res;
    }
 	
-	@ApiOperation(value = "info",
+	@ApiOperation(value = "power",
            notes = "<br>@description: <b>添加或修改按钮权限</b></br>" +
                    "<br>@Date: <b>2020-3-5 16:39:06</b></br>",
            httpMethod = "POST")

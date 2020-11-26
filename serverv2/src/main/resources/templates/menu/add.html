@@ -26,7 +26,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">菜单路径</label>
         <div class="layui-input-block">
-            <input type="text" name="url"  class="layui-input" placeholder="URL地址">
+            <input type="text" name="url" lay-verify="only" class="layui-input" placeholder="URL地址">
         </div>
     </div>
     
@@ -43,12 +43,13 @@
 	    </div>
     </div>
      <div class="layui-form-item">
-        <label class="layui-form-label">菜单类型</label>
+        <label class="layui-form-label required">菜单类型</label>
         <div class="layui-input-block">
           <select name="pageType" id="pageType" lay-search="" lay-filter="pageType" class="form-control m-b" lay-verify="required">
             <option value="">请选择</option>
-            <option value="0">无按钮管理</option>
-            <option value="1">有按钮管理</option>
+            <option value="0">非页面菜单</option>
+            <option value="1">页面菜单(有权限按钮)</option>
+            <option value="2">页面菜单(无权限按钮)</option>
           </select>
         </div>
     </div>
@@ -112,6 +113,28 @@
 						return  "不能为空";
 					}
 				}
+			},
+			only : function(value){
+				var falg = false;
+				if(value.length > 0){
+					 $.ajax({
+	                        url: "/menu/queryOneMenuByUrl?url=" + value,
+	                        type: "POST",
+	                        dataType : "json",
+	                        cache:true, 
+	                        async:false, 
+	                　　                                                  contentType: "application/json;charset=utf-8",
+	                        headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+	                        success:function(data){
+	                              if(data.data.data != null){
+	                                  falg = true;
+	                              }
+	                        }
+	                })
+				}
+			    if(falg){
+			    	return "该URL已存在";
+			    }
 			}
 		});
         //监听提交

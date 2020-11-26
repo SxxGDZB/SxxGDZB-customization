@@ -44,6 +44,7 @@
 <script th:inline="none">
 	var ids = [];
 	var names = [];
+	var checkEd;
 	var addOrUpdateData = function() {
 	    var data = {};
 	    return data;
@@ -79,6 +80,7 @@
               }else{
                   ids.push(item.id);
                   names.push(item.name);
+                  indexHome(window).childNode.push(item.name + "_" + item.id);
               }                   
             })
          }
@@ -141,10 +143,11 @@
                 maxmin:true,
                 area: ['30%', '60%'],
                 content: '/admin/role/menu/tree',
-                btn:['确定','取消'],
+                btn:['确定','取消','权限'],
                 yes:function(index, layero){
                     ids = [];
                     names = [];
+                    checkEd = null;
                     var res = window["layui-layer-iframe" + index].callbackdata();
                     returnNodes(res);
                     $("#demo").val(names);
@@ -152,15 +155,38 @@
                     layer.close(index);
                 },btn2:function(){
                     layer.close(index);
+                },btn3:function(){
+                	 ids = [];
+                     names = [];
+                     var res = window["layui-layer-iframe" + index].callbackdata();
+                     indexHome(window).childNode = [];
+                     returnNodes(res);
+                     var i = indexHome(window).layer.open({
+                         title: '选择菜单权限',
+                         type: 2,
+                         shade: 0.2,
+                         maxmin:true,
+                         area: ['60%', '80%'],
+                         content: '/admin/role/menu/upd_manage?roleId=' + dataRow.id,
+                         btn:['确定'],
+                         yes:function(ix, layero){
+                        	 checkEd = indexHome(window)["layui-layer-iframe" + ix].powerList();
+                        	 indexHome(window).layer.close(i);
+                         }
+                     });
+                     layer.close(index);
+                     return false;
                 }
             });
-            
             form.render();
         })
         //监听提交
         form.on('submit(saveBtn)', function (data) {
         	data.field.menuIds = $("#demo").attr('data-ids');
         	data.field.id = dataRow.id;
+        	if(typeof(checkEd) != 'undefined' && checkEd != null){
+                data.field.menuResList = checkEd;
+            }
         	UPDATE("/role",data.field);
             return false;
         });

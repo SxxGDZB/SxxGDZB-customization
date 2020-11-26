@@ -19,6 +19,10 @@
         <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
+    <resultMap id="MenuResMap" type="com.kiwihouse.dao.entity.MenuRes">
+        <result column="menu_id" jdbcType="INTEGER" property="menuId"/>
+        <result column="resource_id" jdbcType="INTEGER" property="resourceId"/>
+    </resultMap>
   <sql id="Base_Column_List">
     ID, menu_id, resource_id
   </sql>
@@ -83,7 +87,7 @@
   </update>
   
   <select id="selectMenuResModelList" resultMap="MenuModelMap">
-    SELECT ar.`NAME`,ar.URI,ar.METHOD,ar.ID,ar.`CODE` FROM `menu_resource_model` mrm  
+    SELECT ar.`NAME`,ar.URI,ar.METHOD,mrm.ID,ar.`CODE` FROM `menu_resource_model` mrm  
         INNER JOIN auth_resource ar on ar.ID = mrm.resource_id
         WHERE 1 = 1
         <if test="menuResModel.menuId != null and menuResModel.menuId!= '' ">
@@ -101,4 +105,71 @@
            AND mrm.menu_id = #{menuId}
         </if>
   </select>
+  <select id="selectMenuNotResCount" resultType="Integer">
+        SELECT count(*) from auth_resource ar 
+        WHERE ar.ID not in (
+            SELECT ar.ID FROM `menu_resource_model` mrm  
+            INNER JOIN auth_resource ar on ar.ID = mrm.resource_id WHERE 1 = 1
+            <if test="menuId != null and menuId!= '' ">
+                AND mrm.menu_id = #{menuId}
+            </if>
+           
+        ) AND ar.TYPE = 2
+        <if test="name != null and name != ''">
+          AND ar.`NAME` like CONCAT('%',#{name},'%')
+        </if>
+  </select>
+  <select id="selectMenuNotResList" resultMap="MenuModelMap">
+        SELECT ar.`NAME`,ar.URI,ar.METHOD,ar.ID,ar.`CODE` from auth_resource ar 
+	    WHERE ar.ID not in (
+	        SELECT ar.ID FROM `menu_resource_model` mrm  
+	        INNER JOIN auth_resource ar on ar.ID = mrm.resource_id WHERE 1 = 1
+	        <if test="menuResModel.menuId != null and menuResModel.menuId!= '' ">
+                AND mrm.menu_id = #{menuResModel.menuId}
+            </if>
+            
+	    ) AND ar.TYPE = 2
+	    <if test="menuResModel.name != null and menuResModel.name != ''">
+            AND ar.`NAME` like CONCAT('%',#{menuResModel.name},'%')
+        </if>
+        <if test="limit != null and limit != '' ">
+            limit #{page},#{limit}
+        </if>
+  </select>
+  <insert id="insertBatchMenuResModel" parameterType="com.kiwihouse.dao.entity.MenuResModel"   keyProperty="id" useGeneratedKeys="true" >
+        INSERT INTO `menu_resource_model`
+        (
+         menu_id,
+         resource_id)
+         VALUES
+        <foreach item="t" collection="list" index="index"  separator="," >
+            (
+            #{t.menuId},
+            #{t.resourceId}
+            )
+        </foreach>
+  </insert>
+  
+  <delete id="deleteBatchMenuResModel">
+        delete from `menu_resource_model` where id in(
+        <foreach collection="array" item="id" separator="," index="index">
+            #{id}
+        </foreach>
+        )
+  </delete>
+  
+  <select id="resModelPageByRoleId" resultMap="MenuResMap">
+        SELECT mbm.resource_id,sm.id as 'menu_id',sm.name as 'menuName',b.`NAME` as 'resName' FROM sys_menu sm
+            LEFT JOIN  menu_resource_model mbm  on mbm.menu_id = sm.id 
+            LEFT JOIN auth_resource b on b.id = mbm.resource_id 
+            WHERE sm.id in(SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId} AND sm.page_type in(1,2) )   AND sm.visible != 0
+   </select>
+   
+   <select id="queryMenuResByMenuIds" resultMap="MenuResMap">
+        SELECT * FROM menu_resource_model WHERE menu_id in
+        <foreach item="menuId" collection="array" open="(" separator=","
+            close=")">
+            #{menuId}
+        </foreach>
+   </select>
 </mapper>

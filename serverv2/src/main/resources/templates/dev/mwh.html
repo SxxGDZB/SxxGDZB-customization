@@ -607,7 +607,7 @@
 		    	}else{
 		    		$("._single").hide();
 		    		$("._triple").show();
-		    		$("._time").text(data.data.data.addTime);
+		    		$("._time").text(typeof(data.data.data) == 'undefined' ? '':data.data.data.addTime);
 		    		$.each($("._triple").children().children(".grid-demo"),function(){
 		    			if($(this).data('unit') == 'A'|| $(this).data('unit') == 'V' || $(this).data('unit') == 'W'){
 		    				_chart($(this).attr('id')).setOption(_tripleOption($(this)));

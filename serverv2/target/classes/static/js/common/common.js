@@ -7,15 +7,15 @@
 $.ajaxSetup( {    
     //设置ajax请求结束后的执行动作    
     complete : function(XHR, TS) {  
-    	console.log(XHR.responseText)
-    	console.log(XHR)
-    	console.log(TS)
+//    	console.log(XHR.responseText)
+//    	console.log(XHR)
+//    	console.log(TS)
     	if(TS == 'parsererror'){
     		indexHome(window,0).Unclickable();
 			indexHome(window,0).JwtErr();
     	}
     	if(typeof(XHR.responseJSON) != 'undefined'){
-    		console.log(XHR.responseJSON);
+//    		console.log(XHR.responseJSON);
     		if(XHR.responseJSON.code == 11){
     			indexHome(window,0).Unclickable();
     			indexHome(window,0).JwtErr();
@@ -58,6 +58,31 @@ function openPopUp(title,url,w,h){
         content: staticResource.get(url)
     });
 }
+
+/**
+ * 在主页面弹出
+ * @param title
+ * @param url
+ * @param w
+ * @param h
+ * @returns
+ */
+function homeOpen(title,url,w,h){
+	/*静态资源 ----> 页面跳转URL Map*/
+	var staticResource = indexHome(window).staticResource;
+	w = w || 50;
+	h = h || 70;
+	var index = indexHome(window).layer.open({
+        title: title,
+        type: 2,
+        shade: 0.2,
+        maxmin:true,
+        //shadeClose: true,
+        area: [w + '%', h +'%'],
+        content: staticResource.get(url)
+    });
+}
+
 /**
  * 去除空格
  */
@@ -79,8 +104,8 @@ Array.prototype.indexOf = function(val) {
  */
 Array.prototype.indexObjectOf = function(fieldName,val){
 	for (var i = 0; i < this.length; i++) {
-		console.log(this[i][fieldName] + "----------" )
-		console.log(val);
+//		console.log(this[i][fieldName] + "----------" )
+//		console.log(val);
 		if (this[i][fieldName] == val)
 			return i;
 	}
@@ -438,7 +463,7 @@ function UPDATE(url,parameterDate,isLeft){
     	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
 		    	 		parent.layer.close(iframeIndex);
     	 				if(isLeft){
-    	 					console.log(indexHome(window).index);
+//    	 					console.log(indexHome(window).index);
     	 					indexHome(window).init();
     	 					window.parent.flush();
     	 				}else{
@@ -526,7 +551,7 @@ var _sysDictV = function(type,k){
 	　　		contentType: "application/json;charset=utf-8",
 		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 		    success:function(data){
-		    	console.log(data);
+//		    	console.log(data);
 	    	 	if(data.success){
 	    	 		_data = data.data.data;
 				}else{
@@ -643,7 +668,7 @@ var _alarmIcons = function (v,e){
  */
 function tabMenuId(){
 	var elm = $(".layui-tab-item.layui-show", parent.document).find("iframe");
-	console.log("==============>" + elm[0].getAttribute("lay-menuid"));
+//	console.log("==============>" + elm[0].getAttribute("lay-menuid"));
 	return elm[0].getAttribute("lay-menuid");
 }
 
@@ -651,9 +676,10 @@ function tabMenuId(){
  * 按钮遍历
  * @returns
  */
-function _init_buttons_common(){
+function _init_buttons_common(menuId){
+	menuId = menuId || tabMenuId();
 	$.ajax({
-		url: "/button/info/" + tabMenuId()+"/" + authUser.roleId,
+		url: "/button/info/" + menuId+"/" + authUser.roleId,
 		type : "GET",
 	　　		dataType : "json",
 	　　		cache:true, 

@@ -82,6 +82,18 @@ public class SysMenuServiceImpl implements SysMenuService{
 		});
 		return new Response().Success(Code.QUERY_SUCCESS,Code.QUERY_SUCCESS.getMsg()).addData("data", map);
 	}
+
+	@Override
+	public Response queryOneMenuByUrl(String url) {
+		// TODO Auto-generated method stub
+		try {
+			SysMenu sysMenu = sysMenuMapper.queryOneMenuByUrl(url);
+			return new Response().Success(Code.QUERY_SUCCESS,Code.QUERY_SUCCESS.getMsg()).addData("data", sysMenu);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new Response().Fail(Code.QUERY_FAIL,Code.QUERY_FAIL.getMsg());
+		}
+	}
 	 
 	
 

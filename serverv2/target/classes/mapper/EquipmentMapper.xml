@@ -436,10 +436,10 @@
         </if>
         
         <if test="eqptQueryVo.eqptSn != null and eqptQueryVo.eqptSn != ''">
-                and e.eqpt_sn=#{eqptSn}
+                and e.eqpt_sn=#{eqptQueryVo.eqptSn}
             </if>
             <if test="eqptQueryVo.groupId != null and eqptQueryVo.groupId != ''">
-                and e.group_id=#{groupId}
+                and e.group_id=#{eqptQueryVo.groupId}
             </if>
             <if test="eqptQueryVo.groupIds !=null and eqptQueryVo.groupIds.length > 0">
                 and e.group_id in

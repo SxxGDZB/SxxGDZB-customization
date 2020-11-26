@@ -45,5 +45,7 @@ public interface SysMenuService {
 	 */
 	Response getAuthMenuButtonLists(Integer roleId);
 	
+	Response queryOneMenuByUrl(String url);
+	
 
 }
