@@ -23,7 +23,17 @@ $.ajaxSetup( {
     	}
     	
     }
-}); 
+});
+
+var getJwt = function(){
+	var authorization = localStorage.getItem('Authorization');
+	return authorization;
+} 
+var getUser = function(){
+	var authUser = JSON.parse(localStorage.getItem('authUser'));
+	return authUser;
+}
+
 /**
  * 得到根路径
  * @returns
@@ -549,9 +559,8 @@ var _sysDictV = function(type,k){
 		    cache:true, 
 	        async:false, 
 	　　		contentType: "application/json;charset=utf-8",
-		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+		    headers: { "Authorization": localStorage.getItem('Authorization') },//通过请求头来发送token，放弃了通过cookie的发送方式
 		    success:function(data){
-//		    	console.log(data);
 	    	 	if(data.success){
 	    	 		_data = data.data.data;
 				}else{

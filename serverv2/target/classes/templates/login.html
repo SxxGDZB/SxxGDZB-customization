@@ -58,6 +58,7 @@
 			  form.on('submit(loginform)', function(data){
 				var date = data.field;
 				data.field.password = hex_md5(data.field.password);
+				alert(data.field.password)
 			    $.ajax({
 	    	　　		url : getRootPath() + "/account/login",
 	    	　　		type : "post",

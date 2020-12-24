@@ -160,6 +160,7 @@ public class RoleController extends BaseController {
     	System.out.println(role.toString());
         boolean flag = roleService.addRole(role);
         if (flag) {
+        	filterChainManager.reloadFilterChain();
             return new Response().Success(6666, "add role success");
         } else {
             return new Response().Fail(111, "add role fail");
@@ -172,6 +173,7 @@ public class RoleController extends BaseController {
 
         boolean flag = roleService.updateRole(role);
         if (flag) {
+        	filterChainManager.reloadFilterChain();
             return new Response().Success(6666, "update success");
         } else {
             return new Response().Fail(1111, "update fail");
@@ -181,7 +183,7 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "根据角色ID删除角色", httpMethod = "DELETE")
     @DeleteMapping("{roleId}")
     public Response deleteRoleByRoleId(@PathVariable Integer roleId) {
-
+    	
     	return roleService.deleteRoleByRoleId(roleId);
     }
 

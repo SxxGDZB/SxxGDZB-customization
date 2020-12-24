@@ -50,7 +50,11 @@ public class JwtFilter extends AbstractPathMatchingFilter {
         //记录调用api日志到数据库
 //        LogExeManager.getInstance().executeLogTask(LogTaskFactory.bussinssLog(Integer.parseInt(WebUtils.toHttp(servletRequest).getHeader("appId")),
 //                WebUtils.toHttp(servletRequest).getRequestURI(), WebUtils.toHttp(servletRequest).getMethod(), (short) 1, null));
-
+        HttpServletRequest re = (HttpServletRequest) servletRequest;
+		LOGGER.info(re.getServletPath());
+		if (re.getMethod().equals("OPTIONS")){
+            return true;
+        }
         if (subject == null) {
             Response response = new Response().Fail(Code.REQUEST_ERROR, "jwt subject null");
             RespUtils.responseWrite(JSON.toJSONString(response), servletResponse);

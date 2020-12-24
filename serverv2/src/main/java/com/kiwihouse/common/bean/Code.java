@@ -112,6 +112,7 @@ public enum Code {
     SHARE_FAIL(1235,"分享失败"),
 	SHARE_SUCCESS(1234,"分享成功"),
 	JWT_FAIL(11,"JWT验证失败"),
+	JWT_SUCCESS(13,"JWT验证成功"),
 	EXIST(12,"已存在");
 	
     //枚举的属性字段必须是私有且不可变

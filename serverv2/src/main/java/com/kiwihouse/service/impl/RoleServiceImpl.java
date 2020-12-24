@@ -28,6 +28,7 @@ import com.kiwihouse.dao.mapper.MenuResMapper;
 import com.kiwihouse.dao.mapper.MenuResModelMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.RoleService;
+import com.kiwihouse.shiro.filter.FilterChainManager;
 
 /**
  * @author tomsun28
@@ -53,6 +54,8 @@ public class RoleServiceImpl implements RoleService {
     MenuResMapper menuResMapper;
     @Autowired
     MenuResModelMapper menuResModelMapper;
+    @Autowired
+    FilterChainManager filterChainManager;
     @Override
     public boolean authorityRoleResource(int roleId, int resourceId) throws DataAccessException {
         AuthRoleResource authRoleResource = new AuthRoleResource();
@@ -127,6 +130,7 @@ public class RoleServiceImpl implements RoleService {
         if(num > 0) {
         	authRoleMenuMapper.deleteByRole(roleId);
             menuResMapper.delMenuResByRoleId(roleId);
+            filterChainManager.reloadFilterChain();
         	return new Response().Success(Code.DELETE_SUCCESS,Code.DELETE_SUCCESS.getMsg());
         }else {
         	return new Response().Fail(Code.DELETE_FAIL,Code.DELETE_FAIL.getMsg());

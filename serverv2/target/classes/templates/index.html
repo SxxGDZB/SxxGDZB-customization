@@ -117,7 +117,7 @@
     </div>
 </div>
 <div th:include="include::footer"></div>
-<script>
+<script th:inline="javascript">
 	//表示首页
 	var index = 0;
 	var options;
@@ -131,9 +131,24 @@
 	/*子菜单*/
 	var childNode = [];
 	layui.use(['jquery', 'layer', 'miniAdmin','miniTongji','miniTab'], function () {
-    	var authorization = localStorage.getItem('Authorization');
-    	var authUser = JSON.parse(localStorage.getItem('authUser'));
-    	if(authUser == null){
+		 var jwt =  [[${session.jwt}]]
+		    if(jwt == null){
+		        
+		    }else if(jwt.code == 11){
+		        localStorage.removeItem('Authorization');
+		        localStorage.removeItem('authUser');
+		        console.log("异常====>清除jwt")
+		    }else{
+		        localStorage.removeItem('Authorization');
+		        localStorage.removeItem('authUser');
+		        console.log("正常====>加入jwt")
+		        localStorage.setItem('Authorization', jwt.data.data);
+		        localStorage.setItem('authUser', JSON.stringify(jwt.data['authUser']));
+		    }
+    	//var authorization = localStorage.getItem('Authorization');
+    	//var authUser = JSON.parse(localStorage.getItem('authUser'));
+    	if(getUser == null){
+    		
     		JwtErr();
     	}
         var $ = layui.jquery,
@@ -141,9 +156,9 @@
             miniTongji = layui.miniTongji,
         	miniAdmin = layui.miniAdmin,
         	miniTab = layui.miniTab;
-        $("._username").text(authUser.username);
+        $("._username").text(getUser().username);
         options = {
-            iniUrl: getRootPath() + "/menu/authMenuList?roleId="+authUser.roleId,    // 初始化接口
+            iniUrl: getRootPath() + "/menu/authMenuList?roleId="+getUser().roleId,    // 初始化接口
             clearUrl: "api/clear.json", // 缓存清理接口
             urlHashLocation: true,      // 是否打开hash定位
             bgColorDefault: false,      // 主题默认配置
@@ -152,7 +167,7 @@
             loadingTime: 0,             // 初始化加载时间
             pageAnim: true,             // iframe窗口动画
             maxTabNum: 20,              // 最大的tab打开数量
-            authorization:authorization
+            authorization:getJwt()
         };
         miniAdmin.render(options);
         // 百度统计代码，只统计指定域名
@@ -164,7 +179,7 @@
                 'layuimini-onepage.99php.cn',
             ],
         });
-		if(authorization == null ){
+		if(getJwt() == null ){
 			window.location.href = "/";
 		}else{
 		}
@@ -176,7 +191,7 @@
 			    method: "GET",
 			    dataType : "json",
 			    async : false,
-			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+			    headers: { "Authorization": getJwt() ,"dz-usr":getUser().uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
 		    	data.data.data.forEach(function(item,index){
 		    		staticResource.set(item.code,item.uri);
@@ -213,10 +228,10 @@
     	clearInterval(t);
    	    t = setInterval(function(){
    		 $.ajax({
-   	  			url: "/receive/latestalarm/info/"+authUser.uid+ "/" +authUser.roleId+"/" +time.value+ "/1/1000",
+   	  			url: "/receive/latestalarm/info/"+getUser().uid+ "/" +getUser().roleId+"/" +time.value+ "/1/1000",
    			    method: "GET",
    			    dataType : "json",
-   			    headers: { "Authorization": authorization},//通过请求头来发送token，放弃了通过cookie的发送方式
+   			    headers: { "Authorization": getJwt()},//通过请求头来发送token，放弃了通过cookie的发送方式
    			    success:function(data){
    		    	if(data.data != null){
    		    		data.data.forEach(function(item, i){
@@ -231,19 +246,18 @@
    		    	}
    			 }
    		  });
-   		} , 1000 * time.value); 
+   		} , 1000 * time.value);
     });
 	//重新加载
 	function init(){
 		layui.use(['jquery', 'layer', 'miniAdmin','miniTongji','miniTab'], function () {
 			var miniAdmin = layui.miniAdmin;
-			var authorization = localStorage.getItem('Authorization');
-	    	var authUser = JSON.parse(localStorage.getItem('authUser'));
-	    	if(authUser == null){
+	    	//var authUser = JSON.parse(localStorage.getItem('authUser'));
+	    	if(getUser() == null){
 	    		JwtErr();
 	    	}
 			options = {
-		            iniUrl: getRootPath() + "/menu/authMenuList?roleId="+authUser.roleId,    // 初始化接口
+		            iniUrl: getRootPath() + "/menu/authMenuList?roleId="+getUser().roleId,    // 初始化接口
 		            clearUrl: "api/clear.json", // 缓存清理接口
 		            urlHashLocation: true,      // 是否打开hash定位
 		            bgColorDefault: false,      // 主题默认配置
@@ -252,7 +266,7 @@
 		            loadingTime: 0,             // 初始化加载时间
 		            pageAnim: true,             // iframe窗口动画
 		            maxTabNum: 20,              // 最大的tab打开数量
-		            authorization:authorization
+		            authorization:getJwt()
 		        };
 		     miniAdmin.render(options);
 		});

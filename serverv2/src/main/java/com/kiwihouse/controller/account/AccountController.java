@@ -137,10 +137,12 @@ public class AccountController extends BaseController {
         	return new Response().Fail(1111, "账户已存在");
         }
         authUser.setUid(uid);
-        String salt = CommonUtil.getRandomString(6);
+        if(params.getSalt() == null) {
+        	params.setSalt(CommonUtil.getRandomString(6));
+        }
         // 存储到数据库的密码为 MD5(原密码+盐值)
-        authUser.setPassword(Md5Util.md5(password + salt));
-        authUser.setSalt(salt);
+        authUser.setPassword(Md5Util.md5(password + params.getSalt()));
+        authUser.setSalt(params.getSalt());
         authUser.setCreateTime(new Date());
         authUser.setUsername(params.getUsername());
         authUser.setStatus((byte) 1);

@@ -132,46 +132,41 @@
                 maxmin:true,
                 area: ['45%', '70%'],
                 content: '/admin/role/menu/tree',
-                btn:['确定','取消','权限'],
+                btn:['确定','取消'],
                 yes:function(index, layero){
                     ids = [];
                     names = [];
+                    indexHome(window).childNode = [];
                     var res = window["layui-layer-iframe" + index].callbackdata();
                     returnNodes(res);
-                    console.log(callBackData.treeDate)
-                    $("#demo").val(names);
-                    $("#demo").attr('data-ids',ids.join(','))
-                    layer.close(index);
+                    if(indexHome(window).childNode.length > 0){
+                    	$("#demo").val(names);
+                        $("#demo").attr('data-ids',ids.join(','))
+                        var i = indexHome(window).layer.open({
+                            title: '选择菜单权限',
+                            type: 2,
+                            shade: 0.2,
+                            maxmin:true,
+                            area: ['60%', '80%'],
+                            content: '/admin/role/menu/add_manage',
+                            btn:['下一步','取消'],
+                            yes:function(ix, layero){
+                                checkEd = indexHome(window)["layui-layer-iframe" + ix].powerList();
+                                indexHome(window).layer.close(i);
+                            },btn2:function(){
+                                indexHome(window).layer.close(i);
+                            }
+                        });
+                        layer.close(index);
+                    }else{
+                    	layer.msg("请选择菜单", {
+                            icon: 5,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                          });
+                    }
                 },btn2:function(){
                     layer.close(index);
-                },btn3:function(){
-                	ids = [];
-                    names = [];
-                    var res = window["layui-layer-iframe" + index].callbackdata();
-                    returnNodes(res);
-                    $("#demo").val(names);
-                    $("#demo").attr('data-ids',ids.join(','))
-                    indexHome(window).childNode = [];
-                    returnNodes(res);
-                    var i = indexHome(window).layer.open({
-                        title: '选择菜单权限',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin:true,
-                        area: ['60%', '80%'],
-                        content: '/admin/role/menu/add_manage',
-                        btn:['确定','取消'],
-                        yes:function(ix, layero){
-                        	console.log(ix)
-                        	checkEd = indexHome(window)["layui-layer-iframe" + ix].powerList();
-                        	console.log(checkEd);
-                            indexHome(window).layer.close(i);
-                        },btn2:function(){
-                            indexHome(window).layer.close(i);
-                        }
-                    });
-                    layer.close(index);
-               }
+                }
             });
             
             form.render();

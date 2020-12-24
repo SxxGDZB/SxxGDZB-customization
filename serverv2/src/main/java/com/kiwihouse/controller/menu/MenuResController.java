@@ -19,6 +19,7 @@ import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.dao.entity.MenuRes;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.MenuResService;
+import com.kiwihouse.shiro.filter.FilterChainManager;
 import com.kiwihouse.vo.entire.Log;
 
 import io.swagger.annotations.Api;
@@ -33,7 +34,8 @@ public class MenuResController {
 	private static final Logger logger = LoggerFactory.getLogger(MenuResController.class);
 	@Autowired
 	MenuResService menuResService;
-	
+	@Autowired
+	FilterChainManager filterChainManager;
 	@ApiOperation(value = "根据RoleID获取静态页面以及对应的资源列表", httpMethod = "GET",notes = "根据RoleID")
 	@GetMapping("/resPageByRoleId/{roleId}")
 	@ResponseBody
@@ -54,6 +56,7 @@ public class MenuResController {
 		Response res = null;
 		try {
 			res = menuResService.menuResUpdBatch(list,roleId);
+			filterChainManager.reloadFilterChain();
 			logger.info("添加或修改按钮权限>> {执行成功}");
 		} catch (Exception e) {
 			// TODO: handle exception

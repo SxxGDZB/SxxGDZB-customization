@@ -22,13 +22,13 @@ public class UserParams {
     private String username;
     @ApiModelProperty(value = "密码",name = "password",required =true,position =2)
     private String password;
-    @ApiModelProperty(value = "时间戳",name = "timestamp",required =false,position =3)
+    @ApiModelProperty(value = "时间戳",name = "timestamp",required =false,hidden = true)
     private long timestamp;
-    @ApiModelProperty(value = "unionId",name = "unionId",required =true,position =4)
+    @ApiModelProperty(value = "unionId",name = "unionId",required =false,hidden = true)
     private String unionId;
-    @ApiModelProperty(value = "openId",name = "openId",required =true,position =5)
+    @ApiModelProperty(value = "openId",name = "openId",required =false,hidden = true)
     private String openId;
-    
     private String phone;
-    
+    @ApiModelProperty(value = "盐值",name = "salt",hidden = true)
+    private String salt;
 }

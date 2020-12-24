@@ -22,6 +22,7 @@
         right: 2%;
         bottom: 2%;
     }
+    
     </style>
 </head>
 <body>
@@ -60,6 +61,7 @@ layui.use(['form'], function () {
                 	if(childNode.indexOf(v) > -1){
                 		var arr = v.split("_");
                         text += "<fieldset>";
+                       /*  text += "           <input type=\"checkbox\" lay-filter='checked' name=\""+arr[1]+"\" lay-skin=\"primary\" title=''>"; */
                         text += "   <div class=\"layui-form-item\" pane=\"\">";
                         text += "       <label class=\"layui-form-label\">";
                         text += "           "+arr[0]+"";
@@ -76,10 +78,14 @@ layui.use(['form'], function () {
                 	}
                 }
                 $("#_check_empyt").append(text);
+                
                 form.render();
+                
             }
         });
     }
+    
+    
     function _init_ckecked(){
     	$.ajax({
             url: "/menures/resPageByRoleId/"+ $.getUrlParam("roleId"),
@@ -113,6 +119,16 @@ layui.use(['form'], function () {
     
     _init_model();
     _init_ckecked();
+    
+    /* form.on('checkbox(checked)', function (data) {
+    	console.log(data)
+        if(data.elem.checked){
+        	console.log("选中")
+        }else{
+        	console.log("未选中")
+        }
+    }); */
+    
     })
     function powerList(){
 		var entityArray = new Array();

@@ -143,25 +143,17 @@
                 maxmin:true,
                 area: ['30%', '60%'],
                 content: '/admin/role/menu/tree',
-                btn:['确定','取消','权限'],
+                btn:['下一步','取消'],
                 yes:function(index, layero){
                     ids = [];
                     names = [];
                     checkEd = null;
                     var res = window["layui-layer-iframe" + index].callbackdata();
+                    indexHome(window).childNode = [];
                     returnNodes(res);
                     $("#demo").val(names);
                     $("#demo").attr('data-ids',ids.join(','))
-                    layer.close(index);
-                },btn2:function(){
-                    layer.close(index);
-                },btn3:function(){
-                	 ids = [];
-                     names = [];
-                     var res = window["layui-layer-iframe" + index].callbackdata();
-                     indexHome(window).childNode = [];
-                     returnNodes(res);
-                     var i = indexHome(window).layer.open({
+                    var i = indexHome(window).layer.open({
                          title: '选择菜单权限',
                          type: 2,
                          shade: 0.2,
@@ -170,13 +162,24 @@
                          content: '/admin/role/menu/upd_manage?roleId=' + dataRow.id,
                          btn:['确定'],
                          yes:function(ix, layero){
-                        	 checkEd = indexHome(window)["layui-layer-iframe" + ix].powerList();
-                        	 indexHome(window).layer.close(i);
+                             checkEd = indexHome(window)["layui-layer-iframe" + ix].powerList();
+                             indexHome(window).layer.close(i);
                          }
                      });
+                    
+                    layer.close(index);
+                },btn2:function(){
+                    layer.close(index);
+                }/* ,btn3:function(){
+                	 ids = [];
+                     names = [];
+                     var res = window["layui-layer-iframe" + index].callbackdata();
+                     indexHome(window).childNode = [];
+                     returnNodes(res);
+                     
                      layer.close(index);
                      return false;
-                }
+                } */
             });
             form.render();
         })

@@ -68,7 +68,7 @@
 <div th:include="include::footer"></div>
 <script>
 	var dataRow = window.parent.dataRow;
-	//var menuTree = JSON.parse(localStorage.getItem('menuTree'));
+	var menuTree = JSON.parse(localStorage.getItem('menuTree'));
     layui.use(['form','iconPickerFa'], function () {
         var form = layui.form,
         	iconPickerFa = layui.iconPickerFa,
@@ -153,7 +153,7 @@
             return false;
         });
         $("#parentId").on('click',function(){
-        	openPopUp('选择父节点','MENU_TREE_PAGE',30,60);///admin/menu/tree
+        	openPopUp('选择父节点','MENU_MANAGE_TREE_PAGE',30,60);///admin/menu/tree
         	form.render();
         })
     });

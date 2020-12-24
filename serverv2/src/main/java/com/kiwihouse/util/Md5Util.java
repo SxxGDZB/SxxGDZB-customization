@@ -67,6 +67,7 @@ public class Md5Util {
     public static void main(String[] args) throws Exception {
     	String password = "123456";
     	String salt = CommonUtil.getRandomString(6);
+    	System.out.println(md5(password));
     	String md5_password = md5(password + salt);
     	System.out.println(md5_password + "-" + salt);
 		System.out.println(verify(password, "e10adc3949ba59abbe56e057f20f883e"));
