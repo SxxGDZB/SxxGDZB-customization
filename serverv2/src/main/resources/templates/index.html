@@ -131,24 +131,9 @@
 	/*子菜单*/
 	var childNode = [];
 	layui.use(['jquery', 'layer', 'miniAdmin','miniTongji','miniTab'], function () {
-		 var jwt =  [[${session.jwt}]]
-		    if(jwt == null){
-		        
-		    }else if(jwt.code == 11){
-		        localStorage.removeItem('Authorization');
-		        localStorage.removeItem('authUser');
-		        console.log("异常====>清除jwt")
-		    }else{
-		        localStorage.removeItem('Authorization');
-		        localStorage.removeItem('authUser');
-		        console.log("正常====>加入jwt")
-		        localStorage.setItem('Authorization', jwt.data.data);
-		        localStorage.setItem('authUser', JSON.stringify(jwt.data['authUser']));
-		    }
     	//var authorization = localStorage.getItem('Authorization');
     	//var authUser = JSON.parse(localStorage.getItem('authUser'));
-    	if(getUser == null){
-    		
+    	if(getUser() == null){
     		JwtErr();
     	}
         var $ = layui.jquery,
@@ -204,9 +189,27 @@
         $('.login-out').on("click", function () {
         	logOut();
         });
-		
-		
-		
+        var loginStatu = localStorage.getItem("loginStatu");
+        if(loginStatu == 0){
+        	var url = location.href.split('#/');
+        	console.log("=======>" + url[1])
+        	if(typeof(url[1]) != 'undefined'){
+        		var str = sessionStorage.getItem('layuiminimenu_' + url[1]);
+                var op = JSON.parse(str);
+                console.log(op);
+                var el ;
+                $.each($(".layuimini-menu-left").find("li").find("a"),function(){
+                    if($(this).attr('id') == op.menuId){
+                        $(this).parent().addClass('layui-this');
+                        el = $(this).parent();
+                    }
+                })
+                el.parents('dd').addClass('layui-nav-itemed');
+                el.parents('li').addClass('layui-nav-itemed');
+                $("#" + op.menuId).removeClass('layui-hide');
+                $("#" + op.menuId).addClass('layui-this');
+        	}
+        }
     	/*初始化点击告警弹框的事件*/
         function initAlarmClick(){
     		$.each($(".the-message"),function(){

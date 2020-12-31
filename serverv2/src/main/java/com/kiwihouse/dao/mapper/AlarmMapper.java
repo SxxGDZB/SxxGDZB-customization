@@ -5,11 +5,14 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.kiwihouse.dao.entity.Alarm;
+import com.kiwihouse.dao.entity.DataList;
 import com.kiwihouse.dao.entity.DataTimeNum;
 import com.kiwihouse.dao.entity.IMEI;
 import com.kiwihouse.dto.AlarmEqptDto;
+import com.kiwihouse.dto.DevAlarmListDto;
 import com.kiwihouse.vo.kiwihouse.AlmQueryVo;
 import com.kiwihouse.vo.kiwihouse.DataStatisticsVo;
+import com.kiwihouse.vo.kiwihouse.EqptQueryVo;
 import com.kiwihouse.web.ReturnCode;
 
 public interface AlarmMapper {
@@ -71,4 +74,24 @@ public interface AlarmMapper {
 	int clearDevAlarms(String imei);
 
 	List<ReturnCode> selectCode();
+	/**
+	 * 	查询设备告警数量(排序)
+	 * @param startTime
+	 * @param endTime
+	 * @param imeiList 
+	 * @param isAdmin 
+	 * @return
+	 */
+	List<DevAlarmListDto> selectDevAlarmList(
+			@Param("startTime") String startTime, 
+			@Param("endTime") String endTime,
+			@Param("isAdmin") boolean isAdmin, 
+			@Param("imeiList") List<IMEI> imeiList);
+	/**
+	 * 	根据时间查询各个类型告警数量
+	 * @param eqptQueryVo
+	 * @param imeiList
+	 * @return
+	 */
+	List<DataList> selectDataStatis(@Param("isAdmin") boolean isAdmin,@Param("dataStatisticsVo") DataStatisticsVo dataStatisticsVo, @Param("imeiList") List<IMEI> imeiList);
 }

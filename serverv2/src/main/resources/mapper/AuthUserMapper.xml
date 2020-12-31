@@ -18,11 +18,12 @@
         <result column="IS_ADMIN" jdbcType="INTEGER" property="isAdmin" />
         <result column="ROLE_ID" jdbcType="INTEGER" property="roleId" />
    		<result column="GROUP_IDS" jdbcType="VARCHAR" property="groupIds" />
+   		<result column="DisplayName" jdbcType="VARCHAR" property="displayName" />
     </resultMap>
     <resultMap id="AuthUserResultMap" type="com.kiwihouse.dao.entity.AuthUser"></resultMap>
     <sql id="Base_Column_List">
     UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, 
-    UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS
+    UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS,DisplayName
   </sql>
     <select id="selectByPrimaryKey"  resultMap="AuthUserResultMap">
         select

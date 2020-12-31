@@ -41,7 +41,18 @@ public class AuthUser {
     
     private String eqptIds;
     
-    public String getEqptIds() {
+    private String displayName;
+    
+    
+    public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public String getEqptIds() {
 		return eqptIds;
 	}
 

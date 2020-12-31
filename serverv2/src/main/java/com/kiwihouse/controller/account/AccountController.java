@@ -97,7 +97,7 @@ public class AccountController extends BaseController {
         //String perms = authRoleResourceMapper.selectRoleRulesByRole(roles);
         // 时间以秒计算,token有效刷新时间是token有效过期时间的2倍
         Integer refreshPeriodTime = 60 * 60;
-        String jwt = JsonWebTokenUtil.issueJWT(UUID.randomUUID().toString(), params.getUsername(),
+        String jwt = JsonWebTokenUtil.issueJWT(UUID.randomUUID().toString(), authUser.getUid().toString(),
                 "token-server", refreshPeriodTime >> 1, roles, null, SignatureAlgorithm.HS512);
         // 将签发的JWT存储到Redis： {JWT-SESSION-{appID} , jwt}
         //redisUtil.set("JWT-SESSION-" + params.getUsername(), jwt, refreshPeriodTime);

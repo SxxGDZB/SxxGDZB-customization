@@ -41,47 +41,6 @@ public class ReturnPageController extends BaseController{
 	
 	@RequestMapping(value = "/{name}")
 	public ModelAndView returnPage(@PathVariable String name,String jwt,HttpServletRequest request) {
-		if("index".equals(name)) {
-			if(jwt != null) {
-				HttpSession session = request.getSession();
-				String payload = null;
-				try{
-		            // 预先解析Payload
-		            // 没有做任何的签名校验
-		            payload = JsonWebTokenUtil.parseJwtPayload(jwt);
-		        } catch(MalformedJwtException e){
-		            //令牌格式错误
-		        	session.setAttribute("jwt",new Response().Fail(Code.JWT_FAIL,Code.JWT_FAIL.getMsg()));
-//		            throw new AuthenticationException("errJwt");
-		        } catch(Exception e){
-		            //令牌无效
-		        	session.setAttribute("jwt",new Response().Fail(Code.JWT_FAIL,Code.JWT_FAIL.getMsg()));
-//		            throw new AuthenticationException("errsJwt");
-		        }
-				JwtAccount jwtAccount = JsonWebTokenUtil.parseJwt(jwt);
-		        if(null == payload){
-		            //令牌无效
-		        	session.setAttribute("jwt",new Response().Fail(Code.JWT_FAIL,Code.JWT_FAIL.getMsg()));
-//		            throw new AuthenticationException("errJwt");
-		        }else if(jwtAccount == null){
-		        	session.setAttribute("jwt",new Response().Fail(Code.JWT_FAIL,Code.JWT_FAIL.getMsg()));
-		        }else {
-		    		String jwts = JsonWebTokenUtil.parseJwtPayload(jwt);
-		    		JSONObject json = JSON.parseObject(jwts);
-		    		AuthUserMapper authUserMapper = SpringUtils.getBean("authUserMapper");
-		    		AuthUser authUser  = authUserMapper.selectByUsername(json.getString("sub"));
-		            authUser.setPassword(null);
-		            authUser.setSalt(null);
-		            AuthUserRoleMapper authUserRoleMapper = SpringUtils.getBean("authUserRoleMapper");
-		            AuthUserRole authUserRole = authUserRoleMapper.selectByUid(authUser.getUid());
-		            authUser.setRoleId(authUserRole.getRoleId());
-		            authUser.setRoleName(authUserRole.getRoleName());
-		        	session.setAttribute("jwt",new Response().Success(Code.JWT_SUCCESS,Code.JWT_SUCCESS.getMsg()).addData("data", jwt).addData("authUser", authUser));
-		        	//session.setAttribute("jwt",new Response().Success(Code.JWT_SUCCESS,Code.JWT_SUCCESS.getMsg(),new Jwt(jwt,authUser)));
-		        }
-		        
-			}
-		}
 		return new ModelAndView(name);
 	}
 	
@@ -89,7 +48,6 @@ public class ReturnPageController extends BaseController{
 	public ModelAndView returnPageTwo(@PathVariable String name,@PathVariable String url,HttpServletRequest request) {
 		logger.info("静态页面跳转>> {}", new Log().setIp(request.getRemoteAddr()).setParam(name + "/" + url));
 		return new ModelAndView(name + "/" + url);
-		
 	}
 	@RequestMapping(value = "/{name}/{url}/{path}")
 	public ModelAndView returnPage(@PathVariable String name,@PathVariable String url,@PathVariable String path,HttpServletRequest request) {
@@ -103,4 +61,5 @@ public class ReturnPageController extends BaseController{
 		return new ModelAndView(name + "/" + url + "/" + path + "/" +path2);
 		
 	}
+	
 }

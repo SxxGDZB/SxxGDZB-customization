@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.kiwihouse.dao.entity.MenuBtnModel;
 import com.kiwihouse.dao.entity.SysMenu;
+import com.kiwihouse.dto.ResMenu;
 
 
 public interface SysMenuMapper {
@@ -59,5 +60,10 @@ public interface SysMenuMapper {
 	 * @return
 	 */
 	SysMenu queryOneMenuByUrl(String url);
+	/**
+	 * 	获取菜单模块路径
+	 * @return
+	 */
+	List<ResMenu> selectMenuUrlAndName();
 	
 }

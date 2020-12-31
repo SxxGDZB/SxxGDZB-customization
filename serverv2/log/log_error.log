@@ -1,17 +1,94 @@
-2020-12-23 16:26:16.578 [log-pool-0] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:32:23.904 [log-pool-0] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:36:13.643 [log-pool-1] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:37:03.824 [log-pool-0] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:38:42.549 [log-pool-2] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:40:22.348 [log-pool-1] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:42:12.061 [log-pool-3] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:42:13.290 [log-pool-0] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:42:14.373 [log-pool-4] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:42:59.250 [log-pool-2] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:43:00.194 [log-pool-5] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:43:00.871 [log-pool-1] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:43:01.230 [log-pool-6] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 16:43:01.598 [log-pool-3] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 17:30:51.944 [log-pool-0] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 17:33:49.649 [log-pool-0] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
-2020-12-23 17:34:44.606 [log-pool-1] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
+2020-12-31 16:54:27.003 [restartedMain] ERROR s.d.s.web.plugins.DocumentationPluginsBootstrapper - Unable to scan documentation context default
+java.lang.TypeNotPresentException: Type DateStatisList not present
+	at sun.reflect.annotation.TypeNotPresentExceptionProxy.generateException(TypeNotPresentExceptionProxy.java:46)
+	at sun.reflect.annotation.AnnotationInvocationHandler.invoke(AnnotationInvocationHandler.java:75)
+	at com.sun.proxy.$Proxy110.response(Unknown Source)
+	at sun.reflect.GeneratedMethodAccessor107.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:282)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:266)
+	at org.springframework.core.annotation.TypeMappedAnnotation$$Lambda$172/849618868.apply(Unknown Source)
+	at org.springframework.core.annotation.TypeMappedAnnotation.getValue(TypeMappedAnnotation.java:429)
+	at org.springframework.core.annotation.TypeMappedAnnotation.getValue(TypeMappedAnnotation.java:399)
+	at org.springframework.core.annotation.TypeMappedAnnotation.getAttributeValue(TypeMappedAnnotation.java:384)
+	at org.springframework.core.annotation.AbstractMergedAnnotation.getValue(AbstractMergedAnnotation.java:178)
+	at org.springframework.core.annotation.SynthesizedMergedAnnotationInvocationHandler.getAttributeValue(SynthesizedMergedAnnotationInvocationHandler.java:172)
+	at org.springframework.core.annotation.SynthesizedMergedAnnotationInvocationHandler.invoke(SynthesizedMergedAnnotationInvocationHandler.java:82)
+	at com.sun.proxy.$Proxy202.response(Unknown Source)
+	at springfox.documentation.swagger.readers.operation.SwaggerOperationModelsProvider$1.apply(SwaggerOperationModelsProvider.java:103)
+	at springfox.documentation.swagger.readers.operation.SwaggerOperationModelsProvider$1.apply(SwaggerOperationModelsProvider.java:98)
+	at springfox.documentation.swagger.readers.operation.SwaggerOperationModelsProvider.collectApiResponses(SwaggerOperationModelsProvider.java:87)
+	at springfox.documentation.swagger.readers.operation.SwaggerOperationModelsProvider.apply(SwaggerOperationModelsProvider.java:63)
+	at springfox.documentation.spring.web.plugins.DocumentationPluginsManager.modelContexts(DocumentationPluginsManager.java:136)
+	at springfox.documentation.spring.web.scanners.ApiModelReader.read(ApiModelReader.java:65)
+	at springfox.documentation.spring.web.scanners.ApiListingScanner.scan(ApiListingScanner.java:133)
+	at springfox.documentation.spring.web.scanners.ApiDocumentationScanner.scan(ApiDocumentationScanner.java:71)
+	at springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.scanDocumentation(DocumentationPluginsBootstrapper.java:101)
+	at springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start(DocumentationPluginsBootstrapper.java:167)
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:182)
+	at org.springframework.context.support.DefaultLifecycleProcessor.access$200(DefaultLifecycleProcessor.java:53)
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.start(DefaultLifecycleProcessor.java:360)
+	at org.springframework.context.support.DefaultLifecycleProcessor.startBeans(DefaultLifecycleProcessor.java:158)
+	at org.springframework.context.support.DefaultLifecycleProcessor.onRefresh(DefaultLifecycleProcessor.java:122)
+	at org.springframework.context.support.AbstractApplicationContext.finishRefresh(AbstractApplicationContext.java:894)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.finishRefresh(ServletWebServerApplicationContext.java:162)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:553)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.kiwihouse.Application.main(Application.java:26)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.lang.ClassNotFoundException: DateStatisList
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:372)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:361)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:360)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:308)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	at org.springframework.boot.devtools.restart.classloader.RestartClassLoader.loadClass(RestartClassLoader.java:144)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:340)
+	at sun.reflect.generics.factory.CoreReflectionFactory.makeNamedType(CoreReflectionFactory.java:114)
+	at sun.reflect.generics.visitor.Reifier.visitClassTypeSignature(Reifier.java:125)
+	at sun.reflect.generics.tree.ClassTypeSignature.accept(ClassTypeSignature.java:49)
+	at sun.reflect.annotation.AnnotationParser.parseSig(AnnotationParser.java:439)
+	at sun.reflect.annotation.AnnotationParser.parseClassValue(AnnotationParser.java:420)
+	at sun.reflect.annotation.AnnotationParser.parseMemberValue(AnnotationParser.java:349)
+	at sun.reflect.annotation.AnnotationParser.parseAnnotation2(AnnotationParser.java:286)
+	at sun.reflect.annotation.AnnotationParser.parseAnnotation(AnnotationParser.java:226)
+	at sun.reflect.annotation.AnnotationParser.parseAnnotationArray(AnnotationParser.java:765)
+	at sun.reflect.annotation.AnnotationParser.parseArray(AnnotationParser.java:537)
+	at sun.reflect.annotation.AnnotationParser.parseMemberValue(AnnotationParser.java:355)
+	at sun.reflect.annotation.AnnotationParser.parseAnnotation2(AnnotationParser.java:286)
+	at sun.reflect.annotation.AnnotationParser.parseAnnotations2(AnnotationParser.java:120)
+	at sun.reflect.annotation.AnnotationParser.parseAnnotations(AnnotationParser.java:72)
+	at java.lang.reflect.Executable.declaredAnnotations(Executable.java:546)
+	at java.lang.reflect.Executable.getAnnotation(Executable.java:520)
+	at java.lang.reflect.Method.getAnnotation(Method.java:607)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.lambda$determineCandidateConstructors$0(AutowiredAnnotationBeanPostProcessor.java:268)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$$Lambda$286/891950385.doWith(Unknown Source)
+	at org.springframework.util.ReflectionUtils.doWithLocalMethods(ReflectionUtils.java:324)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.determineCandidateConstructors(AutowiredAnnotationBeanPostProcessor.java:267)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineConstructorsFromBeanPostProcessors(AbstractAutowireCapableBeanFactory.java:1286)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1201)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:557)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$$Lambda$175/586078083.getObject(Unknown Source)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	... 12 common frames omitted

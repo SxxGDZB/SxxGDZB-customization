@@ -376,6 +376,8 @@ layui.define(["element", "layer", "jquery"], function (exports) {
          * @param options
          */
         listenSwitch: function (options) {
+        	console.log("监听tab切换");
+        	console.log(options);
             options.filter = options.filter || null;
             options.multiModule = options.multiModule || false;
             options.urlHashLocation = options.urlHashLocation || false;
@@ -471,6 +473,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
             console.log("既不是右侧菜单、快捷菜单,就直接打开")
             // 既不是右侧菜单、快捷菜单,就直接打开
             var str = sessionStorage.getItem('layuiminimenu_' + tabId) === null ? tabId : sessionStorage.getItem('layuiminimenu_' + tabId);
+            console.log(str);
             console.log(typeof(str))
             var op = eval('(' + str + ')');
             console.log(op)

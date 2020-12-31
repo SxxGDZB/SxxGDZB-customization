@@ -234,7 +234,7 @@
 	            	 	) 
 			        </if>
 			    	<if test="dataStatisticsVo.startTime != null and dataStatisticsVo.startTime != ''">
-			         and DATE_FORMAT(add_time,'%Y-%m-%d') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}
+			        <![CDATA[ and DATE_FORMAT(add_time,'%Y-%m-%d') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}]]>
 			        </if>
 			        <if test="list != null and list.size() > 0">
                         and imei in(
@@ -250,7 +250,7 @@
     </select>
     <!-- 根据时间范围 和告警类型查询告警 -->
     <select id="selectByTimesAndType" resultType="com.kiwihouse.dao.entity.DataTimeNum" parameterType="map">
-    	SELECT  add_time, num FROM(
+    	<!-- SELECT  add_time, num FROM(
 		SELECT imei,add_time,alarm_id ,count(*) num FROM(
 		SELECT imei,alarm_id,SUBSTRING(add_time FROM 1 FOR 10) add_time FROM alarm 
 		WHERE 1=1
@@ -271,7 +271,25 @@
         		and imei = #{dataStatisticsVo.imei}
         </if>
 		ORDER BY add_time
-		)t GROUP BY add_time) as t1
+		)t GROUP BY add_time) as t1 -->
+		  
+		 select sum(num) as num ,add_time FROM (
+		 SELECT count(1) as num,alarm_type,add_time,imei FROM (
+		    select IMEI,count(1) as num,alarm_type,if_delete,SUBSTRING(add_time FROM 1 FOR 10) 
+		    add_time  FROM alarm where 1 = 1 
+		    <if test="dataStatisticsVo.startTime !=null and dataStatisticsVo.startTime!=''">
+                and DATE_FORMAT(add_time,'%Y-%m-%d') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}
+            </if>
+		    and FIND_IN_SET( #{alarmType}, alarm_type) 
+		    <if test="list != null and list.size() > 0">
+                and imei in(
+                <foreach collection="list" item="item" index="index" separator=",">
+                    #{item.imei}
+                </foreach>
+                ) 
+            </if>
+		    GROUP BY alarm_type,add_time ) as t GROUP BY add_time,alarm_type
+		 ) as t2 GROUP BY add_time
     </select>
     <!-- 根据时间范围  imei 查询 记录总数 -->
     <select id="selectByTimeAndTypeCount" resultType="Integer">
@@ -332,5 +350,70 @@
     
     <select id="selectCode" resultType="com.kiwihouse.web.ReturnCode">
         select * from return_code
+    </select>
+    
+    <select id="selectDevAlarmList" resultType="com.kiwihouse.dto.DevAlarmListDto">
+        SELECT t1.alarmAcount,e.eqpt_name as devName FROM (
+		select imei,sum(count * (CHAR_LENGTH(alarm_type)-CHAR_LENGTH(REPLACE(alarm_type,',','')) + 1)) as alarmAcount FROM (
+		SELECT imei, alarm_type ,count(1) as count
+		FROM alarm
+		WHERE 1 = 1
+		  and if_delete = 0
+		  and  add_time between #{startTime} and #{endTime}
+		  AND alarm_type != '' 
+			<choose>
+		         <when test="isAdmin">
+		         
+		         </when>
+		         <otherwise>
+		             <choose>
+		                 <when test="imeiList == null">
+		                      and imei is null
+		                 </when>
+		                 <otherwise>
+		                     and imei in(
+		                       <foreach collection="imeiList" item="item" index="index" separator=",">
+		                           #{item.imei}
+		                       </foreach>
+		                       ) 
+		                 </otherwise>
+		             </choose>
+		         </otherwise>
+		       </choose>
+		    group by alarm_type,imei
+		    ) as tem GROUP BY IMEI ) as t1 INNER JOIN equipment e on t1.imei = e.imei
+		ORDER BY t1.alarmAcount
+    </select>
+    
+    <select id="selectDataStatis" resultType="com.kiwihouse.dao.entity.DataList">
+        SELECT add_time,alarm_type,sum(num) num from(
+		    SELECT t.add_time, 
+			       substring_index(substring_index(t.alarm_type,',', b.help_topic_id + 1), ',', -1) alarm_type,num
+			FROM (
+			SELECT imei,alarm_id,DATE_FORMAT(add_time,'%Y-%m-%d') add_time ,alarm_type,count(1) num FROM alarm WHERE alarm.alarm_type != '' 
+			and if_delete = 0 and DATE_FORMAT(add_time,'%Y-%m-%d %H:%i:%S') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}
+			<choose>
+                 <when test="isAdmin">
+                 
+                 </when>
+                 <otherwise>
+                     <choose>
+                         <when test="imeiList == null">
+                              and imei is null
+                         </when>
+                         <otherwise>
+                             and imei in(
+                               <foreach collection="imeiList" item="item" index="index" separator=",">
+                                   #{item.imei}
+                               </foreach>
+                               ) 
+                         </otherwise>
+                     </choose>
+                 </otherwise>
+            </choose>
+			GROUP BY  alarm.alarm_type, DATE_FORMAT(add_time,'%Y-%m-%d') 
+			) as t inner join mysql.help_topic b 
+			ON b.help_topic_id &lt;  (LENGTH(t.alarm_type) - LENGTH(REPLACE(t.alarm_type, ',', '')) + 1)
+			) as t2 GROUP BY add_time,alarm_type
     </select>
 </mapper>

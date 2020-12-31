@@ -113,8 +113,9 @@ public enum Code {
 	SHARE_SUCCESS(1234,"分享成功"),
 	JWT_FAIL(11,"JWT验证失败"),
 	JWT_SUCCESS(13,"JWT验证成功"),
-	EXIST(12,"已存在");
-	
+	EXIST(12,"已存在"),
+	OK(200,"ok"),
+	ERROR(400,"error");
     //枚举的属性字段必须是私有且不可变
     private final int code;
     private final String msg;

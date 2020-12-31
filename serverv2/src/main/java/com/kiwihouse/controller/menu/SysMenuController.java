@@ -21,7 +21,9 @@ import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.dao.entity.SysMenu;
 import com.kiwihouse.dao.mapper.SysDictionaryMapper;
 import com.kiwihouse.domain.vo.Response;
+import com.kiwihouse.dto.ResMenu;
 import com.kiwihouse.service.SysMenuService;
+import com.kiwihouse.util.ResponseList;
 import com.kiwihouse.util.TreeUtil;
 
 import io.swagger.annotations.Api;
@@ -136,11 +138,18 @@ public class SysMenuController {
 		return new Response().Success(6666,"return menu list success").addData("data",sysMenuService.getAuthMenuButtonLists(roleId));
 	}
 	
-	@ApiOperation(value = "根据菜单URL查询", httpMethod = "GET",notes = "根据RoleID")
+	@ApiOperation(value = "根据菜单URL查询", httpMethod = "POST",notes = "根据RoleID")
 	@PostMapping("/queryOneMenuByUrl")
 	@ResponseBody
 	public Response queryOneMenuByUrl(String url) {
 		return sysMenuService.queryOneMenuByUrl(url);
+	}
+	
+	@ApiOperation(value = "查询菜单模块路径", httpMethod = "GET")
+	@GetMapping("/selectMenuUrlAndName")
+	@ResponseBody
+	public ResponseList<ResMenu> selectMenuUrlAndName() {
+		return sysMenuService.selectMenuUrlAndName();
 	}
 	
 }

@@ -174,7 +174,7 @@ public class UserServiceImpl implements UserService {
 			authUserRole.setUserId(authUser.getUid());
 			authUserRoleMapper.insert(authUserRole);
 			//用户设备
-			if(authUser.getEqptIds() != null) {
+			if(authUser.getEqptIds() != null && !"".equals(authUser.getEqptIds())) {
 				String [] deptArr = authUser.getEqptIds().split(",");
 				List<UserDev> roleDevList = new ArrayList<UserDev>();
 		        for(int i = 0;i<deptArr.length;i++) {

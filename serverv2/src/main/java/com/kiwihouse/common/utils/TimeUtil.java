@@ -54,16 +54,20 @@ public class TimeUtil {
         return df.format(date);
     }
 
-    /**
-     * Timestamp to time
-     *
-     * @param timestamp 时间戳
-     * @return 时间戳对应时间
-     */
-    public static String timestamp2time(long timestamp) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return simpleDateFormat.format(timestamp);
-    }
+    
+    /* 时间戳转换成日期格式字符串 
+    * @param seconds 精确到秒的字符串 
+    * @param formatStr 
+    * @return 
+    */  
+   public static String timeStamp2Date(String seconds) {  
+       if(seconds == null || seconds.isEmpty() || seconds.equals("null")){  
+           return "";  
+       }  
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+       return sdf.format(new Date(Long.valueOf(seconds+"000")));  
+   }  
+ 
 
     /**
      * time to timestamp
@@ -182,7 +186,7 @@ public class TimeUtil {
                 sCalendar.add(Calendar.DAY_OF_YEAR, 1);
             }
             //包括最后一天
-            betweenTime.add(outformat.format(eCalendar.getTime()));
+            //betweenTime.add(outformat.format(eCalendar.getTime()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -555,5 +559,10 @@ public class TimeUtil {
 		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		    String dateString = formatter.format(dateDate);
 		    return dateString;
+	}
+	
+	public static void main(String[] args) {
+		List<String> list = getDayList("2020-12-05", "2020-12-28");
+		System.out.println(list.toString());
 	}
 }

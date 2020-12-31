@@ -13,8 +13,10 @@ import com.kiwihouse.dao.entity.MenuBtnModel;
 import com.kiwihouse.dao.entity.SysMenu;
 import com.kiwihouse.dao.mapper.SysMenuMapper;
 import com.kiwihouse.domain.vo.Response;
+import com.kiwihouse.dto.ResMenu;
 import com.kiwihouse.service.AuthRoleMenuService;
 import com.kiwihouse.service.SysMenuService;
+import com.kiwihouse.util.ResponseList;
 @Service
 public class SysMenuServiceImpl implements SysMenuService{
 	@Autowired
@@ -93,6 +95,13 @@ public class SysMenuServiceImpl implements SysMenuService{
 			// TODO: handle exception
 			return new Response().Fail(Code.QUERY_FAIL,Code.QUERY_FAIL.getMsg());
 		}
+	}
+
+	@Override
+	public ResponseList<ResMenu> selectMenuUrlAndName() {
+		// TODO Auto-generated method stub
+		List<ResMenu> list = sysMenuMapper.selectMenuUrlAndName();
+		return new ResponseList<ResMenu>().Success(Code.OK,Code.OK.getMsg(),list,list.size());
 	}
 	 
 	

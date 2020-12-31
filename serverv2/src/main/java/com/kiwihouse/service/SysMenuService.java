@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.kiwihouse.dao.entity.SysMenu;
 import com.kiwihouse.domain.vo.Response;
+import com.kiwihouse.dto.ResMenu;
+import com.kiwihouse.util.ResponseList;
 
 public interface SysMenuService {
 	/**
@@ -46,6 +48,11 @@ public interface SysMenuService {
 	Response getAuthMenuButtonLists(Integer roleId);
 	
 	Response queryOneMenuByUrl(String url);
+	/**
+	 * 	查询菜单模块路径
+	 * @return
+	 */
+	ResponseList<ResMenu> selectMenuUrlAndName();
 	
 
 }

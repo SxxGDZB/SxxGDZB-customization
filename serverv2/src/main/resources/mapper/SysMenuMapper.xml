@@ -286,4 +286,8 @@
 	<select id="queryOneMenuByUrl" resultType="com.kiwihouse.dao.entity.SysMenu">
 	   SELECT * FROM sys_menu WHERE URL = #{url}
 	</select>
+	
+	<select id="selectMenuUrlAndName" resultType="com.kiwihouse.dto.ResMenu">
+	   SELECT name,url FROM `sys_menu` WHERE visible = 1 and url is not null and url != ''
+	</select>
 </mapper>

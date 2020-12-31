@@ -30,7 +30,6 @@ public class Response {
     private String msg;
     private boolean success;
     private long timestamp;
-
     public Response addData(String key, Object value) {
         this.data.put(key, value);
         return this;
