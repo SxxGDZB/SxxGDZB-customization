@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<script type="text/javascript" th:inline="javascript">
+var jwt =  [[${session.jwt}]]
+console.log(jwt);
+if(jwt == null){
+    
+}else if(jwt.code == 11){
+    localStorage.removeItem('Authorization');
+    localStorage.removeItem('authUser');
+    console.log("异常====>清除jwt")
+    location.href = '/admin/index';
+}else{
+    localStorage.removeItem('Authorization');
+    localStorage.removeItem('authUser');
+    console.log("正常====>加入jwt")
+    localStorage.setItem('Authorization', jwt.data.data);
+    localStorage.setItem('authUser', JSON.stringify(jwt.data['authUser']));
+    localStorage.setItem("loginStatu",0);
+    console.log(jwt);
+    if(jwt.data['option'] == null){
+        
+    }else{
+        sessionStorage.setItem('layuiminimenu_' + jwt.data['option'].tabId, JSON.stringify(jwt.data['option']));
+    }
+location.href = jwt.data['url'];
+}
+
+
+</script>
+</html>
