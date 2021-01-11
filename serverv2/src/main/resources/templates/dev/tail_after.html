@@ -272,7 +272,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	          }
         	        },
         	        legend: {
-                        data: ['功率',  '电流*电压 = 功率']
+                        data: ['功率']//,  '电流*电压 = 功率'
                      },
                      grid: {
                        top: 100,
@@ -345,7 +345,8 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	        	showSymbol: false,
         	            hoverAnimation: false,
         	            data: pwrArray
-        	        },{
+        	        }
+        	        /* ,{
         	            name: '电流*电压 = 功率',
         	            type: 'line',
         	            symbol:'none',  //这句就是去掉点的  
@@ -365,7 +366,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	        	showSymbol: false,
         	            hoverAnimation: false,
         	            data: curRidevolArray
-        	        }
+        	        } */
         	    ]
         	};
         echartsRecords.setOption(optionRecords,true);

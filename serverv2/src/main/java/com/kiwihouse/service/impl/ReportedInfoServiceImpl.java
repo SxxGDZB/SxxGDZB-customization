@@ -333,13 +333,17 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
     	 Map<String, Object> map = new HashMap<String, Object>();
         //获取角色的设备IMEI号
     	 List<IMEI> imeiList = new ArrayList<IMEI>();
-    	if(almQueryVo.getRoleId().equals("103")) {
-    		IMEI imei = new IMEI(almQueryVo.getImei());
-    		imeiList.add(imei);
-    	}else {
-    		imeiList = equipmentMapper.selectUserImei(Integer.valueOf(almQueryVo.getRoleId()),Integer.valueOf(almQueryVo.getUserId()));
-    	}
-    	
+//    	if(almQueryVo.getRoleId().equals("103")) {
+//    		IMEI imei = new IMEI(almQueryVo.getImei());
+//    		imeiList.add(imei);
+//    	}else {
+//    		imeiList = equipmentMapper.selectUserImei(Integer.valueOf(almQueryVo.getRoleId()),Integer.valueOf(almQueryVo.getUserId()));
+//    	}
+    	 imeiList = equipmentMapper.selectUserImei(Integer.valueOf(almQueryVo.getRoleId()),Integer.valueOf(almQueryVo.getUserId()));
+    	 if(almQueryVo.getImei() != null && !almQueryVo.getImei().equals("")) {
+    		 IMEI imei = new IMEI(almQueryVo.getImei());
+    		 imeiList.add(imei);
+    	 }
         //查询用电设备工单
     	//AuthRole authRole =  authRoleMapper.selectIsAdmin(Integer.valueOf(almQueryVo.getUserId()));
     	AuthUser auth = authUserMapper.selectByPrimaryKey(Integer.valueOf(almQueryVo.getUserId()));
